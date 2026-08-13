@@ -210,7 +210,7 @@
             100% { transform: translateX(180vw); }
         }
 
-        /* --- Top Navigation & Music Slider Wrapper --- */
+        /* --- Top Navigation --- */
         .figma-nav {
             position: fixed;
             top: 24px;
@@ -248,12 +248,11 @@
             background: #e2e8f0;
         }
 
-        /* Music Controls Wrapper & Hover Slider */
+        /* Music Controls Container & Pop-up Bubble Wrapper */
         .music-control-wrapper {
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 6px;
-            position: relative;
         }
 
         .music-btn {
@@ -299,72 +298,101 @@
             50% { height: 12px; }
         }
 
-        /* Volume Slider Pop-out on Hover */
-        .volume-slider-container {
+        /* --- Speech Bubble Pop-Up Volume Bar --- */
+        .volume-bubble {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%) translateY(10px) scale(0.9);
+            background: #0f172a;
+            padding: 8px 14px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            max-width: 0;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
             opacity: 0;
-            overflow: hidden;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            visibility: hidden;
+            pointer-events: none;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 101;
         }
 
-        .music-control-wrapper:hover .volume-slider-container {
-            max-width: 110px;
+        .volume-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: #0f172a transparent transparent transparent;
+        }
+
+        .music-control-wrapper:hover .volume-bubble,
+        .volume-bubble:hover {
             opacity: 1;
-            margin-left: 4px;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0) scale(1);
         }
 
-        /* Custom Volume Range Slider */
+        .volume-icon {
+            font-size: 13px;
+            color: #ffffff;
+            width: 16px;
+            text-align: center;
+        }
+
         .volume-slider {
             -webkit-appearance: none;
             appearance: none;
-            width: 70px;
+            width: 85px;
             height: 4px;
-            background: #cbd5e1;
+            background: rgba(255, 255, 255, 0.25);
             border-radius: 2px;
             outline: none;
             cursor: pointer;
         }
 
-        /* Slider Thumb (Dot) Styling */
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            background: #0f172a;
+            background: #ffffff;
+            border: 3px solid #0f172a;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-            transition: transform 0.15s ease, background 0.15s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: transform 0.15s ease;
         }
 
         .volume-slider::-moz-range-thumb {
-            width: 12px;
-            height: 12px;
-            border: none;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            background: #0f172a;
+            background: #ffffff;
+            border: 3px solid #0f172a;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-            transition: transform 0.15s ease, background 0.15s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: transform 0.15s ease;
         }
 
         .volume-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.25);
-            background: #0284c7;
+            transform: scale(1.2);
         }
 
         .volume-slider::-moz-range-thumb:hover {
-            transform: scale(1.25);
-            background: #0284c7;
+            transform: scale(1.2);
         }
 
-        .volume-icon {
+        .volume-percent {
             font-size: 11px;
-            color: var(--text-secondary);
+            font-weight: 700;
+            color: #ffffff;
+            min-width: 28px;
+            text-align: right;
         }
 
         /* --- Main Profile Card Container --- */
@@ -500,7 +528,6 @@
             margin-bottom: 18px;
         }
 
-        /* Profile Tags */
         .tags {
             display: flex;
             flex-wrap: wrap;
@@ -521,7 +548,6 @@
             gap: 6px;
         }
 
-        /* Social Icons Grid & Continuous Shine */
         .social-icons-grid {
             display: flex;
             gap: 12px;
@@ -580,7 +606,6 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
 
-        /* Links List */
         .links-grid {
             display: flex;
             flex-direction: column;
@@ -622,7 +647,6 @@
             text-align: center;
         }
 
-        /* --- Pop-Up Dialog (Modal) --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -761,7 +785,6 @@
             border-color: #0f172a;
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             margin-top: 20px;
@@ -776,7 +799,6 @@
             font-weight: 700;
         }
 
-        /* --- RESPONSIVE MEDIA QUERIES --- */
         @media (max-width: 600px) {
             body {
                 padding: 70px 12px 24px 12px;
@@ -898,8 +920,14 @@
         </div>
         <div class="nav-divider"></div>
         
-        <!-- Music Control & Hover Volume Bar -->
+        <!-- Music Control & Pop-up Bubble Volume Bar -->
         <div class="music-control-wrapper">
+            <div class="volume-bubble">
+                <i class="fa-solid fa-volume-low volume-icon" id="volumeIcon"></i>
+                <input type="range" id="volumeControl" class="volume-slider" min="0" max="1" step="0.01" value="0.45">
+                <span class="volume-percent" id="volumePercent">45%</span>
+            </div>
+
             <button class="music-btn" id="musicToggle">
                 <div class="sound-wave paused" id="soundWave">
                     <div class="bar"></div>
@@ -908,10 +936,6 @@
                 </div>
                 <span id="musicText">Paused</span>
             </button>
-            <div class="volume-slider-container">
-                <i class="fa-solid fa-volume-low volume-icon" id="volumeIcon"></i>
-                <input type="range" id="volumeControl" class="volume-slider" min="0" max="1" step="0.01" value="0.45">
-            </div>
         </div>
     </nav>
 
@@ -953,19 +977,35 @@
                     <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="social-btn discord" title="Join Discord Server">
                         <i class="fa-brands fa-discord"></i>
                     </a>
-                    <a href="https://youtube.com" target="_blank" class="social-btn youtube" title="YouTube Channel">
+                    <a href="https://youtube.com/@krushnaxd" target="_blank" class="social-btn youtube" title="YouTube Channel">
                         <i class="fa-brands fa-youtube"></i>
                     </a>
-                    <a href="https://twitch.tv" target="_blank" class="social-btn twitch" title="Twitch Stream">
+                    <a href="https://www.twitch.tv/krushnaxd123" target="_blank" class="social-btn twitch" title="Twitch Stream">
                         <i class="fa-brands fa-twitch"></i>
                     </a>
                 </div>
 
                 <!-- Link Buttons -->
                 <div class="links-grid">
+                    <a href="https://youtube.com/@krushnaxd" target="_blank" class="link-card">
+                        <div class="link-left">
+                            <i class="fa-brands fa-youtube" style="color: #FF0000;"></i>
+                            <span>Krushna - YouTube</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
+                    </a>
+
+                    <a href="https://www.twitch.tv/krushnaxd123" target="_blank" class="link-card">
+                        <div class="link-left">
+                            <i class="fa-brands fa-twitch" style="color: #9146FF;"></i>
+                            <span>Twitch Channel</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
+                    </a>
+
                     <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="link-card">
                         <div class="link-left">
-                            <i class="fa-brands fa-discord"></i>
+                            <i class="fa-brands fa-discord" style="color: #5865F2;"></i>
                             <span>Discord Community Server</span>
                         </div>
                         <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
@@ -1035,13 +1075,11 @@
         const musicText = document.getElementById('musicText');
         const volumeControl = document.getElementById('volumeControl');
         const volumeIcon = document.getElementById('volumeIcon');
+        const volumePercent = document.getElementById('volumePercent');
 
-        // Set initial background music volume to 45%
         audio.volume = 0.45;
-
         let isPlaying = false;
 
-        // Click anywhere overlay handler
         overlay.addEventListener('click', () => {
             curtain.classList.add('sweep-right-to-left');
 
@@ -1063,7 +1101,6 @@
             });
         }
 
-        // Toggle Audio Bar Button
         musicBtn.addEventListener('click', () => {
             if (isPlaying) {
                 audio.pause();
@@ -1075,12 +1112,11 @@
             }
         });
 
-        // Volume Slider Control
         volumeControl.addEventListener('input', (e) => {
             const val = parseFloat(e.target.value);
             audio.volume = val;
+            volumePercent.innerText = `${Math.round(val * 100)}%`;
 
-            // Dynamically update volume icon state
             if (val === 0) {
                 volumeIcon.className = 'fa-solid fa-volume-xmark volume-icon';
             } else if (val < 0.5) {
@@ -1090,7 +1126,6 @@
             }
         });
 
-        // Contact Modal Logic
         const contactBtn = document.getElementById('contactBtn');
         const contactModal = document.getElementById('contactModal');
         const closeModal = document.getElementById('closeModal');
@@ -1109,7 +1144,6 @@
             }
         });
 
-        // Helper Copy Function
         function copyText(text, btnElement) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = btnElement.innerText;
