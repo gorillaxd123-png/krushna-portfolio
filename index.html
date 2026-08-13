@@ -12,12 +12,12 @@
 
     <style>
         :root {
-            --bg-cloudy: #eef2f6;
-            --card-bg: rgba(255, 255, 255, 0.75);
-            --card-border: rgba(255, 255, 255, 0.9);
+            --bg-cloudy: #f0f4f8;
+            --card-bg: rgba(255, 255, 255, 0.78);
+            --card-border: rgba(255, 255, 255, 0.95);
             --text-primary: #0f172a;
             --text-secondary: #64748b;
-            --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 15px rgba(0,0,0,0.03);
+            --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 20px rgba(0,0,0,0.03);
             --radius-main: 24px;
             --radius-pill: 999px;
         }
@@ -43,65 +43,123 @@
             overflow-x: hidden;
         }
 
-        /* --- Click Anywhere Overlay (Gun.lol Style) --- */
+        /* --- Click Anywhere Overlay (Gun.lol Style with Cloud) --- */
         #entry-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(240, 242, 245, 0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: linear-gradient(135deg, #e0e8f0 0%, #f5f8fc 100%);
             z-index: 9999;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            overflow: hidden;
+        }
+
+        .overlay-cloud-icon {
+            font-size: 64px;
+            color: #94a3b8;
+            margin-bottom: 16px;
+            animation: floatCloud 3s infinite ease-in-out;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.08));
         }
 
         .overlay-text {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
             color: var(--text-primary);
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             animation: pulseText 2s infinite ease-in-out;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 12px 24px;
+            border-radius: var(--radius-pill);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+        }
+
+        @keyframes floatCloud {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-12px) scale(1.05); }
         }
 
         @keyframes pulseText {
-            0%, 100% { opacity: 0.4; transform: scale(0.98); }
+            0%, 100% { opacity: 0.6; transform: scale(0.98); }
             50% { opacity: 1; transform: scale(1); }
         }
 
-        /* Transition Cloud Curtain */
+        /* --- Right-to-Left Cloud Transition Curtain --- */
         .cloud-curtain {
             position: fixed;
             top: 0;
-            left: -100%;
-            width: 100vw;
+            right: -120vw;
+            width: 120vw;
             height: 100vh;
-            background: #ffffff;
             z-index: 10000;
             pointer-events: none;
-            opacity: 0;
+            display: flex;
+            align-items: center;
         }
 
-        .sweep-animation {
-            animation: cloudSweep 1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        .cloud-curtain-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            box-shadow: -20px 0 60px rgba(0,0,0,0.08);
+            border-top-left-radius: 50% 100%;
+            border-bottom-left-radius: 50% 100%;
         }
 
-        @keyframes cloudSweep {
-            0% { left: -100%; opacity: 0.9; }
-            50% { left: 0%; opacity: 1; }
-            100% { left: 100%; opacity: 0; }
+        .cloud-curtain-puff1 {
+            position: absolute;
+            top: 10%;
+            left: -150px;
+            width: 300px;
+            height: 300px;
+            background: #ffffff;
+            border-radius: 50%;
+            filter: blur(10px);
         }
 
-        /* --- Moving Animated Background Clouds --- */
+        .cloud-curtain-puff2 {
+            position: absolute;
+            bottom: 10%;
+            left: -200px;
+            width: 400px;
+            height: 400px;
+            background: #ffffff;
+            border-radius: 50%;
+            filter: blur(10px);
+        }
+
+        .sweep-right-to-left {
+            animation: cloudSweepR2L 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+
+        @keyframes cloudSweepR2L {
+            0% {
+                right: -120vw;
+            }
+            45%, 55% {
+                right: -10vw;
+            }
+            100% {
+                right: 120vw;
+            }
+        }
+
+        /* --- Dynamic Animated Background Clouds --- */
         .cloud-bg {
             position: fixed;
             top: 0;
@@ -110,56 +168,56 @@
             height: 100vh;
             z-index: -1;
             overflow: hidden;
-            background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
         }
 
-        .cloud {
+        .bg-cloud {
             position: absolute;
             background: rgba(255, 255, 255, 0.85);
             border-radius: 200px;
-            filter: blur(40px);
-            box-shadow: 0 0 50px rgba(255,255,255,0.8);
+            filter: blur(35px);
+            box-shadow: 0 0 60px rgba(255,255,255,0.9);
         }
 
-        /* Cloud 1: Moves Left to Right */
+        /* Cloud 1: Right to Left */
         .cloud-1 {
-            width: 450px;
-            height: 180px;
-            top: 10%;
-            left: -20%;
-            animation: floatLeftToRight 28s linear infinite;
-        }
-
-        /* Cloud 2: Moves Right to Left */
-        .cloud-2 {
-            width: 550px;
-            height: 220px;
-            top: 50%;
+            width: 520px;
+            height: 200px;
+            top: 8%;
             right: -25%;
-            animation: floatRightToLeft 35s linear infinite;
+            animation: floatR2L 32s linear infinite;
         }
 
-        /* Cloud 3: Moves Left to Right slower */
+        /* Cloud 2: Left to Right */
+        .cloud-2 {
+            width: 600px;
+            height: 240px;
+            top: 45%;
+            left: -30%;
+            animation: floatL2R 38s linear infinite;
+        }
+
+        /* Cloud 3: Right to Left Slower */
         .cloud-3 {
-            width: 400px;
-            height: 160px;
+            width: 480px;
+            height: 180px;
             bottom: 5%;
-            left: -15%;
-            animation: floatLeftToRight 40s linear infinite;
-            animation-delay: -10s;
+            right: -20%;
+            animation: floatR2L 44s linear infinite;
+            animation-delay: -12s;
         }
 
-        @keyframes floatLeftToRight {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(200vw); }
+        @keyframes floatR2L {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-180vw); }
         }
 
-        @keyframes floatRightToLeft {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-200vw); }
+        @keyframes floatL2R {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(180vw); }
         }
 
-        /* --- Top Floating Figma Toolbar --- */
+        /* --- Floating Figma Top Navigation --- */
         .figma-nav {
             position: fixed;
             top: 24px;
@@ -238,7 +296,7 @@
             50% { height: 12px; }
         }
 
-        /* --- Main Profile Card Layout --- */
+        /* --- Main Profile Card Container --- */
         .container {
             width: 100%;
             max-width: 520px;
@@ -333,7 +391,7 @@
             margin-bottom: 18px;
         }
 
-        /* Gun.lol Tags */
+        /* Gun.lol Profile Tags */
         .tags {
             display: flex;
             flex-wrap: wrap;
@@ -354,7 +412,7 @@
             gap: 6px;
         }
 
-        /* Social Icons Bar (Gun.lol feature) */
+        /* Gun.lol Social Icons Grid */
         .social-icons-grid {
             display: flex;
             gap: 12px;
@@ -446,21 +504,27 @@
 </head>
 <body>
 
-    <!-- Click Anywhere Entry Screen -->
+    <!-- Click Anywhere Entry Screen (With Floating Overlay Cloud) -->
     <div id="entry-overlay">
+        <i class="fa-solid fa-cloud overlay-cloud-icon"></i>
         <div class="overlay-text">
-            <i class="fa-solid fa-cloud"></i> click anywhere to open
+            click anywhere to open
         </div>
     </div>
 
-    <!-- Cloud Transition Effect -->
-    <div class="cloud-curtain" id="cloudCurtain"></div>
+    <!-- Right-to-Left Cloud Transition Curtain -->
+    <div class="cloud-curtain" id="cloudCurtain">
+        <div class="cloud-curtain-layer">
+            <div class="cloud-curtain-puff1"></div>
+            <div class="cloud-curtain-puff2"></div>
+        </div>
+    </div>
 
     <!-- Moving Background Clouds -->
     <div class="cloud-bg">
-        <div class="cloud cloud-1"></div>
-        <div class="cloud cloud-2"></div>
-        <div class="cloud cloud-3"></div>
+        <div class="bg-cloud cloud-1"></div>
+        <div class="bg-cloud cloud-2"></div>
+        <div class="bg-cloud cloud-3"></div>
     </div>
 
     <!-- Floating Figma Top Navigation -->
@@ -524,14 +588,6 @@
 
                 <!-- Link Buttons -->
                 <div class="links-grid">
-                    <a href="https://github.com/gorillaxd123-png" target="_blank" class="link-card">
-                        <div class="link-left">
-                            <i class="fa-brands fa-github"></i>
-                            <span>GitHub Profile</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
-                    </a>
-
                     <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="link-card">
                         <div class="link-left">
                             <i class="fa-brands fa-discord"></i>
@@ -574,14 +630,16 @@
 
         // Click anywhere overlay handler
         overlay.addEventListener('click', () => {
-            // Trigger curtain sweep effect
-            curtain.classList.add('sweep-animation');
-            
-            // Fade out overlay
-            overlay.style.opacity = '0';
-            overlay.style.visibility = 'hidden';
+            // Trigger right-to-left cloud sweep animation
+            curtain.classList.add('sweep-right-to-left');
 
-            // Start music autoplay on user interaction
+            // Hide overlay mid-sweep when clouds fully cover screen
+            setTimeout(() => {
+                overlay.style.opacity = '0';
+                overlay.style.visibility = 'hidden';
+            }, 550);
+
+            // Start background music
             playAudio();
         });
 
