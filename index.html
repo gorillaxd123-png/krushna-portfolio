@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krushna Portfolio</title>
+    <title>Krushna — Portfolio</title>
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -949,6 +949,9 @@
         const musicBtn = document.getElementById('musicToggle');
         const soundWave = document.getElementById('soundWave');
         const musicText = document.getElementById('musicText');
+
+        // Set initial background music volume to 45%
+        audio.volume = 0.45;
 
         let isPlaying = false;
 
