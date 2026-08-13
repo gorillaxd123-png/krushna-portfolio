@@ -43,7 +43,7 @@
             overflow-x: hidden;
         }
 
-        /* --- Click Anywhere Overlay (Gun.lol Style with Cloud) --- */
+        /* --- Click Anywhere Overlay --- */
         #entry-overlay {
             position: fixed;
             top: 0;
@@ -150,15 +150,9 @@
         }
 
         @keyframes cloudSweepR2L {
-            0% {
-                right: -120vw;
-            }
-            45%, 55% {
-                right: -10vw;
-            }
-            100% {
-                right: 120vw;
-            }
+            0% { right: -120vw; }
+            45%, 55% { right: -10vw; }
+            100% { right: 120vw; }
         }
 
         /* --- Dynamic Animated Background Clouds --- */
@@ -216,7 +210,7 @@
             100% { transform: translateX(180vw); }
         }
 
-        /* --- Floating Figma Top Navigation --- */
+        /* --- Top Navigation --- */
         .figma-nav {
             position: fixed;
             top: 24px;
@@ -229,7 +223,7 @@
             border-radius: var(--radius-pill);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             z-index: 100;
             max-width: 90vw;
@@ -246,6 +240,12 @@
             color: #fff;
             border-radius: var(--radius-pill);
             white-space: nowrap;
+        }
+
+        .figma-badge.secondary-badge {
+            background: rgba(241, 245, 249, 0.9);
+            color: var(--text-primary);
+            border: 1px solid #e2e8f0;
         }
 
         .nav-divider {
@@ -451,7 +451,7 @@
             gap: 6px;
         }
 
-        /* Social Icons Grid & Permanent Colors + Shine */
+        /* Social Icons Grid & Continuous Shine */
         .social-icons-grid {
             display: flex;
             gap: 12px;
@@ -552,7 +552,7 @@
             text-align: center;
         }
 
-        /* --- Contact Pop-Up Dialog (Modal) --- */
+        /* --- Pop-Up Dialog (Modal) --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -715,12 +715,12 @@
             .figma-nav {
                 top: 12px;
                 padding: 6px 10px;
-                gap: 8px;
+                gap: 6px;
             }
 
             .figma-badge {
                 font-size: 11px;
-                padding: 4px 10px;
+                padding: 4px 8px;
             }
 
             .music-btn {
@@ -824,7 +824,10 @@
     <!-- Floating Top Navigation -->
     <nav class="figma-nav">
         <div class="figma-badge">
-            <i class="fa-sharp fa-solid fa-layer-group"></i> Figma Canvas
+            <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas
+        </div>
+        <div class="figma-badge secondary-badge">
+            <i class="fa-solid fa-image"></i> Thumbnails
         </div>
         <div class="nav-divider"></div>
         <button class="music-btn" id="musicToggle">
@@ -906,15 +909,15 @@
         </div>
 
         <div class="footer">
-            Designed with <a href="#">Figma</a> aesthetic &bull; Powered by <a href="#">Vercel</a>
+            Designed by <a href="#">Krushna</a> &bull; Powered by <a href="#">Vercel</a>
         </div>
     </div>
 
-    <!-- Contact Details Pop-Up Modal -->
+    <!-- Contact & Showcase Details Pop-Up Modal -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-card">
             <div class="modal-header">
-                <h3>Contact Info</h3>
+                <h3>Showcase</h3>
                 <button class="close-btn" id="closeModal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             
