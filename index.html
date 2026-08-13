@@ -1,1 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krushna — Portfolio</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <style>
+        :root {
+            --bg-cloudy: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(255, 255, 255, 0.8);
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --accent-color: #000000;
+            --accent-glow: rgba(0, 0, 0, 0.05);
+            --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 15px rgba(0,0,0,0.03);
+            --radius-main: 24px;
+            --radius-pill: 999px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-cloudy);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Cloudy Animated Background Elements */
+        .cloud-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 0%, #ffffff 0%, #e2e8f0 100%);
+        }
+
+        .cloud {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        .cloud-1 {
+            width: 500px;
+            height: 500px;
+            background: #ffffff;
+            top: -100px;
+            left: -100px;
+        }
+
+        .cloud-2 {
+            width: 600px;
+            height: 600px;
+            background: #cbd5e1;
+            bottom: -150px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 40px) scale(1.1); }
+        }
+
+        /* Figma Style Floating Toolbar */
+        .figma-nav {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            padding: 8px 12px;
+            border-radius: var(--radius-pill);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            z-index: 100;
+        }
+
+        .figma-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            background: #000;
+            color: #fff;
+            border-radius: var(--radius-pill);
+            letter-spacing: 0.3px;
+        }
+
+        .figma-badge i {
+            color: #0a84ff;
+        }
+
+        .nav-divider {
+            width: 1px;
+            height: 16px;
+            background: #e2e8f0;
+        }
+
+        .music-btn {
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .music-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Audio Visualizer Waves */
+        .sound-wave {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 12px;
+        }
+
+        .bar {
+            width: 2px;
+            height: 100%;
+            background-color: var(--text-primary);
+            border-radius: 1px;
+            animation: bounce 1.2s infinite ease-in-out;
+        }
+
+        .bar:nth-child(2) { animation-delay: -0.4s; }
+        .bar:nth-child(3) { animation-delay: -0.2s; }
+
+        .paused .bar {
+            animation: none;
+            height: 3px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { height: 3px; }
+            50% { height: 12px; }
+        }
+
+        /* Main Profile Card Container (Gun.lol Layout) */
+        .container {
+            width: 100%;
+            max-width: 540px;
+            margin-top: 60px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-main);
+            box-shadow: var(--shadow-figma);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Banner */
+        .banner {
+            width: 100%;
+            height: 180px;
+            position: relative;
+            background-color: #cbd5e1;
+            overflow: hidden;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Profile Header Details */
+        .profile-content {
+            padding: 0 28px 28px 28px;
+            position: relative;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            margin-top: -50px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            object-fit: cover;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            background: #fff;
+        }
+
+        .online-status {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            width: 16px;
+            height: 16px;
+            background-color: #22c55e;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+        }
+
+        .user-info h1 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .verified-badge {
+            color: #0969da;
+            font-size: 18px;
+        }
+
+        .username {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .bio {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #334155;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        /* Gun.lol Tags */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e2e8f0;
+            padding: 6px 12px;
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        /* Figma Inspired Link Tree Buttons */
+        .links-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .link-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            padding: 14px 18px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+
+        .link-card:hover {
+            background: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            border-color: #cbd5e1;
+        }
+
+        .link-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .link-left i {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .link-arrow {
+            color: var(--text-secondary);
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .link-card:hover .link-arrow {
+            transform: translateX(3px);
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 12px;
+            }
+            .figma-nav {
+                width: calc(100% - 32px);
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cloudy Background Layers -->
+    <div class="cloud-bg">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+    </div>
+
+    <!-- Figma Floating UI Navigation Header -->
+    <nav class="figma-nav">
+        <div class="figma-badge">
+            <i class="fa-sharp fa-solid fa-layer-group"></i> Figma Canvas
+        </div>
+        <div class="nav-divider"></div>
+        <button class="music-btn" id="musicToggle">
+            <div class="sound-wave paused" id="soundWave">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <span id="musicText">Play Sound</span>
+        </button>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <div class="card">
+            <!-- Header Banner -->
+            <div class="banner">
+                <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushnaxd123%20Banner.png?raw=true" alt="Banner">
+            </div>
+
+            <!-- Profile Info Body -->
+            <div class="profile-content">
+                <div class="avatar-wrapper">
+                    <img class="avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Pfp.png?raw=true" alt="Krushna Avatar">
+                    <div class="online-status" title="Online"></div>
+                </div>
+
+                <div class="user-info">
+                    <h1>Krushna <i class="fa-solid fa-circle-check verified-badge" title="Verified Creator"></i></h1>
+                    <div class="username">@gorillaxd123</div>
+                    <p class="bio">
+                        Full-stack web developer & UI designer crafting aesthetic web experiences, interactive gaming interfaces, and dynamic single-page applications.
+                    </p>
+                </div>
+
+                <!-- Gun.lol style Badges -->
+                <div class="tags">
+                    <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
+                    <span class="tag"><i class="fa-solid fa-wand-magic-sparkles"></i> UI/UX Designer</span>
+                    <span class="tag"><i class="fa-solid fa-gamepad"></i> Game Dev</span>
+                    <span class="tag"><i class="fa-solid fa-location-dot"></i> Global</span>
+                </div>
+
+                <!-- Link Buttons -->
+                <div class="links-grid">
+                    <a href="https://github.com/gorillaxd123-png" target="_blank" class="link-card">
+                        <div class="link-left">
+                            <i class="fa-brands fa-github"></i>
+                            <span>GitHub Profile</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right link-arrow"></i>
+                    </a>
+
+                    <a href="#" class="link-card">
+                        <div class="link-left">
+                            <i class="fa-brands fa-figma"></i>
+                            <span>Design Portfolio</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right link-arrow"></i>
+                    </a>
+
+                    <a href="#" class="link-card">
+                        <div class="link-left">
+                            <i class="fa-brands fa-discord"></i>
+                            <span>Discord Community</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right link-arrow"></i>
+                    </a>
+
+                    <a href="mailto:contact@krushna.dev" class="link-card">
+                        <div class="link-left">
+                            <i class="fa-regular fa-envelope"></i>
+                            <span>Get in Touch</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right link-arrow"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gun.lol style minimal footer -->
+        <div class="footer">
+            Designed with <a href="#">Figma</a> aesthetic &bull; Inspired by <a href="#">gun.lol</a>
+        </div>
+    </div>
+
+    <!-- Background Audio Element -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://raw.githubusercontent.com/gorillaxd123-png/krushna-portfolio/9a5fb52d61a679f8c8e1c25ce6bec1774a3a788b/Toy%20Shopping%20-%20Jeremy%20Korpas.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Interactive Script -->
+    <script>
+        const audio = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicToggle');
+        const soundWave = document.getElementById('soundWave');
+        const musicText = document.getElementById('musicText');
+
+        let isPlaying = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                soundWave.classList.add('paused');
+                musicText.innerText = 'Play Sound';
+                isPlaying = false;
+            } else {
+                audio.play().then(() => {
+                    soundWave.classList.remove('paused');
+                    musicText.innerText = 'Playing';
+                    isPlaying = true;
+                }).catch(err => {
+                    console.log("Autoplay issue or audio load error:", err);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
