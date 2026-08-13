@@ -1,669 +1,381 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krushna — Portfolio</title>
-    <!-- Fonts & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FPS Game Hub</title>
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-    <style>
-        :root {
-            --bg-cloudy: #f0f4f8;
-            --card-bg: rgba(255, 255, 255, 0.78);
-            --card-border: rgba(255, 255, 255, 0.95);
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 20px rgba(0,0,0,0.03);
-            --radius-main: 24px;
-            --radius-pill: 999px;
-        }
+    body {
+      background: #0d0f12;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem;
+      overflow-x: hidden;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            user-select: none;
-        }
+    /* Top Bar Header */
+    header {
+      width: 100%;
+      max-width: 1000px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(22, 27, 34, 0.8);
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
 
-        body {
-            background-color: var(--bg-cloudy);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+    /* Profile / Status Section */
+    .profile-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        /* --- Click Anywhere Overlay (Gun.lol Style with Cloud) --- */
-        #entry-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(135deg, #e0e8f0 0%, #f5f8fc 100%);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-            overflow: hidden;
-        }
+    .status-badge {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 255, 136, 0.1);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      cursor: pointer;
+    }
 
-        .overlay-cloud-icon {
-            font-size: 64px;
-            color: #94a3b8;
-            margin-bottom: 16px;
-            animation: floatCloud 3s infinite ease-in-out;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.08));
-        }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #00ff88;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #00ff88;
+    }
 
-        .overlay-text {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: 1.2px;
-            animation: pulseText 2s infinite ease-in-out;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 12px 24px;
-            border-radius: var(--radius-pill);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
-        }
+    /* Speech Bubble for Online Status */
+    .speech-bubble {
+      position: absolute;
+      bottom: -45px;
+      left: 50%;
+      transform: translateX(-50%) translateY(5px);
+      background: #00ff88;
+      color: #0d0f12;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+      pointer-events: none;
+    }
 
-        @keyframes floatCloud {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-12px) scale(1.05); }
-        }
+    /* Speech Bubble Arrow */
+    .speech-bubble::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0 6px 6px 6px;
+      border-style: solid;
+      border-color: transparent transparent #00ff88 transparent;
+    }
 
-        @keyframes pulseText {
-            0%, 100% { opacity: 0.6; transform: scale(0.98); }
-            50% { opacity: 1; transform: scale(1); }
-        }
+    .status-badge:hover .speech-bubble {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
 
-        /* --- Right-to-Left Cloud Transition Curtain --- */
-        .cloud-curtain {
-            position: fixed;
-            top: 0;
-            right: -120vw;
-            width: 120vw;
-            height: 100vh;
-            z-index: 10000;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-        }
+    /* Contact Me Header Button */
+    .contact-btn {
+      background: linear-gradient(135deg, #ff0055, #ff5500);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
+    }
 
-        .cloud-curtain-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #ffffff;
-            box-shadow: -20px 0 60px rgba(0,0,0,0.08);
-            border-top-left-radius: 50% 100%;
-            border-bottom-left-radius: 50% 100%;
-        }
+    .contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(255, 0, 85, 0.7);
+    }
 
-        .cloud-curtain-puff1 {
-            position: absolute;
-            top: 10%;
-            left: -150px;
-            width: 300px;
-            height: 300px;
-            background: #ffffff;
-            border-radius: 50%;
-            filter: blur(10px);
-        }
+    /* Main Menu Cards Container */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 900px;
+      margin: auto 0;
+    }
 
-        .cloud-curtain-puff2 {
-            position: absolute;
-            bottom: 10%;
-            left: -200px;
-            width: 400px;
-            height: 400px;
-            background: #ffffff;
-            border-radius: 50%;
-            filter: blur(10px);
-        }
+    /* Menu Card Styles */
+    .card {
+      background: rgba(22, 27, 34, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 2.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .sweep-right-to-left {
-            animation: cloudSweepR2L 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-        }
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
 
-        @keyframes cloudSweepR2L {
-            0% {
-                right: -120vw;
-            }
-            45%, 55% {
-                right: -10vw;
-            }
-            100% {
-                right: 120vw;
-            }
-        }
+    /* Always Visible Color & Shine Effect on Icons */
+    .card i {
+      font-size: 3.5rem;
+      position: relative;
+      transition: transform 0.3s ease, text-shadow 0.3s ease;
+    }
 
-        /* --- Dynamic Animated Background Clouds --- */
-        .cloud-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            overflow: hidden;
-            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
-        }
+    /* Vibrant Base Colors & Continuous Shine */
+    .card-play i {
+      color: #00ff88;
+      text-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+      animation: iconShineGreen 2.5s infinite alternate ease-in-out;
+    }
 
-        .bg-cloud {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 200px;
-            filter: blur(35px);
-            box-shadow: 0 0 60px rgba(255,255,255,0.9);
-        }
+    .card-options i {
+      color: #00ccff;
+      text-shadow: 0 0 15px rgba(0, 204, 255, 0.6);
+      animation: iconShineBlue 2.5s infinite alternate ease-in-out;
+    }
 
-        /* Cloud 1: Right to Left */
-        .cloud-1 {
-            width: 520px;
-            height: 200px;
-            top: 8%;
-            right: -25%;
-            animation: floatR2L 32s linear infinite;
-        }
+    .card-friends i {
+      color: #ff0077;
+      text-shadow: 0 0 15px rgba(255, 0, 119, 0.6);
+      animation: iconShinePink 2.5s infinite alternate ease-in-out;
+    }
 
-        /* Cloud 2: Left to Right */
-        .cloud-2 {
-            width: 600px;
-            height: 240px;
-            top: 45%;
-            left: -30%;
-            animation: floatL2R 38s linear infinite;
-        }
+    /* Icon Shine Animations */
+    @keyframes iconShineGreen {
+      0% { filter: brightness(1) drop-shadow(0 0 2px #00ff88); }
+      100% { filter: brightness(1.4) drop-shadow(0 0 12px #00ff88); }
+    }
 
-        /* Cloud 3: Right to Left Slower */
-        .cloud-3 {
-            width: 480px;
-            height: 180px;
-            bottom: 5%;
-            right: -20%;
-            animation: floatR2L 44s linear infinite;
-            animation-delay: -12s;
-        }
+    @keyframes iconShineBlue {
+      0% { filter: brightness(1) drop-shadow(0 0 2px #00ccff); }
+      100% { filter: brightness(1.4) drop-shadow(0 0 12px #00ccff); }
+    }
 
-        @keyframes floatR2L {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-180vw); }
-        }
+    @keyframes iconShinePink {
+      0% { filter: brightness(1) drop-shadow(0 0 2px #ff0077); }
+      100% { filter: brightness(1.4) drop-shadow(0 0 12px #ff0077); }
+    }
 
-        @keyframes floatL2R {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(180vw); }
-        }
+    .card:hover i {
+      transform: scale(1.15);
+    }
 
-        /* --- Floating Figma Top Navigation --- */
-        .figma-nav {
-            position: fixed;
-            top: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            padding: 8px 14px;
-            border-radius: var(--radius-pill);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            z-index: 100;
-        }
+    .card span {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
 
-        .figma-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 6px 14px;
-            background: #000;
-            color: #fff;
-            border-radius: var(--radius-pill);
-        }
+    /* Dialog Pop-up (Modal) Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+    }
 
-        .nav-divider {
-            width: 1px;
-            height: 16px;
-            background: #e2e8f0;
-        }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-        .music-btn {
-            background: transparent;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 10px;
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
+    .modal-box {
+      background: #161b22;
+      border: 1px solid rgba(255, 0, 85, 0.4);
+      padding: 2rem;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 30px rgba(255, 0, 85, 0.2);
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
 
-        /* Audio Visualizer Waves */
-        .sound-wave {
-            display: flex;
-            align-items: flex-end;
-            gap: 2px;
-            height: 12px;
-        }
+    .modal-overlay.active .modal-box {
+      transform: translateY(0);
+    }
 
-        .bar {
-            width: 2px;
-            height: 100%;
-            background-color: var(--text-primary);
-            border-radius: 1px;
-            animation: bounce 1.2s infinite ease-in-out;
-        }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
 
-        .bar:nth-child(2) { animation-delay: -0.4s; }
-        .bar:nth-child(3) { animation-delay: -0.2s; }
+    .modal-header h3 {
+      font-size: 1.4rem;
+      color: #ff0055;
+    }
 
-        .paused .bar {
-            animation: none;
-            height: 3px;
-        }
+    .close-btn {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
 
-        @keyframes bounce {
-            0%, 100% { height: 3px; }
-            50% { height: 12px; }
-        }
+    .close-btn:hover {
+      color: #fff;
+    }
 
-        /* --- Main Profile Card Container --- */
-        .container {
-            width: 100%;
-            max-width: 520px;
-            margin-top: 50px;
-            z-index: 10;
-        }
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-main);
-            box-shadow: var(--shadow-figma);
-            overflow: hidden;
-        }
+    .info-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
 
-        .banner {
-            width: 100%;
-            height: 170px;
-            background-color: #cbd5e1;
-            overflow: hidden;
-        }
+    .info-item i {
+      font-size: 1.2rem;
+      color: #ff5500;
+    }
 
-        .banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-content {
-            padding: 0 28px 28px 28px;
-        }
-
-        .avatar-wrapper {
-            position: relative;
-            margin-top: -48px;
-            margin-bottom: 14px;
-            display: inline-block;
-        }
-
-        .avatar {
-            width: 92px;
-            height: 92px;
-            border-radius: 50%;
-            border: 4px solid #ffffff;
-            object-fit: cover;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            background: #fff;
-        }
-
-        .online-status {
-            position: absolute;
-            bottom: 6px;
-            right: 6px;
-            width: 16px;
-            height: 16px;
-            background-color: #22c55e;
-            border: 3px solid #ffffff;
-            border-radius: 50%;
-        }
-
-        .user-info h1 {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .verified-badge {
-            color: #0969da;
-            font-size: 18px;
-        }
-
-        .username {
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .bio {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #334155;
-            font-weight: 500;
-            margin-bottom: 18px;
-        }
-
-        /* Gun.lol Profile Tags */
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        .tag {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid #e2e8f0;
-            padding: 5px 12px;
-            border-radius: var(--radius-pill);
-            font-size: 12px;
-            font-weight: 600;
-            color: #475569;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Gun.lol Social Icons Grid */
-        .social-icons-grid {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .social-btn {
-            flex: 1;
-            height: 48px;
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: var(--text-primary);
-            text-decoration: none;
-            transition: all 0.25s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-        }
-
-        .social-btn:hover {
-            background: #ffffff;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-        }
-
-        .social-btn.discord:hover { color: #5865F2; }
-        .social-btn.youtube:hover { color: #FF0000; }
-        .social-btn.twitch:hover { color: #9146FF; }
-
-        /* Links List */
-        .links-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .link-card {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            padding: 14px 18px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.25s ease;
-        }
-
-        .link-card:hover {
-            background: #ffffff;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-            border-color: #cbd5e1;
-        }
-
-        .link-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .link-left i {
-            font-size: 18px;
-            width: 20px;
-            text-align: center;
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .footer a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 700;
-        }
-    </style>
+    .info-item span {
+      font-size: 0.95rem;
+      word-break: break-all;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Click Anywhere Entry Screen (With Floating Overlay Cloud) -->
-    <div id="entry-overlay">
-        <i class="fa-solid fa-cloud overlay-cloud-icon"></i>
-        <div class="overlay-text">
-            click anywhere to open
-        </div>
+  <!-- Top Header -->
+  <header>
+    <div class="profile-container">
+      <div class="status-badge">
+        <div class="status-dot"></div>
+        <span>Player</span>
+        <!-- Chat bubble popup on hover -->
+        <div class="speech-bubble">Online</div>
+      </div>
     </div>
+    
+    <button class="contact-btn" id="openContact">Contact Me</button>
+  </header>
 
-    <!-- Right-to-Left Cloud Transition Curtain -->
-    <div class="cloud-curtain" id="cloudCurtain">
-        <div class="cloud-curtain-layer">
-            <div class="cloud-curtain-puff1"></div>
-            <div class="cloud-curtain-puff2"></div>
-        </div>
+  <!-- Main Game Navigation Grid -->
+  <main class="menu-grid">
+    <div class="card card-play">
+      <i class="fa-solid fa-crosshairs"></i>
+      <span>Play</span>
     </div>
-
-    <!-- Moving Background Clouds -->
-    <div class="cloud-bg">
-        <div class="bg-cloud cloud-1"></div>
-        <div class="bg-cloud cloud-2"></div>
-        <div class="bg-cloud cloud-3"></div>
+    
+    <div class="card card-options">
+      <i class="fa-solid fa-sliders"></i>
+      <span>Options</span>
     </div>
-
-    <!-- Floating Figma Top Navigation -->
-    <nav class="figma-nav">
-        <div class="figma-badge">
-            <i class="fa-sharp fa-solid fa-layer-group"></i> Figma Canvas
-        </div>
-        <div class="nav-divider"></div>
-        <button class="music-btn" id="musicToggle">
-            <div class="sound-wave paused" id="soundWave">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
-            <span id="musicText">Paused</span>
-        </button>
-    </nav>
-
-    <!-- Portfolio Profile Card Container -->
-    <div class="container">
-        <div class="card">
-            <!-- Header Banner -->
-            <div class="banner">
-                <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushnaxd123%20Banner.png?raw=true" alt="Banner">
-            </div>
-
-            <!-- Profile Details -->
-            <div class="profile-content">
-                <div class="avatar-wrapper">
-                    <img class="avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Pfp.png?raw=true" alt="Krushna Avatar">
-                    <div class="online-status" title="Online"></div>
-                </div>
-
-                <div class="user-info">
-                    <h1>Krushna <i class="fa-solid fa-circle-check verified-badge" title="Verified Creator"></i></h1>
-                    <div class="username"><i class="fa-brands fa-discord"></i> krushnaxd1234</div>
-                    <p class="bio">
-                        Full-stack web developer & UI designer crafting aesthetic web experiences, interactive gaming interfaces, and dynamic single-page applications.
-                    </p>
-                </div>
-
-                <!-- Gun.lol Profile Tags -->
-                <div class="tags">
-                    <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
-                    <span class="tag"><i class="fa-solid fa-wand-magic-sparkles"></i> UI/UX Designer</span>
-                    <span class="tag"><i class="fa-solid fa-gamepad"></i> Game Dev</span>
-                </div>
-
-                <!-- Gun.lol Social Icons Bar -->
-                <div class="social-icons-grid">
-                    <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="social-btn discord" title="Join Discord Server">
-                        <i class="fa-brands fa-discord"></i>
-                    </a>
-                    <a href="https://youtube.com" target="_blank" class="social-btn youtube" title="YouTube Channel">
-                        <i class="fa-brands fa-youtube"></i>
-                    </a>
-                    <a href="https://twitch.tv" target="_blank" class="social-btn twitch" title="Twitch Stream">
-                        <i class="fa-brands fa-twitch"></i>
-                    </a>
-                </div>
-
-                <!-- Link Buttons -->
-                <div class="links-grid">
-                    <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="link-card">
-                        <div class="link-left">
-                            <i class="fa-brands fa-discord"></i>
-                            <span>Discord Community Server</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
-                    </a>
-
-                    <a href="mailto:contact@krushna.dev" class="link-card">
-                        <div class="link-left">
-                            <i class="fa-regular fa-envelope"></i>
-                            <span>Contact Me</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer">
-            Designed with <a href="#">Figma</a> aesthetic &bull; Powered by <a href="#">gun.lol</a>
-        </div>
+    
+    <div class="card card-friends">
+      <i class="fa-solid fa-user-group"></i>
+      <span>Friends</span>
     </div>
+  </main>
 
-    <!-- Background Audio Element Direct MP3 -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="https://raw.githubusercontent.com/gorillaxd123-png/krushna-portfolio/9a5fb52d61a679f8c8e1c25ce6bec1774a3a788b/Toy%20Shopping%20-%20Jeremy%20Korpas.mp3" type="audio/mpeg">
-    </audio>
+  <!-- Contact Me Modal Dialog -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-address-card"></i> Get in Touch</h3>
+        <button class="close-btn" id="closeContact">&times;</button>
+      </div>
+      <div class="contact-info">
+        <div class="info-item">
+          <i class="fa-solid fa-envelope"></i>
+          <span>your-email@example.com</span>
+        </div>
+        <div class="info-item">
+          <i class="fa-brands fa-discord"></i>
+          <span>YourUsername#0000</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <!-- JavaScript Handlers -->
-    <script>
-        const overlay = document.getElementById('entry-overlay');
-        const curtain = document.getElementById('cloudCurtain');
-        const audio = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('musicToggle');
-        const soundWave = document.getElementById('soundWave');
-        const musicText = document.getElementById('musicText');
+  <script>
+    const modal = document.getElementById('contactModal');
+    const openBtn = document.getElementById('openContact');
+    const closeBtn = document.getElementById('closeContact');
 
-        let isPlaying = false;
+    // Open Contact Modal
+    openBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+    });
 
-        // Click anywhere overlay handler
-        overlay.addEventListener('click', () => {
-            // Trigger right-to-left cloud sweep animation
-            curtain.classList.add('sweep-right-to-left');
+    // Close Contact Modal via Close Button
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
 
-            // Hide overlay mid-sweep when clouds fully cover screen
-            setTimeout(() => {
-                overlay.style.opacity = '0';
-                overlay.style.visibility = 'hidden';
-            }, 550);
+    // Close Modal by clicking backdrop
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+  </script>
 
-            // Start background music
-            playAudio();
-        });
-
-        function playAudio() {
-            audio.play().then(() => {
-                soundWave.classList.remove('paused');
-                musicText.innerText = 'Playing';
-                isPlaying = true;
-            }).catch(err => {
-                console.log("Audio playback error:", err);
-            });
-        }
-
-        // Toggle Audio Bar Button
-        musicBtn.addEventListener('click', () => {
-            if (isPlaying) {
-                audio.pause();
-                soundWave.classList.add('paused');
-                musicText.innerText = 'Paused';
-                isPlaying = false;
-            } else {
-                playAudio();
-            }
-        });
-    </script>
 </body>
 </html>
