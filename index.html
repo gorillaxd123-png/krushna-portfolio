@@ -210,7 +210,7 @@
             100% { transform: translateX(180vw); }
         }
 
-        /* --- Top Navigation --- */
+        /* --- Top Navigation & Music Slider Wrapper --- */
         .figma-nav {
             position: fixed;
             top: 24px;
@@ -246,6 +246,14 @@
             width: 1px;
             height: 16px;
             background: #e2e8f0;
+        }
+
+        /* Music Controls Wrapper & Hover Slider */
+        .music-control-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
         }
 
         .music-btn {
@@ -289,6 +297,74 @@
         @keyframes bounce {
             0%, 100% { height: 3px; }
             50% { height: 12px; }
+        }
+
+        /* Volume Slider Pop-out on Hover */
+        .volume-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .music-control-wrapper:hover .volume-slider-container {
+            max-width: 110px;
+            opacity: 1;
+            margin-left: 4px;
+        }
+
+        /* Custom Volume Range Slider */
+        .volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 70px;
+            height: 4px;
+            background: #cbd5e1;
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Slider Thumb (Dot) Styling */
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #0f172a;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            border: none;
+            border-radius: 50%;
+            background: #0f172a;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.25);
+            background: #0284c7;
+        }
+
+        .volume-slider::-moz-range-thumb:hover {
+            transform: scale(1.25);
+            background: #0284c7;
+        }
+
+        .volume-icon {
+            font-size: 11px;
+            color: var(--text-secondary);
         }
 
         /* --- Main Profile Card Container --- */
@@ -821,14 +897,22 @@
             <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas
         </div>
         <div class="nav-divider"></div>
-        <button class="music-btn" id="musicToggle">
-            <div class="sound-wave paused" id="soundWave">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
+        
+        <!-- Music Control & Hover Volume Bar -->
+        <div class="music-control-wrapper">
+            <button class="music-btn" id="musicToggle">
+                <div class="sound-wave paused" id="soundWave">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <span id="musicText">Paused</span>
+            </button>
+            <div class="volume-slider-container">
+                <i class="fa-solid fa-volume-low volume-icon" id="volumeIcon"></i>
+                <input type="range" id="volumeControl" class="volume-slider" min="0" max="1" step="0.01" value="0.45">
             </div>
-            <span id="musicText">Paused</span>
-        </button>
+        </div>
     </nav>
 
     <!-- Portfolio Profile Card Container -->
@@ -949,6 +1033,8 @@
         const musicBtn = document.getElementById('musicToggle');
         const soundWave = document.getElementById('soundWave');
         const musicText = document.getElementById('musicText');
+        const volumeControl = document.getElementById('volumeControl');
+        const volumeIcon = document.getElementById('volumeIcon');
 
         // Set initial background music volume to 45%
         audio.volume = 0.45;
@@ -986,6 +1072,21 @@
                 isPlaying = false;
             } else {
                 playAudio();
+            }
+        });
+
+        // Volume Slider Control
+        volumeControl.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            audio.volume = val;
+
+            // Dynamically update volume icon state
+            if (val === 0) {
+                volumeIcon.className = 'fa-solid fa-volume-xmark volume-icon';
+            } else if (val < 0.5) {
+                volumeIcon.className = 'fa-solid fa-volume-low volume-icon';
+            } else {
+                volumeIcon.className = 'fa-solid fa-volume-high volume-icon';
             }
         });
 
