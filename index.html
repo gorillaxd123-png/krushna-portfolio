@@ -12,13 +12,11 @@
 
     <style>
         :root {
-            --bg-cloudy: #f0f2f5;
+            --bg-cloudy: #eef2f6;
             --card-bg: rgba(255, 255, 255, 0.75);
-            --card-border: rgba(255, 255, 255, 0.8);
+            --card-border: rgba(255, 255, 255, 0.9);
             --text-primary: #0f172a;
             --text-secondary: #64748b;
-            --accent-color: #000000;
-            --accent-glow: rgba(0, 0, 0, 0.05);
             --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 15px rgba(0,0,0,0.03);
             --radius-main: 24px;
             --radius-pill: 999px;
@@ -30,6 +28,7 @@
             box-sizing: border-box;
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-font-smoothing: antialiased;
+            user-select: none;
         }
 
         body {
@@ -44,7 +43,65 @@
             overflow-x: hidden;
         }
 
-        /* Cloudy Animated Background Elements */
+        /* --- Click Anywhere Overlay (Gun.lol Style) --- */
+        #entry-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(240, 242, 245, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .overlay-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+            animation: pulseText 2s infinite ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.4; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Transition Cloud Curtain */
+        .cloud-curtain {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100vw;
+            height: 100vh;
+            background: #ffffff;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .sweep-animation {
+            animation: cloudSweep 1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+
+        @keyframes cloudSweep {
+            0% { left: -100%; opacity: 0.9; }
+            50% { left: 0%; opacity: 1; }
+            100% { left: 100%; opacity: 0; }
+        }
+
+        /* --- Moving Animated Background Clouds --- */
         .cloud-bg {
             position: fixed;
             top: 0;
@@ -53,40 +110,56 @@
             height: 100vh;
             z-index: -1;
             overflow: hidden;
-            background: radial-gradient(circle at 50% 0%, #ffffff 0%, #e2e8f0 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
         }
 
         .cloud {
             position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.6;
-            animation: float 20s infinite alternate ease-in-out;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 200px;
+            filter: blur(40px);
+            box-shadow: 0 0 50px rgba(255,255,255,0.8);
         }
 
+        /* Cloud 1: Moves Left to Right */
         .cloud-1 {
-            width: 500px;
-            height: 500px;
-            background: #ffffff;
-            top: -100px;
-            left: -100px;
+            width: 450px;
+            height: 180px;
+            top: 10%;
+            left: -20%;
+            animation: floatLeftToRight 28s linear infinite;
         }
 
+        /* Cloud 2: Moves Right to Left */
         .cloud-2 {
-            width: 600px;
-            height: 600px;
-            background: #cbd5e1;
-            bottom: -150px;
-            right: -100px;
-            animation-delay: -5s;
+            width: 550px;
+            height: 220px;
+            top: 50%;
+            right: -25%;
+            animation: floatRightToLeft 35s linear infinite;
         }
 
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(50px, 40px) scale(1.1); }
+        /* Cloud 3: Moves Left to Right slower */
+        .cloud-3 {
+            width: 400px;
+            height: 160px;
+            bottom: 5%;
+            left: -15%;
+            animation: floatLeftToRight 40s linear infinite;
+            animation-delay: -10s;
         }
 
-        /* Figma Style Floating Toolbar */
+        @keyframes floatLeftToRight {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200vw); }
+        }
+
+        @keyframes floatRightToLeft {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-200vw); }
+        }
+
+        /* --- Top Floating Figma Toolbar --- */
         .figma-nav {
             position: fixed;
             top: 24px;
@@ -95,12 +168,12 @@
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.9);
-            padding: 8px 12px;
+            padding: 8px 14px;
             border-radius: var(--radius-pill);
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             z-index: 100;
         }
 
@@ -114,11 +187,6 @@
             background: #000;
             color: #fff;
             border-radius: var(--radius-pill);
-            letter-spacing: 0.3px;
-        }
-
-        .figma-badge i {
-            color: #0a84ff;
         }
 
         .nav-divider {
@@ -133,17 +201,12 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: var(--radius-pill);
             cursor: pointer;
             font-size: 13px;
             font-weight: 600;
             color: var(--text-primary);
-            transition: all 0.2s ease;
-        }
-
-        .music-btn:hover {
-            background: rgba(0, 0, 0, 0.05);
         }
 
         /* Audio Visualizer Waves */
@@ -175,11 +238,12 @@
             50% { height: 12px; }
         }
 
-        /* Main Profile Card Container (Gun.lol Layout) */
+        /* --- Main Profile Card Layout --- */
         .container {
             width: 100%;
-            max-width: 540px;
-            margin-top: 60px;
+            max-width: 520px;
+            margin-top: 50px;
+            z-index: 10;
         }
 
         .card {
@@ -190,14 +254,11 @@
             border-radius: var(--radius-main);
             box-shadow: var(--shadow-figma);
             overflow: hidden;
-            position: relative;
         }
 
-        /* Banner */
         .banner {
             width: 100%;
-            height: 180px;
-            position: relative;
+            height: 170px;
             background-color: #cbd5e1;
             overflow: hidden;
         }
@@ -208,22 +269,20 @@
             object-fit: cover;
         }
 
-        /* Profile Header Details */
         .profile-content {
             padding: 0 28px 28px 28px;
-            position: relative;
         }
 
         .avatar-wrapper {
             position: relative;
-            margin-top: -50px;
-            margin-bottom: 16px;
+            margin-top: -48px;
+            margin-bottom: 14px;
             display: inline-block;
         }
 
         .avatar {
-            width: 96px;
-            height: 96px;
+            width: 92px;
+            height: 92px;
             border-radius: 50%;
             border: 4px solid #ffffff;
             object-fit: cover;
@@ -257,10 +316,13 @@
         }
 
         .username {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-secondary);
-            font-weight: 500;
+            font-weight: 600;
             margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .bio {
@@ -268,7 +330,7 @@
             line-height: 1.6;
             color: #334155;
             font-weight: 500;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         /* Gun.lol Tags */
@@ -276,13 +338,13 @@
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .tag {
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid #e2e8f0;
-            padding: 6px 12px;
+            padding: 5px 12px;
             border-radius: var(--radius-pill);
             font-size: 12px;
             font-weight: 600;
@@ -290,10 +352,42 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
 
-        /* Figma Inspired Link Tree Buttons */
+        /* Social Icons Bar (Gun.lol feature) */
+        .social-icons-grid {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            flex: 1;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .social-btn:hover {
+            background: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .social-btn.discord:hover { color: #5865F2; }
+        .social-btn.youtube:hover { color: #FF0000; }
+        .social-btn.twitch:hover { color: #9146FF; }
+
+        /* Links List */
         .links-grid {
             display: flex;
             flex-direction: column;
@@ -312,14 +406,13 @@
             color: var(--text-primary);
             font-weight: 600;
             font-size: 14px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            transition: all 0.25s ease;
         }
 
         .link-card:hover {
             background: #ffffff;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
             border-color: #cbd5e1;
         }
 
@@ -335,21 +428,10 @@
             text-align: center;
         }
 
-        .link-arrow {
-            color: var(--text-secondary);
-            font-size: 12px;
-            transition: transform 0.2s ease;
-        }
-
-        .link-card:hover .link-arrow {
-            transform: translateX(3px);
-            color: var(--text-primary);
-        }
-
         /* Footer */
         .footer {
             text-align: center;
-            margin-top: 24px;
+            margin-top: 20px;
             font-size: 12px;
             color: var(--text-secondary);
             font-weight: 500;
@@ -360,28 +442,28 @@
             text-decoration: none;
             font-weight: 700;
         }
-
-        /* Mobile responsiveness */
-        @media (max-width: 480px) {
-            body {
-                padding: 20px 12px;
-            }
-            .figma-nav {
-                width: calc(100% - 32px);
-                justify-content: space-between;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Cloudy Background Layers -->
+    <!-- Click Anywhere Entry Screen -->
+    <div id="entry-overlay">
+        <div class="overlay-text">
+            <i class="fa-solid fa-cloud"></i> click anywhere to open
+        </div>
+    </div>
+
+    <!-- Cloud Transition Effect -->
+    <div class="cloud-curtain" id="cloudCurtain"></div>
+
+    <!-- Moving Background Clouds -->
     <div class="cloud-bg">
         <div class="cloud cloud-1"></div>
         <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
     </div>
 
-    <!-- Figma Floating UI Navigation Header -->
+    <!-- Floating Figma Top Navigation -->
     <nav class="figma-nav">
         <div class="figma-badge">
             <i class="fa-sharp fa-solid fa-layer-group"></i> Figma Canvas
@@ -393,11 +475,11 @@
                 <div class="bar"></div>
                 <div class="bar"></div>
             </div>
-            <span id="musicText">Play Sound</span>
+            <span id="musicText">Paused</span>
         </button>
     </nav>
 
-    <!-- Main Content Container -->
+    <!-- Portfolio Profile Card Container -->
     <div class="container">
         <div class="card">
             <!-- Header Banner -->
@@ -405,7 +487,7 @@
                 <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushnaxd123%20Banner.png?raw=true" alt="Banner">
             </div>
 
-            <!-- Profile Info Body -->
+            <!-- Profile Details -->
             <div class="profile-content">
                 <div class="avatar-wrapper">
                     <img class="avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Pfp.png?raw=true" alt="Krushna Avatar">
@@ -414,18 +496,30 @@
 
                 <div class="user-info">
                     <h1>Krushna <i class="fa-solid fa-circle-check verified-badge" title="Verified Creator"></i></h1>
-                    <div class="username">@gorillaxd123</div>
+                    <div class="username"><i class="fa-brands fa-discord"></i> krushnaxd1234</div>
                     <p class="bio">
                         Full-stack web developer & UI designer crafting aesthetic web experiences, interactive gaming interfaces, and dynamic single-page applications.
                     </p>
                 </div>
 
-                <!-- Gun.lol style Badges -->
+                <!-- Gun.lol Profile Tags -->
                 <div class="tags">
                     <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
                     <span class="tag"><i class="fa-solid fa-wand-magic-sparkles"></i> UI/UX Designer</span>
                     <span class="tag"><i class="fa-solid fa-gamepad"></i> Game Dev</span>
-                    <span class="tag"><i class="fa-solid fa-location-dot"></i> Global</span>
+                </div>
+
+                <!-- Gun.lol Social Icons Bar -->
+                <div class="social-icons-grid">
+                    <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="social-btn discord" title="Join Discord Server">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="https://youtube.com" target="_blank" class="social-btn youtube" title="YouTube Channel">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                    <a href="https://twitch.tv" target="_blank" class="social-btn twitch" title="Twitch Stream">
+                        <i class="fa-brands fa-twitch"></i>
+                    </a>
                 </div>
 
                 <!-- Link Buttons -->
@@ -435,49 +529,42 @@
                             <i class="fa-brands fa-github"></i>
                             <span>GitHub Profile</span>
                         </div>
-                        <i class="fa-solid fa-chevron-right link-arrow"></i>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
                     </a>
 
-                    <a href="#" class="link-card">
-                        <div class="link-left">
-                            <i class="fa-brands fa-figma"></i>
-                            <span>Design Portfolio</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right link-arrow"></i>
-                    </a>
-
-                    <a href="#" class="link-card">
+                    <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="link-card">
                         <div class="link-left">
                             <i class="fa-brands fa-discord"></i>
-                            <span>Discord Community</span>
+                            <span>Discord Community Server</span>
                         </div>
-                        <i class="fa-solid fa-chevron-right link-arrow"></i>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
                     </a>
 
                     <a href="mailto:contact@krushna.dev" class="link-card">
                         <div class="link-left">
                             <i class="fa-regular fa-envelope"></i>
-                            <span>Get in Touch</span>
+                            <span>Contact Me</span>
                         </div>
-                        <i class="fa-solid fa-chevron-right link-arrow"></i>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- Gun.lol style minimal footer -->
         <div class="footer">
-            Designed with <a href="#">Figma</a> aesthetic &bull; Inspired by <a href="#">gun.lol</a>
+            Designed with <a href="#">Figma</a> aesthetic &bull; Powered by <a href="#">gun.lol</a>
         </div>
     </div>
 
-    <!-- Background Audio Element -->
+    <!-- Background Audio Element Direct MP3 -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://raw.githubusercontent.com/gorillaxd123-png/krushna-portfolio/9a5fb52d61a679f8c8e1c25ce6bec1774a3a788b/Toy%20Shopping%20-%20Jeremy%20Korpas.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Interactive Script -->
+    <!-- JavaScript Handlers -->
     <script>
+        const overlay = document.getElementById('entry-overlay');
+        const curtain = document.getElementById('cloudCurtain');
         const audio = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicToggle');
         const soundWave = document.getElementById('soundWave');
@@ -485,20 +572,38 @@
 
         let isPlaying = false;
 
+        // Click anywhere overlay handler
+        overlay.addEventListener('click', () => {
+            // Trigger curtain sweep effect
+            curtain.classList.add('sweep-animation');
+            
+            // Fade out overlay
+            overlay.style.opacity = '0';
+            overlay.style.visibility = 'hidden';
+
+            // Start music autoplay on user interaction
+            playAudio();
+        });
+
+        function playAudio() {
+            audio.play().then(() => {
+                soundWave.classList.remove('paused');
+                musicText.innerText = 'Playing';
+                isPlaying = true;
+            }).catch(err => {
+                console.log("Audio playback error:", err);
+            });
+        }
+
+        // Toggle Audio Bar Button
         musicBtn.addEventListener('click', () => {
             if (isPlaying) {
                 audio.pause();
                 soundWave.classList.add('paused');
-                musicText.innerText = 'Play Sound';
+                musicText.innerText = 'Paused';
                 isPlaying = false;
             } else {
-                audio.play().then(() => {
-                    soundWave.classList.remove('paused');
-                    musicText.innerText = 'Playing';
-                    isPlaying = true;
-                }).catch(err => {
-                    console.log("Autoplay issue or audio load error:", err);
-                });
+                playAudio();
             }
         });
     </script>
