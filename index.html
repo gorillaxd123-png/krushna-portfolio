@@ -59,6 +59,8 @@
             cursor: pointer;
             transition: opacity 0.5s ease, visibility 0.5s ease;
             overflow: hidden;
+            padding: 20px;
+            text-align: center;
         }
 
         .overlay-cloud-icon {
@@ -230,6 +232,7 @@
             gap: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             z-index: 100;
+            max-width: 90vw;
         }
 
         .figma-badge {
@@ -242,6 +245,7 @@
             background: #000;
             color: #fff;
             border-radius: var(--radius-pill);
+            white-space: nowrap;
         }
 
         .nav-divider {
@@ -262,6 +266,7 @@
             font-size: 13px;
             font-weight: 600;
             color: var(--text-primary);
+            white-space: nowrap;
         }
 
         .sound-wave {
@@ -563,6 +568,7 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
+            padding: 20px;
         }
 
         .modal-overlay.active {
@@ -572,7 +578,7 @@
 
         .modal-card {
             background: #ffffff;
-            width: 90%;
+            width: 100%;
             max-width: 400px;
             border-radius: 24px;
             padding: 24px;
@@ -628,22 +634,26 @@
             padding: 12px 16px;
             border-radius: 14px;
             margin-bottom: 10px;
+            gap: 8px;
         }
 
         .contact-info {
             display: flex;
             align-items: center;
             gap: 12px;
+            overflow: hidden;
         }
 
         .contact-info i {
             font-size: 18px;
             color: #0f172a;
+            flex-shrink: 0;
         }
 
         .contact-details {
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         .contact-label {
@@ -657,6 +667,9 @@
             font-size: 13px;
             font-weight: 700;
             color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .copy-btn {
@@ -669,6 +682,7 @@
             cursor: pointer;
             color: var(--text-primary);
             transition: all 0.2s;
+            flex-shrink: 0;
         }
 
         .copy-btn:hover {
@@ -690,6 +704,95 @@
             color: var(--text-primary);
             text-decoration: none;
             font-weight: 700;
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 600px) {
+            body {
+                padding: 70px 12px 24px 12px;
+            }
+
+            .figma-nav {
+                top: 12px;
+                padding: 6px 10px;
+                gap: 8px;
+            }
+
+            .figma-badge {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+
+            .music-btn {
+                font-size: 12px;
+                padding: 4px 6px;
+            }
+
+            .container {
+                margin-top: 20px;
+            }
+
+            .banner {
+                height: 130px;
+            }
+
+            .profile-content {
+                padding: 0 16px 20px 16px;
+            }
+
+            .avatar-wrapper {
+                margin-top: -40px;
+            }
+
+            .avatar {
+                width: 78px;
+                height: 78px;
+            }
+
+            .user-info h1 {
+                font-size: 20px;
+            }
+
+            .bio {
+                font-size: 13px;
+                margin-bottom: 14px;
+            }
+
+            .tag {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+
+            .social-btn {
+                height: 42px;
+                font-size: 18px;
+            }
+
+            .link-card {
+                padding: 12px 14px;
+                font-size: 13px;
+            }
+
+            .overlay-text {
+                font-size: 16px;
+                padding: 10px 18px;
+            }
+
+            .overlay-cloud-icon {
+                font-size: 48px;
+            }
+
+            .modal-card {
+                padding: 18px;
+            }
+
+            .contact-item {
+                padding: 10px 12px;
+            }
+
+            .contact-value {
+                font-size: 12px;
+            }
         }
     </style>
 </head>
