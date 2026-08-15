@@ -38,7 +38,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            padding: 100px 20px 40px 20px;
             position: relative;
             overflow-x: hidden;
         }
@@ -392,12 +392,20 @@
             text-align: right;
         }
 
+        /* --- Canvas Wrapper Layout (Profile + Works Side-by-Side) --- */
+        .canvas-layout {
+            display: flex;
+            gap: 24px;
+            max-width: 980px;
+            width: 100%;
+            align-items: flex-start;
+            z-index: 10;
+        }
+
         /* --- Main Profile Card Container --- */
         .container {
-            width: 100%;
-            max-width: 520px;
-            margin-top: 50px;
-            z-index: 10;
+            flex: 1;
+            min-width: 320px;
         }
 
         .card {
@@ -644,6 +652,102 @@
             text-align: center;
         }
 
+        /* --- Works Section (Right Side of Canvas) --- */
+        .works-container {
+            flex: 0 0 380px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-main);
+            box-shadow: var(--shadow-figma);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .works-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            padding-bottom: 12px;
+        }
+
+        .works-header i {
+            color: #0f172a;
+            font-size: 16px;
+        }
+
+        .works-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .work-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .work-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .work-img-wrapper {
+            width: 100%;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            background: #e2e8f0;
+        }
+
+        .work-img-wrapper:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .work-img-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 ratio */
+            height: 0;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* --- Modal Popup --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -796,6 +900,18 @@
             font-weight: 700;
         }
 
+        @media (max-width: 820px) {
+            .canvas-layout {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .works-container {
+                width: 100%;
+                flex: none;
+            }
+        }
+
         @media (max-width: 600px) {
             body {
                 padding: 70px 12px 24px 12px;
@@ -815,10 +931,6 @@
             .music-btn {
                 font-size: 12px;
                 padding: 4px 6px;
-            }
-
-            .container {
-                margin-top: 20px;
             }
 
             .banner {
@@ -936,77 +1048,116 @@
         </div>
     </nav>
 
-    <!-- Portfolio Profile Card Container -->
-    <div class="container">
-        <div class="card">
-            <!-- Header Banner -->
-            <div class="banner">
-                <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushnaxd123%20Banner.png?raw=true" alt="Banner">
+    <!-- Canvas Layout Container -->
+    <div class="canvas-layout">
+
+        <!-- Main Profile Card Container -->
+        <div class="container">
+            <div class="card">
+                <!-- Header Banner -->
+                <div class="banner">
+                    <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushnaxd123%20Banner.png?raw=true" alt="Banner">
+                </div>
+
+                <!-- Profile Details -->
+                <div class="profile-content">
+                    <div class="avatar-wrapper">
+                        <img class="avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Pfp.png?raw=true" alt="Krushna Avatar">
+                        <div class="online-status"></div>
+                        <div class="status-tooltip">Online</div>
+                    </div>
+
+                    <div class="user-info">
+                        <h1>Krushna <i class="fa-solid fa-circle-check verified-badge" title="Verified Creator"></i></h1>
+                        <div class="username"><i class="fa-brands fa-discord"></i> krushnaxd1234</div>
+                        <p class="bio">
+                            Professional Thumbnail Artist & Visual Designer creating high-CTR YouTube graphics, custom artwork, animations, and clean digital designs.
+                        </p>
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="tags">
+                        <span class="tag"><i class="fa-solid fa-palette"></i> Artist</span>
+                        <span class="tag"><i class="fa-solid fa-wand-magic-sparkles"></i> Designer</span>
+                        <span class="tag"><i class="fa-solid fa-film"></i> Animator</span>
+                        <span class="tag"><i class="fa-solid fa-scissors"></i> Editor</span>
+                        <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
+                    </div>
+
+                    <!-- Social Icons Bar -->
+                    <div class="social-icons-grid">
+                        <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="social-btn discord" title="Join Discord Server">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@krushnaxd1232" target="_blank" class="social-btn youtube" title="YouTube Channel">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                        <a href="https://www.twitch.tv/krushnaxd123" target="_blank" class="social-btn twitch" title="Twitch Stream">
+                            <i class="fa-brands fa-twitch"></i>
+                        </a>
+                    </div>
+
+                    <!-- Link Buttons -->
+                    <div class="links-grid">
+                        <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="link-card">
+                            <div class="link-left">
+                                <i class="fa-brands fa-discord" style="color: #5865F2;"></i>
+                                <span>Discord Community Server</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
+                        </a>
+
+                        <!-- Contact Me trigger opens pop-up -->
+                        <div class="link-card" id="contactBtn">
+                            <div class="link-left">
+                                <i class="fa-regular fa-envelope"></i>
+                                <span>Contact Me</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Profile Details -->
-            <div class="profile-content">
-                <div class="avatar-wrapper">
-                    <img class="avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Pfp.png?raw=true" alt="Krushna Avatar">
-                    <div class="online-status"></div>
-                    <div class="status-tooltip">Online</div>
+            <div class="footer">
+                Designed by <a href="#">Krushna</a> &bull; Powered by <a href="#">Vercel</a>
+            </div>
+        </div>
+
+        <!-- Works On Right Side Of Canvas -->
+        <div class="works-container">
+            <div class="works-header">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>Works</span>
+            </div>
+
+            <div class="works-grid">
+                <!-- Thumbnail Work 1 -->
+                <div class="work-item">
+                    <span class="work-title"><i class="fa-solid fa-image" style="color:#64748b;"></i> Thumbnail Design</span>
+                    <div class="work-img-wrapper">
+                        <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/I%20Found%20The%20Secret%20Of%20Thumbnailing.png?raw=true" alt="I Found The Secret Of Thumbnailing">
+                    </div>
                 </div>
 
-                <div class="user-info">
-                    <h1>Krushna <i class="fa-solid fa-circle-check verified-badge" title="Verified Creator"></i></h1>
-                    <div class="username"><i class="fa-brands fa-discord"></i> krushnaxd1234</div>
-                    <p class="bio">
-                        Professional Thumbnail Artist & Visual Designer creating high-CTR YouTube graphics, custom artwork, animations, and clean digital designs.
-                    </p>
+                <!-- Thumbnail Work 2 -->
+                <div class="work-item">
+                    <span class="work-title"><i class="fa-solid fa-cube" style="color:#64748b;"></i> 3D Modeling Graphic</span>
+                    <div class="work-img-wrapper">
+                        <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/How%20Do%20To%20Modeling%20In%202026.png?raw=true" alt="How To Do Modeling In 2026">
+                    </div>
                 </div>
 
-                <!-- Tags -->
-                <div class="tags">
-                    <span class="tag"><i class="fa-solid fa-palette"></i> Artist</span>
-                    <span class="tag"><i class="fa-solid fa-wand-magic-sparkles"></i> Designer</span>
-                    <span class="tag"><i class="fa-solid fa-film"></i> Animator</span>
-                    <span class="tag"><i class="fa-solid fa-scissors"></i> Editor</span>
-                    <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
-                </div>
-
-                <!-- Social Icons Bar -->
-                <div class="social-icons-grid">
-                    <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="social-btn discord" title="Join Discord Server">
-                        <i class="fa-brands fa-discord"></i>
-                    </a>
-                    <a href="https://www.youtube.com/@krushnaxd1232" target="_blank" class="social-btn youtube" title="YouTube Channel">
-                        <i class="fa-brands fa-youtube"></i>
-                    </a>
-                    <a href="https://www.twitch.tv/krushnaxd123" target="_blank" class="social-btn twitch" title="Twitch Stream">
-                        <i class="fa-brands fa-twitch"></i>
-                    </a>
-                </div>
-
-                <!-- Link Buttons -->
-                <div class="links-grid">
-                    <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="link-card">
-                        <div class="link-left">
-                            <i class="fa-brands fa-discord" style="color: #5865F2;"></i>
-                            <span>Discord Community Server</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
-                    </a>
-
-                    <!-- Contact Me trigger opens pop-up -->
-                    <div class="link-card" id="contactBtn">
-                        <div class="link-left">
-                            <i class="fa-regular fa-envelope"></i>
-                            <span>Contact Me</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
+                <!-- Embedded YouTube Video -->
+                <div class="work-item">
+                    <span class="work-title"><i class="fa-brands fa-youtube" style="color:#FF0000;"></i> Tutorial Video</span>
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/qHlIYFZoT5w" title="How To Do The Best Rendering In 2026 ?" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="footer">
-            Designed by <a href="#">Krushna</a> &bull; Powered by <a href="#">Vercel</a>
-        </div>
     </div>
 
     <!-- Showcase Pop-Up Modal -->
