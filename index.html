@@ -392,20 +392,18 @@
             text-align: right;
         }
 
-        /* --- Middle Canvas Layout Container --- */
+        /* --- Middle Canvas Layout Container (Single Centered Card) --- */
         .canvas-layout {
             display: flex;
-            gap: 24px;
-            max-width: 980px;
+            justify-content: center;
+            max-width: 480px;
             width: 100%;
-            align-items: stretch;
             z-index: 10;
         }
 
-        /* Category 1: Canvas Info Card */
+        /* Canvas Info Card */
         .category-canvas {
-            flex: 1;
-            min-width: 320px;
+            width: 100%;
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -415,22 +413,6 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-        }
-
-        /* Category 2: Works Card */
-        .category-works {
-            flex: 1;
-            min-width: 320px;
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-main);
-            box-shadow: var(--shadow-figma);
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
         }
 
         .banner {
@@ -667,30 +649,6 @@
             text-align: center;
         }
 
-        /* --- Works Category Header --- */
-        .works-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--text-primary);
-            letter-spacing: -0.3px;
-            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-            padding-bottom: 12px;
-        }
-
-        .works-header i {
-            color: #0f172a;
-            font-size: 16px;
-        }
-
-        .works-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
         /* --- Modal Popup --- */
         .modal-overlay {
             position: fixed;
@@ -845,19 +803,6 @@
             font-weight: 700;
         }
 
-        @media (max-width: 820px) {
-            .canvas-layout {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .category-canvas,
-            .category-works {
-                width: 100%;
-                flex: none;
-            }
-        }
-
         @media (max-width: 600px) {
             body {
                 padding: 70px 12px 24px 12px;
@@ -999,10 +944,10 @@
         </div>
     </nav>
 
-    <!-- Canvas Layout Container (2 Categories in Middle) -->
+    <!-- Canvas Layout Container (Centered Single Card) -->
     <div class="canvas-layout">
 
-        <!-- CATEGORY 1: CANVAS INFO -->
+        <!-- CANVAS INFO CARD -->
         <div class="category-canvas">
             <!-- Header Banner -->
             <div class="banner">
@@ -1047,25 +992,8 @@
                     </a>
                 </div>
 
-                <!-- Link Buttons -->
+                <!-- Link Buttons (Only Contact Me) -->
                 <div class="links-grid">
-                    <a href="https://www.youtube.com/@krushnaxd123" target="_blank" class="link-card">
-                        <div class="link-left">
-                            <i class="fa-brands fa-youtube" style="color: #FF0000;"></i>
-                            <span>YouTube Channel</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
-                    </a>
-
-                    <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="link-card">
-                        <div class="link-left">
-                            <i class="fa-brands fa-discord" style="color: #5865F2;"></i>
-                            <span>Discord Community Server</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
-                    </a>
-
-                    <!-- Contact Me trigger opens pop-up -->
                     <div class="link-card" id="contactBtn">
                         <div class="link-left">
                             <i class="fa-regular fa-envelope"></i>
@@ -1081,17 +1009,6 @@
             </div>
         </div>
 
-        <!-- CATEGORY 2: WORKS -->
-        <div class="category-works">
-            <div class="works-header">
-                <i class="fa-solid fa-briefcase"></i>
-                <span>Works</span>
-            </div>
-
-            <div class="works-grid">
-                <!-- Add your project cards or portfolio items here -->
-            </div>
-        </div>
     </div>
 
     <!-- Contact Details Pop-Up Modal -->
