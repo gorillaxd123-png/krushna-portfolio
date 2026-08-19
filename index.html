@@ -1004,202 +1004,183 @@
                 <span class="volume-percent" id="volumePercent">45%</span>
             </div>
 
-            <button class="music-btn" id="musicToggle">
-                <div class="sound-wave paused" id="soundWave">
+            <button class="music-btn paused" id="musicToggle">
+                <div class="sound-wave">
                     <div class="bar"></div>
                     <div class="bar"></div>
                     <div class="bar"></div>
                 </div>
-                <span id="musicText">Paused</span>
+                <span id="musicText">Play Sound</span>
             </button>
         </div>
     </nav>
 
-    <!-- Canvas Layout Container (2 Categories in Middle) -->
+    <!-- Background Audio -->
+    <audio id="bgMusic" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3"></audio>
+
+    <!-- Main Canvas Layout -->
     <div class="canvas-layout">
-
-        <!-- CATEGORY 1: CANVAS INFO -->
+        
+        <!-- Category 1: Profile Canvas -->
         <div class="category-canvas">
-            <!-- Header Banner -->
             <div class="banner">
-                <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushnaxd123%20Banner.png?raw=true" alt="Banner">
+                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1000&auto=format&fit=crop" alt="Banner background">
             </div>
-
-            <!-- Profile Details -->
+            
             <div class="profile-content">
                 <div class="avatar-wrapper">
-                    <img class="avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Pfp%201.png?raw=true" alt="Krushna Avatar">
+                    <img class="avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=Krushna" alt="Avatar">
                     <div class="online-status"></div>
-                    <div class="status-tooltip">Online</div>
+                    <div class="status-tooltip">Online &amp; ready</div>
                 </div>
 
                 <div class="user-info">
-                    <h1>Krushna <i class="fa-solid fa-circle-check verified-badge" title="Verified Creator"></i></h1>
-                    <div class="username"><i class="fa-brands fa-discord"></i> krushnaxd1234</div>
-                    <p class="bio">
-                        Professional Thumbnail Artist & Visual Designer creating high-CTR YouTube graphics, custom artwork, animations, and clean digital designs.
-                    </p>
+                    <h1>Krushna <i class="fa-solid fa-circle-check verified-badge"></i></h1>
+                    <div class="username">@krushna_dev • Web &amp; Game Developer</div>
+                    <p class="bio">Building web applications, interactive interfaces, and multiplayer game servers. Always experimenting with front-end animations and modern UI design.</p>
                 </div>
 
-                <!-- Tags -->
                 <div class="tags">
-                    <span class="tag"><i class="fa-solid fa-palette"></i> Artist</span>
-                    <span class="tag"><i class="fa-solid fa-wand-magic-sparkles"></i> Designer</span>
-                    <span class="tag"><i class="fa-solid fa-film"></i> Animator</span>
-                    <span class="tag"><i class="fa-solid fa-scissors"></i> Editor</span>
-                    <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
+                    <span class="tag"><i class="fa-brands fa-html5"></i> HTML/CSS</span>
+                    <span class="tag"><i class="fa-brands fa-js"></i> JavaScript</span>
+                    <span class="tag"><i class="fa-solid fa-gamepad"></i> Game Dev</span>
+                    <span class="tag"><i class="fa-solid fa-server"></i> Server Hosting</span>
                 </div>
 
-                <!-- Social Icons Bar -->
                 <div class="social-icons-grid">
-                    <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="social-btn discord" title="Join Discord Server">
-                        <i class="fa-brands fa-discord"></i>
-                    </a>
-                    <a href="https://www.youtube.com/@krushnaxd133" target="_blank" class="social-btn youtube" title="YouTube Channel">
-                        <i class="fa-brands fa-youtube"></i>
-                    </a>
-                    <a href="https://www.twitch.tv/krushnaxd123" target="_blank" class="social-btn twitch" title="Twitch Stream">
-                        <i class="fa-brands fa-twitch"></i>
-                    </a>
+                    <a href="#" class="social-btn discord" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="#" class="social-btn youtube" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="social-btn twitch" title="Twitch"><i class="fa-brands fa-twitch"></i></a>
                 </div>
 
-                <!-- Link Buttons -->
                 <div class="links-grid">
-                    <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="link-card">
+                    <div class="link-card" id="openContactModal">
                         <div class="link-left">
-                            <i class="fa-brands fa-discord" style="color: #5865F2;"></i>
-                            <span>Discord Community Server</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
-                    </a>
-
-                    <!-- Contact Me trigger opens pop-up -->
-                    <div class="link-card" id="contactBtn">
-                        <div class="link-left">
-                            <i class="fa-regular fa-envelope"></i>
-                            <span>Contact Me</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Get in Touch</span>
                         </div>
                         <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
                     </div>
-                </div>
 
-                <div class="footer">
-                    Designed by <a href="#">Krushna</a> &bull; Powered by <a href="#">Vercel</a>
+                    <a href="https://github.com" target="_blank" class="link-card">
+                        <div class="link-left">
+                            <i class="fa-brands fa-github"></i>
+                            <span>GitHub Projects</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px; color: #94a3b8;"></i>
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- CATEGORY 2: WORKS (Video Only) -->
+        <!-- Category 2: Featured Works -->
         <div class="category-works">
             <div class="works-header">
-                <i class="fa-solid fa-briefcase"></i>
-                <span>Works</span>
+                <i class="fa-solid fa-clapperboard"></i>
+                <span>Featured Showcase</span>
             </div>
 
             <div class="works-grid">
-                <!-- Embedded YouTube Video -->
                 <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/qHlIYFZoT5w" title="Tutorial Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" title="Showcase Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
+                
+                <div class="bio" style="margin-bottom: 0;">
+                    Check out recent project demos, showcase reels, and gameplay clips above.
+                </div>
+            </div>
+
+            <div class="footer">
+                Designed &amp; Developed by <a href="#">Krushna</a>
             </div>
         </div>
 
     </div>
 
-    <!-- Contacts Pop-Up Modal -->
+    <!-- Contact Modal Overlay -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-card">
             <div class="modal-header">
-                <h3>Contacts</h3>
-                <button class="close-btn" id="closeModal"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            
-            <div class="contact-item">
-                <div class="contact-info">
-                    <i class="fa-regular fa-envelope"></i>
-                    <div class="contact-details">
-                        <span class="contact-label">Email</span>
-                        <span class="contact-value" id="emailVal">contact@krushna.dev</span>
-                    </div>
-                </div>
-                <button class="copy-btn" onclick="copyText('contact@krushna.dev', this)">Copy</button>
+                <h3>Contact Info</h3>
+                <button class="close-btn" id="closeContactModal"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
             <div class="contact-item">
                 <div class="contact-info">
-                    <i class="fa-brands fa-discord" style="color: #5865F2;"></i>
+                    <i class="fa-brands fa-discord"></i>
                     <div class="contact-details">
-                        <span class="contact-label">Discord Username</span>
-                        <span class="contact-value" id="discordVal">krushnaxd1234</span>
+                        <span class="contact-label">Discord</span>
+                        <span class="contact-value" id="discordTag">krushna#0001</span>
                     </div>
                 </div>
-                <button class="copy-btn" onclick="copyText('krushnaxd1234', this)">Copy</button>
+                <button class="copy-btn" onclick="copyToClipboard('discordTag', this)">Copy</button>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-info">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div class="contact-details">
+                        <span class="contact-label">Email</span>
+                        <span class="contact-value" id="emailTag">krushna@example.com</span>
+                    </div>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard('emailTag', this)">Copy</button>
             </div>
         </div>
     </div>
 
-    <!-- Background Audio -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="https://raw.githubusercontent.com/gorillaxd123-png/krushna-portfolio/9a5fb52d61a679f8c8e1c25ce6bec1774a3a788b/Toy%20Shopping%20-%20Jeremy%20Korpas.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- JavaScript Handlers -->
+    <!-- Scripts -->
     <script>
-        const overlay = document.getElementById('entry-overlay');
-        const curtain = document.getElementById('cloudCurtain');
-        const audio = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('musicToggle');
-        const soundWave = document.getElementById('soundWave');
+        const entryOverlay = document.getElementById('entry-overlay');
+        const cloudCurtain = document.getElementById('cloudCurtain');
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
         const musicText = document.getElementById('musicText');
         const volumeControl = document.getElementById('volumeControl');
-        const volumeIcon = document.getElementById('volumeIcon');
         const volumePercent = document.getElementById('volumePercent');
-        const contactBtn = document.getElementById('contactBtn');
-        const contactModal = document.getElementById('contactModal');
-        const closeModal = document.getElementById('closeModal');
+        const volumeIcon = document.getElementById('volumeIcon');
 
-        audio.volume = 0.45;
-        let isPlaying = false;
+        // Initial audio setup
+        bgMusic.volume = parseFloat(volumeControl.value);
 
-        overlay.addEventListener('click', () => {
-            curtain.classList.add('sweep-right-to-left');
+        // Click anywhere entry handler
+        entryOverlay.addEventListener('click', () => {
+            entryOverlay.style.opacity = '0';
+            entryOverlay.style.visibility = 'hidden';
 
-            setTimeout(() => {
-                overlay.style.opacity = '0';
-                overlay.style.visibility = 'hidden';
-            }, 600);
+            // Trigger cloud curtain transition
+            cloudCurtain.classList.add('sweep-right-to-left');
 
-            audio.play().then(() => {
-                isPlaying = true;
-                soundWave.classList.remove('paused');
-                musicText.textContent = 'Playing';
-            }).catch(err => {
-                console.log('Autoplay prevented:', err);
+            // Autoplay music on user interaction
+            bgMusic.play().then(() => {
+                musicToggle.classList.remove('paused');
+                musicText.textContent = 'Pause Sound';
+            }).catch(e => {
+                console.log('Autoplay prevented:', e);
             });
         });
 
-        musicBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (isPlaying) {
-                audio.pause();
-                soundWave.classList.add('paused');
-                musicText.textContent = 'Paused';
-                isPlaying = false;
+        // Toggle Music
+        musicToggle.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicToggle.classList.remove('paused');
+                musicText.textContent = 'Pause Sound';
             } else {
-                audio.play();
-                soundWave.classList.remove('paused');
-                musicText.textContent = 'Playing';
-                isPlaying = true;
+                bgMusic.pause();
+                musicToggle.classList.add('paused');
+                musicText.textContent = 'Play Sound';
             }
         });
 
+        // Volume Control Slider
         volumeControl.addEventListener('input', (e) => {
-            const val = parseFloat(e.target.value);
-            audio.volume = val;
-            const pct = Math.round(val * 100);
-            volumePercent.textContent = pct + '%';
+            const val = e.target.value;
+            bgMusic.volume = val;
+            const percentage = Math.round(val * 100);
+            volumePercent.textContent = `${percentage}%`;
 
-            if (val === 0) {
+            if (val == 0) {
                 volumeIcon.className = 'fa-solid fa-volume-xmark volume-icon';
             } else if (val < 0.5) {
                 volumeIcon.className = 'fa-solid fa-volume-low volume-icon';
@@ -1208,11 +1189,16 @@
             }
         });
 
-        contactBtn.addEventListener('click', () => {
+        // Modal Handlers
+        const contactModal = document.getElementById('contactModal');
+        const openContactModal = document.getElementById('openContactModal');
+        const closeContactModal = document.getElementById('closeContactModal');
+
+        openContactModal.addEventListener('click', () => {
             contactModal.classList.add('active');
         });
 
-        closeModal.addEventListener('click', () => {
+        closeContactModal.addEventListener('click', () => {
             contactModal.classList.remove('active');
         });
 
@@ -1222,20 +1208,20 @@
             }
         });
 
-        function copyText(text, btnElement) {
+        // Copy to clipboard helper
+        function copyToClipboard(elementId, btn) {
+            const text = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(text).then(() => {
-                const originalText = btnElement.textContent;
-                btnElement.textContent = 'Copied!';
-                btnElement.style.background = '#22c55e';
-                btnElement.style.color = '#ffffff';
-                btnElement.style.borderColor = '#22c55e';
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied!';
+                btn.style.background = '#0f172a';
+                btn.style.color = '#ffffff';
 
                 setTimeout(() => {
-                    btnElement.textContent = originalText;
-                    btnElement.style.background = '#ffffff';
-                    btnElement.style.color = 'var(--text-primary)';
-                    btnElement.style.borderColor = '#cbd5e1';
-                }, 2000);
+                    btn.innerText = originalText;
+                    btn.style.background = '#ffffff';
+                    btn.style.color = '#0f172a';
+                }, 1800);
             });
         }
     </script>
