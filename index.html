@@ -591,6 +591,7 @@
             overflow: hidden;
         }
 
+        .social-btn.youtube { color: #FF0000; }
         .social-btn.discord { color: #5865F2; }
         .social-btn.twitch { color: #9146FF; }
 
@@ -611,7 +612,8 @@
             animation: continuousShine 3.5s infinite;
         }
 
-        .social-btn.twitch::before { animation-delay: 1.8s; }
+        .social-btn.discord { animation-delay: 1.2s; }
+        .social-btn.twitch { animation-delay: 2.4s; }
 
         @keyframes continuousShine {
             0% { left: -100%; }
@@ -1034,6 +1036,9 @@
 
                 <!-- Social Icons Bar -->
                 <div class="social-icons-grid">
+                    <a href="https://www.youtube.com/@krushnaxd123" target="_blank" class="social-btn youtube" title="YouTube Channel">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
                     <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="social-btn discord" title="Join Discord Server">
                         <i class="fa-brands fa-discord"></i>
                     </a>
@@ -1044,6 +1049,14 @@
 
                 <!-- Link Buttons -->
                 <div class="links-grid">
+                    <a href="https://www.youtube.com/@krushnaxd123" target="_blank" class="link-card">
+                        <div class="link-left">
+                            <i class="fa-brands fa-youtube" style="color: #FF0000;"></i>
+                            <span>YouTube Channel</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
+                    </a>
+
                     <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="link-card">
                         <div class="link-left">
                             <i class="fa-brands fa-discord" style="color: #5865F2;"></i>
