@@ -1,151 +1,246 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art Studio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #121214;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1000px;
-            background: #1e1e24;
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            text-align: center;
-        }
-
-        .header {
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            color: #ff7b00;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            color: #a0a0ab;
-            font-size: 1.1rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        /* Tooltip Container */
-        .social-btn-wrapper {
-            position: relative;
-            display: inline-block;
-        }
-
-        .social-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #2b2b36;
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .social-btn:hover {
-            transform: translateY(-5px);
-            background-color: #ff7b00;
-        }
-
-        /* Pop-up / Tooltip Style */
-        .tooltip {
-            visibility: hidden;
-            opacity: 0;
-            width: 120px;
-            background-color: #333340;
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 6px 0;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%; /* Position above the button */
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.85rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            pointer-events: none;
-        }
-
-        /* Tooltip Arrow */
-        .tooltip::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #333340 transparent transparent transparent;
-        }
-
-        /* Show Tooltip on Hover */
-        .social-btn-wrapper:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div class="header">
-            <h1>🎨 Art Studio</h1>
-            <p>Welcome to our creative hub! Explore artworks, live streams, and community events.</p>
+<span class="volume-percent" id="volumePercent">45%</span>
+            </div>
+            <button class="music-btn paused" id="musicToggle">
+                <div class="sound-wave">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <span id="musicText">Audio Paused</span>
+            </button>
         </div>
+    </nav>
 
-        <div class="social-links">
-            <!-- Discord -->
-            <div class="social-btn-wrapper">
-                <a href="#" class="social-btn">💬</a>
-                <span class="tooltip">Join Discord</span>
+    <!-- Background Audio -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Main Canvas Layout (2 Side-by-Side Cards) -->
+    <main class="canvas-layout">
+        <!-- Category 1: Profile & Canvas Info Card -->
+        <section class="category-canvas">
+            <div class="banner">
+                <img src="https://picsum.photos/800/300?random=1" alt="Banner background">
+            </div>
+            
+            <div class="profile-content">
+                <div class="avatar-wrapper">
+                    <img src="https://picsum.photos/200/200?random=2" alt="Krushna avatar" class="avatar">
+                    <div class="online-status"></div>
+                    <div class="status-tooltip">Online &amp; Building</div>
+                </div>
+
+                <div class="user-info">
+                    <h1>Krushna <i class="fa-solid fa-circle-check verified-badge"></i></h1>
+                    <div class="username">
+                        <span>@krushna</span>
+                        <i class="fa-solid fa-sparkles" style="color: #f59e0b;"></i>
+                    </div>
+                </div>
+
+                <p class="bio">
+                    Solo Web Developer &amp; Game Server Creator. Crafting fluid, reactive web experiences and interactive game environments.
+                </p>
+
+                <div class="tags">
+                    <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
+                    <span class="tag"><i class="fa-solid fa-gamepad"></i> Game Dev</span>
+                    <span class="tag"><i class="fa-solid fa-wand-magic-sparkles"></i> UI/UX</span>
+                </div>
+
+                <div class="social-icons-grid">
+                    <a href="https://discord.com" target="_blank" class="social-btn discord" aria-label="Discord">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="https://youtube.com" target="_blank" class="social-btn youtube" aria-label="YouTube">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                    <a href="https://twitch.tv" target="_blank" class="social-btn twitch" aria-label="Twitch">
+                        <i class="fa-brands fa-twitch"></i>
+                    </a>
+                </div>
+
+                <div class="links-grid">
+                    <div class="link-card" id="contactTrigger">
+                        <div class="link-left">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>Get in Touch</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                    <a href="https://github.com" target="_blank" class="link-card">
+                        <div class="link-left">
+                            <i class="fa-brands fa-github"></i>
+                            <span>GitHub Projects</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category 2: Works Card -->
+        <section class="category-works">
+            <div class="works-header">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>Featured Showcase</span>
             </div>
 
-            <!-- YouTube -->
-            <div class="social-btn-wrapper">
-                <a href="#" class="social-btn">▶</a>
-                <span class="tooltip">Watch YouTube</span>
+            <div class="works-grid">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Featured Work Video" allowfullscreen></iframe>
+                </div>
+
+                <div class="links-grid">
+                    <div class="link-card">
+                        <div class="link-left">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <span>Jungle Tiers Platform</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                    <div class="link-card">
+                        <div class="link-left">
+                            <i class="fa-solid fa-crosshairs"></i>
+                            <span>Web FPS Game Engine</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
             </div>
 
-            <!-- Twitch -->
-            <div class="social-btn-wrapper">
-                <a href="#" class="social-btn">👾</a>
-                <span class="tooltip">Follow Twitch</span>
+            <footer class="footer">
+                Designed &amp; Built by <a href="#">Krushna</a>
+            </footer>
+        </section>
+    </main>
+
+    <!-- Modal Popup for Contact -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Contact Info</h3>
+                <button class="close-btn" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-info">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div class="contact-details">
+                        <span class="contact-label">Email</span>
+                        <span class="contact-value" id="emailVal">krushna@example.com</span>
+                    </div>
+                </div>
+                <button class="copy-btn" onclick="copyText('emailVal', this)">Copy</button>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-info">
+                    <i class="fa-brands fa-discord"></i>
+                    <div class="contact-details">
+                        <span class="contact-label">Discord</span>
+                        <span class="contact-value" id="discordVal">krushna#0001</span>
+                    </div>
+                </div>
+                <button class="copy-btn" onclick="copyText('discordVal', this)">Copy</button>
             </div>
         </div>
     </div>
 
+    <!-- JavaScript Logic -->
+    <script>
+        const entryOverlay = document.getElementById('entry-overlay');
+        const cloudCurtain = document.getElementById('cloudCurtain');
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicText = document.getElementById('musicText');
+        const volumeControl = document.getElementById('volumeControl');
+        const volumePercent = document.getElementById('volumePercent');
+        const volumeIcon = document.getElementById('volumeIcon');
+
+        const contactModal = document.getElementById('contactModal');
+        const contactTrigger = document.getElementById('contactTrigger');
+        const modalClose = document.getElementById('modalClose');
+
+        // Entry Screen Click Handler
+        entryOverlay.addEventListener('click', () => {
+            entryOverlay.style.opacity = '0';
+            entryOverlay.style.visibility = 'hidden';
+
+            // Trigger cloud transition sweep
+            cloudCurtain.classList.add('sweep-right-to-left');
+
+            // Play background music
+            bgMusic.volume = volumeControl.value;
+            bgMusic.play().then(() => {
+                musicToggle.classList.remove('paused');
+                musicText.textContent = "Audio Playing";
+            }).catch(err => {
+                console.log("Autoplay blocked or audio failed:", err);
+            });
+        });
+
+        // Toggle Audio
+        musicToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicToggle.classList.remove('paused');
+                musicText.textContent = "Audio Playing";
+            } else {
+                bgMusic.pause();
+                musicToggle.classList.add('paused');
+                musicText.textContent = "Audio Paused";
+            }
+        });
+
+        // Volume Slider Control
+        volumeControl.addEventListener('input', (e) => {
+            const val = e.target.value;
+            bgMusic.volume = val;
+            const pct = Math.round(val * 100);
+            volumePercent.textContent = `${pct}%`;
+
+            if (val == 0) {
+                volumeIcon.className = 'fa-solid fa-volume-xmark volume-icon';
+            } else if (val < 0.5) {
+                volumeIcon.className = 'fa-solid fa-volume-low volume-icon';
+            } else {
+                volumeIcon.className = 'fa-solid fa-volume-high volume-icon';
+            }
+        });
+
+        // Modal Controls
+        contactTrigger.addEventListener('click', () => {
+            contactModal.classList.add('active');
+        });
+
+        modalClose.addEventListener('click', () => {
+            contactModal.classList.remove('active');
+        });
+
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.classList.remove('active');
+            }
+        });
+
+        // Clipboard Copy Helper
+        function copyText(elementId, btn) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.innerText;
+                btn.innerText = 'Copied!';
+                btn.style.background = '#0f172a';
+                btn.style.color = '#ffffff';
+                setTimeout(() => {
+                    btn.innerText = original;
+                    btn.style.background = '#ffffff';
+                    btn.style.color = 'var(--text-primary)';
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>
