@@ -592,7 +592,6 @@
         }
 
         .social-btn.discord { color: #5865F2; }
-        .social-btn.youtube { color: #FF0000; }
         .social-btn.twitch { color: #9146FF; }
 
         .social-btn::before {
@@ -612,8 +611,7 @@
             animation: continuousShine 3.5s infinite;
         }
 
-        .social-btn.youtube::before { animation-delay: 1.1s; }
-        .social-btn.twitch::before { animation-delay: 2.2s; }
+        .social-btn.twitch::before { animation-delay: 1.8s; }
 
         @keyframes continuousShine {
             0% { left: -100%; }
@@ -689,27 +687,6 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-        }
-
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* 16:9 ratio */
-            height: 0;
-            border-radius: 14px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
-            background: #000;
-        }
-
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
         }
 
         /* --- Modal Popup --- */
@@ -1037,7 +1014,7 @@
                     <h1>Krushna <i class="fa-solid fa-circle-check verified-badge" title="Verified Creator"></i></h1>
                     <div class="username"><i class="fa-brands fa-discord"></i> krushnaxd1234</div>
                     <p class="bio">
-                        Professional Thumbnail Artist & Visual Designer creating high-CTR YouTube graphics, custom artwork, animations, and clean digital designs.
+                        Professional Thumbnail Artist & Visual Designer creating high-CTR graphics, custom artwork, animations, and clean digital designs.
                     </p>
                 </div>
 
@@ -1054,9 +1031,6 @@
                 <div class="social-icons-grid">
                     <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="social-btn discord" title="Join Discord Server">
                         <i class="fa-brands fa-discord"></i>
-                    </a>
-                    <a href="https://www.youtube.com/@krushnaxd133" target="_blank" class="social-btn youtube" title="YouTube Channel">
-                        <i class="fa-brands fa-youtube"></i>
                     </a>
                     <a href="https://www.twitch.tv/krushnaxd123" target="_blank" class="social-btn twitch" title="Twitch Stream">
                         <i class="fa-brands fa-twitch"></i>
@@ -1089,7 +1063,7 @@
             </div>
         </div>
 
-        <!-- CATEGORY 2: WORKS (Video Only) -->
+        <!-- CATEGORY 2: WORKS -->
         <div class="category-works">
             <div class="works-header">
                 <i class="fa-solid fa-briefcase"></i>
@@ -1097,147 +1071,9 @@
             </div>
 
             <div class="works-grid">
-                <!-- Embedded YouTube Video -->
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/qHlIYFZoT5w" title="Tutorial Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Contacts Pop-Up Modal -->
-    <div class="modal-overlay" id="contactModal">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h3>Contacts</h3>
-                <button class="close-btn" id="closeModal"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            
-            <div class="contact-item">
-                <div class="contact-info">
-                    <i class="fa-regular fa-envelope"></i>
-                    <div class="contact-details">
-                        <span class="contact-label">Email</span>
-                        <span class="contact-value" id="emailVal">contact@krushna.dev</span>
-                    </div>
-                </div>
-                <button class="copy-btn" onclick="copyText('contact@krushna.dev', this)">Copy</button>
-            </div>
-
-            <div class="contact-item">
-                <div class="contact-info">
-                    <i class="fa-brands fa-discord" style="color: #5865F2;"></i>
-                    <div class="contact-details">
-                        <span class="contact-label">Discord Username</span>
-                        <span class="contact-value" id="discordVal">krushnaxd1234</span>
-                    </div>
-                </div>
-                <button class="copy-btn" onclick="copyText('krushnaxd1234', this)">Copy</button>
+                <!-- Works content goes here -->
             </div>
         </div>
     </div>
-
-    <!-- Background Audio -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="https://raw.githubusercontent.com/gorillaxd123-png/krushna-portfolio/9a5fb52d61a679f8c8e1c25ce6bec1774a3a788b/Toy%20Shopping%20-%20Jeremy%20Korpas.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- JavaScript Handlers -->
-    <script>
-        const overlay = document.getElementById('entry-overlay');
-        const curtain = document.getElementById('cloudCurtain');
-        const audio = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('musicToggle');
-        const soundWave = document.getElementById('soundWave');
-        const musicText = document.getElementById('musicText');
-        const volumeControl = document.getElementById('volumeControl');
-        const volumeIcon = document.getElementById('volumeIcon');
-        const volumePercent = document.getElementById('volumePercent');
-        const contactBtn = document.getElementById('contactBtn');
-        const contactModal = document.getElementById('contactModal');
-        const closeModal = document.getElementById('closeModal');
-
-        audio.volume = 0.45;
-        let isPlaying = false;
-
-        overlay.addEventListener('click', () => {
-            curtain.classList.add('sweep-right-to-left');
-
-            setTimeout(() => {
-                overlay.style.opacity = '0';
-                overlay.style.visibility = 'hidden';
-            }, 600);
-
-            audio.play().then(() => {
-                isPlaying = true;
-                soundWave.classList.remove('paused');
-                musicText.textContent = 'Playing';
-            }).catch(err => {
-                console.log('Autoplay prevented:', err);
-            });
-        });
-
-        musicBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (isPlaying) {
-                audio.pause();
-                soundWave.classList.add('paused');
-                musicText.textContent = 'Paused';
-                isPlaying = false;
-            } else {
-                audio.play();
-                soundWave.classList.remove('paused');
-                musicText.textContent = 'Playing';
-                isPlaying = true;
-            }
-        });
-
-        volumeControl.addEventListener('input', (e) => {
-            const val = parseFloat(e.target.value);
-            audio.volume = val;
-            const pct = Math.round(val * 100);
-            volumePercent.textContent = pct + '%';
-
-            if (val === 0) {
-                volumeIcon.className = 'fa-solid fa-volume-xmark volume-icon';
-            } else if (val < 0.5) {
-                volumeIcon.className = 'fa-solid fa-volume-low volume-icon';
-            } else {
-                volumeIcon.className = 'fa-solid fa-volume-high volume-icon';
-            }
-        });
-
-        contactBtn.addEventListener('click', () => {
-            contactModal.classList.add('active');
-        });
-
-        closeModal.addEventListener('click', () => {
-            contactModal.classList.remove('active');
-        });
-
-        contactModal.addEventListener('click', (e) => {
-            if (e.target === contactModal) {
-                contactModal.classList.remove('active');
-            }
-        });
-
-        function copyText(text, btnElement) {
-            navigator.clipboard.writeText(text).then(() => {
-                const originalText = btnElement.textContent;
-                btnElement.textContent = 'Copied!';
-                btnElement.style.background = '#22c55e';
-                btnElement.style.color = '#ffffff';
-                btnElement.style.borderColor = '#22c55e';
-
-                setTimeout(() => {
-                    btnElement.textContent = originalText;
-                    btnElement.style.background = '#ffffff';
-                    btnElement.style.color = 'var(--text-primary)';
-                    btnElement.style.borderColor = '#cbd5e1';
-                }, 2000);
-            });
-        }
-    </script>
 </body>
 </html>
