@@ -1006,7 +1006,7 @@
         <div class="category-canvas">
             <!-- Header Banner -->
             <div class="banner">
-                <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushnaxd123%20Banner.png?raw=true" alt="Banner">
+                <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Banner%201.png?raw=true" alt="Banner">
             </div>
 
             <!-- Profile Details -->
@@ -1143,7 +1143,7 @@
         // Set initial volume
         bgMusic.volume = volumeControl.value;
 
-        // Click Anywhere Entry & Cloud Curtain Sweep
+        // Click Anywhere Entry & Automatic Song Play Trigger
         entryOverlay.addEventListener('click', () => {
             // Trigger right-to-left cloud sweep animation
             cloudCurtain.classList.add('sweep-right-to-left');
@@ -1152,12 +1152,14 @@
             entryOverlay.style.opacity = '0';
             entryOverlay.style.visibility = 'hidden';
 
-            // Attempt to start music play on user gesture
+            // Reset music time and start playing immediately
+            bgMusic.currentTime = 0;
             bgMusic.play().then(() => {
                 isPlaying = true;
                 soundWave.classList.remove('paused');
                 musicText.innerText = 'Playing';
-            }).catch(() => {
+            }).catch((err) => {
+                console.log("Audio autoplay prevented: ", err);
                 isPlaying = false;
                 soundWave.classList.add('paused');
                 musicText.innerText = 'Paused';
