@@ -392,7 +392,7 @@
             text-align: right;
         }
 
-        /* --- Middle Canvas Layout Container (2 Categories Side-by-Side) --- */
+        /* --- Middle Canvas Layout Container --- */
         .canvas-layout {
             display: flex;
             gap: 24px;
@@ -665,7 +665,7 @@
             text-align: center;
         }
 
-        /* --- Works Category Header & Elements --- */
+        /* --- Works Category Header --- */
         .works-header {
             display: flex;
             align-items: center;
@@ -966,6 +966,11 @@
         <div class="bg-cloud cloud-3"></div>
     </div>
 
+    <!-- Background Audio Element -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://raw.githubusercontent.com/gorillaxd123-png/krushna-portfolio/main/audio.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- Floating Top Navigation -->
     <nav class="figma-nav">
         <div class="figma-badge">
@@ -1071,9 +1076,151 @@
             </div>
 
             <div class="works-grid">
-                <!-- Works content goes here -->
+                <!-- Add your project cards or portfolio items here -->
             </div>
         </div>
     </div>
+
+    <!-- Contact Details Pop-Up Modal -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Contact Info</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            
+            <div class="contact-item">
+                <div class="contact-info">
+                    <i class="fa-brands fa-discord" style="color: #5865F2;"></i>
+                    <div class="contact-details">
+                        <span class="contact-label">Discord</span>
+                        <span class="contact-value" id="discordVal">krushnaxd1234</span>
+                    </div>
+                </div>
+                <button class="copy-btn" onclick="copyText('discordVal', this)">Copy</button>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-info">
+                    <i class="fa-regular fa-envelope" style="color: #0f172a;"></i>
+                    <div class="contact-details">
+                        <span class="contact-label">Email</span>
+                        <span class="contact-value" id="emailVal">krushnabusiness1234@gmail.com</span>
+                    </div>
+                </div>
+                <button class="copy-btn" onclick="copyText('emailVal', this)">Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Interactions -->
+    <script>
+        const entryOverlay = document.getElementById('entry-overlay');
+        const cloudCurtain = document.getElementById('cloudCurtain');
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const soundWave = document.getElementById('soundWave');
+        const musicText = document.getElementById('musicText');
+        const volumeControl = document.getElementById('volumeControl');
+        const volumePercent = document.getElementById('volumePercent');
+        const volumeIcon = document.getElementById('volumeIcon');
+
+        let isPlaying = false;
+
+        // Set initial volume
+        bgMusic.volume = volumeControl.value;
+
+        // Click Anywhere Entry & Cloud Curtain Sweep
+        entryOverlay.addEventListener('click', () => {
+            // Trigger right-to-left cloud sweep animation
+            cloudCurtain.classList.add('sweep-right-to-left');
+
+            // Hide initial click overlay
+            entryOverlay.style.opacity = '0';
+            entryOverlay.style.visibility = 'hidden';
+
+            // Attempt to start music play on user gesture
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                soundWave.classList.remove('paused');
+                musicText.innerText = 'Playing';
+            }).catch(() => {
+                isPlaying = false;
+                soundWave.classList.add('paused');
+                musicText.innerText = 'Paused';
+            });
+        });
+
+        // Toggle Audio Play/Pause
+        musicToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isPlaying) {
+                bgMusic.pause();
+                soundWave.classList.add('paused');
+                musicText.innerText = 'Paused';
+                isPlaying = false;
+            } else {
+                bgMusic.play();
+                soundWave.classList.remove('paused');
+                musicText.innerText = 'Playing';
+                isPlaying = true;
+            }
+        });
+
+        // Dynamic Volume Slider Adjuster
+        volumeControl.addEventListener('input', (e) => {
+            const val = e.target.value;
+            bgMusic.volume = val;
+            const percent = Math.round(val * 100);
+            volumePercent.innerText = percent + '%';
+
+            // Update Volume Icon Dynamically
+            if (val == 0) {
+                volumeIcon.className = 'fa-solid fa-volume-xmark volume-icon';
+            } else if (val < 0.5) {
+                volumeIcon.className = 'fa-solid fa-volume-low volume-icon';
+            } else {
+                volumeIcon.className = 'fa-solid fa-volume-high volume-icon';
+            }
+        });
+
+        // Contact Modal Pop-up Handlers
+        const contactBtn = document.getElementById('contactBtn');
+        const contactModal = document.getElementById('contactModal');
+        const closeModal = document.getElementById('closeModal');
+
+        contactBtn.addEventListener('click', () => {
+            contactModal.classList.add('active');
+        });
+
+        closeModal.addEventListener('click', () => {
+            contactModal.classList.remove('active');
+        });
+
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.classList.remove('active');
+            }
+        });
+
+        // Copy to Clipboard Functionality
+        function copyText(elementId, btnElement) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = 'Copied!';
+                btnElement.style.background = '#22c55e';
+                btnElement.style.color = '#ffffff';
+                btnElement.style.borderColor = '#22c55e';
+
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.style.background = '#ffffff';
+                    btnElement.style.color = '#0f172a';
+                    btnElement.style.borderColor = '#cbd5e1';
+                }, 1800);
+            });
+        }
+    </script>
 </body>
 </html>
