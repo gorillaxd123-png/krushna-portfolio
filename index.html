@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Krushna — Portfolio</title>
-    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -550,6 +549,120 @@
             gap: 6px;
         }
 
+        /* Section Title Styling */
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 20px 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Showcase Grid and Shine Effects */
+        .showcase-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .showcase-card {
+            position: relative;
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            background: #ffffff;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .showcase-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .showcase-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Shine Overlay for Showcase and Video Cards */
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.6),
+                transparent
+            );
+            transform: skewX(-25deg);
+            animation: continuousShine 3.5s infinite;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .showcase-card:nth-child(2)::before {
+            animation-delay: 1.5s;
+        }
+
+        /* Tutorials Container and Responsive Video Container */
+        .tutorials-container {
+            margin-bottom: 20px;
+        }
+
+        .video-card {
+            position: relative;
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            background: #000;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .video-card::before {
+            animation-delay: 2.2s;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
         .social-icons-grid {
             display: flex;
             gap: 12px;
@@ -890,7 +1003,6 @@
 </head>
 <body>
 
-    <!-- Click Anywhere Entry Screen -->
     <div id="entry-overlay">
         <i class="fa-solid fa-cloud overlay-cloud-icon"></i>
         <div class="overlay-text">
@@ -898,7 +1010,6 @@
         </div>
     </div>
 
-    <!-- Right-to-Left Cloud Transition Curtain -->
     <div class="cloud-curtain" id="cloudCurtain">
         <div class="cloud-curtain-layer">
             <div class="cloud-curtain-puff1"></div>
@@ -906,26 +1017,22 @@
         </div>
     </div>
 
-    <!-- Moving Background Clouds -->
     <div class="cloud-bg">
         <div class="bg-cloud cloud-1"></div>
         <div class="bg-cloud cloud-2"></div>
         <div class="bg-cloud cloud-3"></div>
     </div>
 
-    <!-- Background Audio Element -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="https://raw.githubusercontent.com/gorillaxd123-png/krushna-portfolio/e28e7ea1a726e73d6621a44e573d23cb5f8cb3c0/Future%20Freeway%20-%20Adam%20MacDougall.mp3" type="audio/mpeg">
+        <source src="https://github.com/gorillaxd123-png/krushna-portfolio/raw/refs/heads/main/Dying%20World%20-%20Sleepy%20Ghost.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Floating Top Navigation -->
     <nav class="figma-nav">
         <div class="figma-badge">
             <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas
         </div>
         <div class="nav-divider"></div>
         
-        <!-- Music Control & Pop-up Bubble Volume Bar -->
         <div class="music-control-wrapper">
             <div class="volume-bubble">
                 <i class="fa-solid fa-volume-low volume-icon" id="volumeIcon"></i>
@@ -944,17 +1051,13 @@
         </div>
     </nav>
 
-    <!-- Canvas Layout Container (Centered Single Card) -->
     <div class="canvas-layout">
 
-        <!-- CANVAS INFO CARD -->
         <div class="category-canvas">
-            <!-- Header Banner -->
             <div class="banner">
                 <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Banner%201.png?raw=true" alt="Banner">
             </div>
 
-            <!-- Profile Details -->
             <div class="profile-content">
                 <div class="avatar-wrapper">
                     <img class="avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Pfp%201.png?raw=true" alt="Krushna Avatar">
@@ -970,7 +1073,6 @@
                     </p>
                 </div>
 
-                <!-- Tags -->
                 <div class="tags">
                     <span class="tag"><i class="fa-solid fa-palette"></i> Artist</span>
                     <span class="tag"><i class="fa-solid fa-wand-magic-sparkles"></i> Designer</span>
@@ -979,7 +1081,25 @@
                     <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
                 </div>
 
-                <!-- Social Icons Bar -->
+                <h2 class="section-title"><i class="fa-solid fa-image"></i> Showcase</h2>
+                <div class="showcase-grid">
+                    <div class="showcase-card shine-effect">
+                        <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Explaining%20Rule%20Of%20Thirds%20Under%2060%20Seconds.png?raw=true" alt="Explaining Rule Of Thirds">
+                    </div>
+                    <div class="showcase-card shine-effect">
+                        <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/How%20To%20IN.png?raw=true" alt="How To IN">
+                    </div>
+                </div>
+
+                <h2 class="section-title"><i class="fa-brands fa-youtube"></i> Tutorials</h2>
+                <div class="tutorials-container">
+                    <div class="video-card shine-effect">
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/tngrVy7dC-0" title="Explaining The Rule Of Thirds Under 60 Seconds" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="social-icons-grid">
                     <a href="https://www.youtube.com/@krushnaxd133" target="_blank" class="social-btn youtube" title="YouTube Channel">
                         <i class="fa-brands fa-youtube"></i>
@@ -992,7 +1112,6 @@
                     </a>
                 </div>
 
-                <!-- Link Buttons (Only Contact Me) -->
                 <div class="links-grid">
                     <div class="link-card" id="contactBtn">
                         <div class="link-left">
@@ -1011,7 +1130,6 @@
 
     </div>
 
-    <!-- Contact Details Pop-Up Modal -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-card">
             <div class="modal-header">
@@ -1043,7 +1161,6 @@
         </div>
     </div>
 
-    <!-- JavaScript Interactions -->
     <script>
         const entryOverlay = document.getElementById('entry-overlay');
         const cloudCurtain = document.getElementById('cloudCurtain');
