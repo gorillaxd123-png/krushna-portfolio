@@ -624,6 +624,9 @@
 
         /* Tutorials Container and Responsive Video Container */
         .tutorials-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
             margin-bottom: 20px;
         }
 
@@ -643,8 +646,12 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
 
-        .video-card::before {
+        .video-card:nth-child(1)::before {
             animation-delay: 2.2s;
+        }
+
+        .video-card:nth-child(2)::before {
+            animation-delay: 3.0s;
         }
 
         .video-wrapper {
@@ -1090,6 +1097,11 @@
 
                 <h2 class="section-title"><i class="fa-brands fa-youtube"></i> Tutorials</h2>
                 <div class="tutorials-container">
+                    <div class="video-card shine-effect">
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/ixZN_q_kC_U" title="Increase YOUR Thumbnail Quality For Free" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
                     <div class="video-card shine-effect">
                         <div class="video-wrapper">
                             <iframe src="https://www.youtube.com/embed/tngrVy7dC-0" title="Explaining The Rule Of Thirds Under 60 Seconds" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
