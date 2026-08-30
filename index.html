@@ -796,12 +796,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: grab;
             position: relative;
-        }
-
-        .lightbox-viewport:active {
-            cursor: grabbing;
         }
 
         .lightbox-img {
@@ -809,8 +804,6 @@
             max-height: 85vh;
             object-fit: contain;
             user-select: none;
-            will-change: transform;
-            transform-origin: 0 0;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
             border-radius: 8px;
         }
@@ -838,64 +831,6 @@
         .lightbox-close:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.08);
-        }
-
-        .lightbox-controls {
-            position: absolute;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.75);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(12px);
-            padding: 8px 16px;
-            border-radius: var(--radius-pill);
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            z-index: 10006;
-        }
-
-        .lightbox-btn {
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px;
-            border-radius: 50%;
-            transition: background 0.2s, transform 0.2s;
-        }
-
-        .lightbox-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
-        }
-
-        .lightbox-zoom-text {
-            color: #ffffff;
-            font-size: 13px;
-            font-weight: 700;
-            min-width: 45px;
-            text-align: center;
-        }
-
-        .lightbox-hint {
-            position: absolute;
-            top: 28px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 13px;
-            font-weight: 600;
-            pointer-events: none;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 6px 16px;
-            border-radius: var(--radius-pill);
-            backdrop-filter: blur(4px);
         }
 
         /* --- Modal Popup --- */
@@ -1134,11 +1069,6 @@
             .contact-value {
                 font-size: 12px;
             }
-
-            .lightbox-hint {
-                font-size: 11px;
-                top: 16px;
-            }
         }
     </style>
 </head>
@@ -1275,15 +1205,8 @@
 
     <div class="lightbox-overlay" id="lightboxOverlay">
         <button class="lightbox-close" id="lightboxClose" title="Close"><i class="fa-solid fa-xmark"></i></button>
-        <div class="lightbox-hint">Scroll wheel to zoom at cursor &bull; Drag to pan</div>
         <div class="lightbox-viewport" id="lightboxViewport">
             <img class="lightbox-img" id="lightboxTarget" src="" alt="Thumbnail Full View">
-        </div>
-        <div class="lightbox-controls">
-            <button class="lightbox-btn" id="zoomOutBtn" title="Zoom Out"><i class="fa-solid fa-minus"></i></button>
-            <span class="lightbox-zoom-text" id="zoomLevelText">100%</span>
-            <button class="lightbox-btn" id="zoomInBtn" title="Zoom In"><i class="fa-solid fa-plus"></i></button>
-            <button class="lightbox-btn" id="zoomResetBtn" title="Reset View"><i class="fa-solid fa-rotate-left"></i></button>
         </div>
     </div>
 
@@ -1428,46 +1351,17 @@
             });
         }
 
-        /* --- Showcase Lightbox & Cursor-Targeted Zooming Logic --- */
+        /* --- Showcase Lightbox --- */
         const showcaseCard = document.getElementById('showcaseCard');
         const showcaseImg = document.getElementById('showcaseImg');
         const lightboxOverlay = document.getElementById('lightboxOverlay');
         const lightboxViewport = document.getElementById('lightboxViewport');
         const lightboxTarget = document.getElementById('lightboxTarget');
         const lightboxClose = document.getElementById('lightboxClose');
-        const zoomInBtn = document.getElementById('zoomInBtn');
-        const zoomOutBtn = document.getElementById('zoomOutBtn');
-        const zoomResetBtn = document.getElementById('zoomResetBtn');
-        const zoomLevelText = document.getElementById('zoomLevelText');
-
-        let scale = 1;
-        let translateX = 0;
-        let translateY = 0;
-        const MIN_SCALE = 0.8;
-        const MAX_SCALE = 6;
-        let isDragging = false;
-        let startX = 0;
-        let startY = 0;
-
-        function updateTransform() {
-            lightboxTarget.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-            zoomLevelText.innerText = `${Math.round(scale * 100)}%`;
-        }
-
-        function centerImage() {
-            scale = 1;
-            const rect = lightboxViewport.getBoundingClientRect();
-            const imgRect = lightboxTarget.getBoundingClientRect();
-            translateX = (rect.width - lightboxTarget.offsetWidth) / 2;
-            translateY = (rect.height - lightboxTarget.offsetHeight) / 2;
-            updateTransform();
-        }
 
         function openLightbox(src) {
             lightboxTarget.src = src;
             lightboxOverlay.classList.add('active');
-            // Wait briefly for image render before centering
-            setTimeout(centerImage, 50);
         }
 
         function closeLightbox() {
@@ -1485,71 +1379,6 @@
                 closeLightbox();
             }
         });
-
-        // Zoom centered around current mouse cursor coordinates
-        lightboxViewport.addEventListener('wheel', (e) => {
-            e.preventDefault();
-
-            const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85;
-            const newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale * zoomFactor));
-
-            if (newScale === scale) return;
-
-            const viewportRect = lightboxViewport.getBoundingClientRect();
-            const mouseX = e.clientX - viewportRect.left;
-            const mouseY = e.clientY - viewportRect.top;
-
-            // Calculate shift so point under cursor stays stationary relative to screen
-            translateX = mouseX - (mouseX - translateX) * (newScale / scale);
-            translateY = mouseY - (mouseY - translateY) * (newScale / scale);
-
-            scale = newScale;
-            updateTransform();
-        }, { passive: false });
-
-        // Pan/Drag Functionality
-        lightboxViewport.addEventListener('mousedown', (e) => {
-            if (e.button !== 0) return; // Only left click drag
-            isDragging = true;
-            startX = e.clientX - translateX;
-            startY = e.clientY - translateY;
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            translateX = e.clientX - startX;
-            translateY = e.clientY - startY;
-            updateTransform();
-        });
-
-        window.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
-
-        // Manual Control Buttons
-        zoomInBtn.addEventListener('click', () => {
-            const rect = lightboxViewport.getBoundingClientRect();
-            const newScale = Math.min(MAX_SCALE, scale * 1.25);
-            const cx = rect.width / 2;
-            const cy = rect.height / 2;
-            translateX = cx - (cx - translateX) * (newScale / scale);
-            translateY = cy - (cy - translateY) * (newScale / scale);
-            scale = newScale;
-            updateTransform();
-        });
-
-        zoomOutBtn.addEventListener('click', () => {
-            const rect = lightboxViewport.getBoundingClientRect();
-            const newScale = Math.max(MIN_SCALE, scale * 0.8);
-            const cx = rect.width / 2;
-            const cy = rect.height / 2;
-            translateX = cx - (cx - translateX) * (newScale / scale);
-            translateY = cy - (cy - translateY) * (newScale / scale);
-            scale = newScale;
-            updateTransform();
-        });
-
-        zoomResetBtn.addEventListener('click', centerImage);
 
         // Escape Key to Close
         window.addEventListener('keydown', (e) => {
