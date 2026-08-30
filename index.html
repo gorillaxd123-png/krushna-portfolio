@@ -806,6 +806,8 @@
             user-select: none;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
             border-radius: 8px;
+            transform-origin: 0 0;
+            will-change: transform;
         }
 
         .lightbox-close {
@@ -1154,8 +1156,8 @@
 
                 <h2 class="section-title"><i class="fa-solid fa-image"></i> Showcase</h2>
                 <div class="showcase-grid">
-                    <div class="showcase-card shine-effect" id="showcaseCard">
-                        <img id="showcaseImg" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Ranking%20EVERY%20SINGLE%20GAME%20On%20Hive.png?raw=true" alt="Ranking EVERY SINGLE GAME On Hive">
+                    <div class="showcase-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Tier%20List%20Of%20Every%20Single%20Hive%20Game.png?raw=true" alt="Tier List Of Every Single Hive Game">
                     </div>
                 </div>
 
@@ -1352,24 +1354,71 @@
         }
 
         /* --- Showcase Lightbox --- */
-        const showcaseCard = document.getElementById('showcaseCard');
-        const showcaseImg = document.getElementById('showcaseImg');
         const lightboxOverlay = document.getElementById('lightboxOverlay');
         const lightboxViewport = document.getElementById('lightboxViewport');
         const lightboxTarget = document.getElementById('lightboxTarget');
         const lightboxClose = document.getElementById('lightboxClose');
 
+        let zoomScale = 1;
+        let zoomTranslateX = 0;
+        let zoomTranslateY = 0;
+
+        function updateLightboxTransform() {
+            lightboxTarget.style.transform = `translate(${zoomTranslateX}px, ${zoomTranslateY}px) scale(${zoomScale})`;
+        }
+
+        function resetLightboxZoom() {
+            zoomScale = 1;
+            zoomTranslateX = 0;
+            zoomTranslateY = 0;
+            updateLightboxTransform();
+        }
+
         function openLightbox(src) {
             lightboxTarget.src = src;
             lightboxOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            resetLightboxZoom();
         }
 
         function closeLightbox() {
             lightboxOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            resetLightboxZoom();
         }
 
-        showcaseCard.addEventListener('click', () => {
-            openLightbox(showcaseImg.src);
+        lightboxOverlay.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const zoomSensitivity = 0.0015;
+            const minScale = 1;
+            const maxScale = 5;
+
+            const rect = lightboxTarget.getBoundingClientRect();
+            const cursorX = e.clientX - rect.left;
+            const cursorY = e.clientY - rect.top;
+
+            const oldScale = zoomScale;
+            let newScale = oldScale - e.deltaY * zoomSensitivity * oldScale;
+            newScale = Math.min(Math.max(minScale, newScale), maxScale);
+
+            if (newScale === minScale) {
+                zoomTranslateX = 0;
+                zoomTranslateY = 0;
+            } else {
+                const scaleRatio = newScale / oldScale;
+                zoomTranslateX = cursorX - scaleRatio * (cursorX - zoomTranslateX);
+                zoomTranslateY = cursorY - scaleRatio * (cursorY - zoomTranslateY);
+            }
+
+            zoomScale = newScale;
+            updateLightboxTransform();
+        }, { passive: false });
+
+        document.querySelectorAll('.showcase-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const img = card.querySelector('.showcase-img');
+                if (img) openLightbox(img.src);
+            });
         });
 
         lightboxClose.addEventListener('click', closeLightbox);
