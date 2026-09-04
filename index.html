@@ -594,7 +594,7 @@
             object-fit: cover;
         }
 
-        /* Shine Overlay for Showcase and Video Cards */
+        /* Smooth Clean Shine Hover Effect for Showcase and Video Cards */
         .shine-effect {
             position: relative;
             overflow: hidden;
@@ -610,13 +610,22 @@
             background: linear-gradient(
                 90deg,
                 transparent,
-                rgba(255, 255, 255, 0.6),
+                rgba(255, 255, 255, 0.4),
                 transparent
             );
             transform: skewX(-25deg);
-            animation: continuousShine 3.5s infinite;
+            transition: none;
             z-index: 2;
             pointer-events: none;
+        }
+
+        .shine-effect:hover::before {
+            animation: smoothHoverShine 0.8s ease-out forwards;
+        }
+
+        @keyframes smoothHoverShine {
+            0% { left: -100%; }
+            100% { left: 200%; }
         }
 
         /* Tutorials Container and Responsive Video Container */
