@@ -639,6 +639,78 @@
             100% { left: 200%; }
         }
 
+        /* --- How I Work & Pricing Card Styling --- */
+        .info-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            backdrop-filter: blur(10px);
+        }
+
+        .info-card h3 {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card h3 img {
+            height: 18px;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .info-card p {
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: #334155;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .pricing-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pricing-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 14px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pricing-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border-color: #cbd5e1;
+        }
+
+        .pricing-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pricing-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
         .social-icons-grid {
             display: flex;
             gap: 12px;
@@ -1184,6 +1256,42 @@
                     <div class="showcase-card pfp-card shine-effect">
                         <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/4.png?raw=true" alt="Profile Picture 4">
                     </div>
+                </div>
+
+                <!-- How I Work & Pricing Section -->
+                <div class="info-card">
+                    <h3>
+                        <i class="fa-solid fa-circle-info" style="color: #0969da;"></i> 
+                        How I Work & Pricing <img src="https://fonts.gstatic.com/s/e/notoemoji/15.0/1f4bb/32.png" alt="Google">
+                    </h3>
+                    <p>
+                        I work on based quality type of thumbnail that you are expecting for your YouTube videos. Every design is crafted meticulously to ensure maximum click-through rate (CTR) and visual appeal.
+                    </p>
+
+                    <div class="section-title" style="margin: 14px 0 8px 0; font-size: 13px;">
+                        <i class="fa-solid fa-tags"></i> Prices
+                    </div>
+
+                    <ul class="pricing-list">
+                        <li class="pricing-item">
+                            <div class="pricing-title">
+                                <i class="fa-solid fa-bolt" style="color: #eab308;"></i> 1. Cash (5$ - 10$)
+                            </div>
+                            <div class="pricing-desc">474 Rupees - 949 Rupees (Depending on thumbnail quality)</div>
+                        </li>
+                        <li class="pricing-item">
+                            <div class="pricing-title">
+                                <i class="fa-brands fa-discord" style="color: #5865F2;"></i> 2. Discord Nitro
+                            </div>
+                            <div class="pricing-desc">I can also do commissions for payment of Discord Nitro or Basic Nitro.</div>
+                        </li>
+                        <li class="pricing-item">
+                            <div class="pricing-title">
+                                <i class="fa-solid fa-bullhorn" style="color: #22c55e;"></i> 3. Promoting
+                            </div>
+                            <div class="pricing-desc">I can also do commissions in exchange for promoting my YouTube or Discord.</div>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="social-icons-grid">
