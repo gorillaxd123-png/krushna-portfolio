@@ -679,6 +679,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            margin-bottom: 20px;
         }
 
         .pricing-item {
@@ -709,6 +710,79 @@
             font-size: 12px;
             color: var(--text-secondary);
             font-weight: 500;
+        }
+
+        /* --- YouTube Comment Review Style --- */
+        .reviews-wrapper {
+            margin-top: 18px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 16px;
+        }
+
+        .reviews-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .yt-comment-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .yt-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .yt-comment-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .yt-comment-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .yt-username {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .yt-stars {
+            color: #f59e0b;
+            font-size: 11px;
+            display: flex;
+            gap: 2px;
+        }
+
+        .yt-text {
+            font-size: 12.5px;
+            color: #334155;
+            font-weight: 500;
+            line-height: 1.5;
         }
 
         .social-icons-grid {
@@ -1292,6 +1366,29 @@
                             <div class="pricing-desc">I can also do commissions in exchange for promoting my YouTube or Discord.</div>
                         </li>
                     </ul>
+
+                    <!-- Reviews / YouTube Comment Section -->
+                    <div class="reviews-wrapper">
+                        <div class="reviews-title">
+                            <i class="fa-regular fa-comment-dots"></i> Reviews
+                        </div>
+                        <div class="yt-comment-card">
+                            <img class="yt-avatar" src="https://yt3.googleusercontent.com/ytc/AIdro_nL1-81R9xW5jW0R8bQW_Z_b-xQz1_9kL8W=s160-c-k-c0x00ffffff-no-rj" alt="omenvalot">
+                            <div class="yt-comment-content">
+                                <div class="yt-comment-header">
+                                    <span class="yt-username">omenvalot</span>
+                                    <div class="yt-stars">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                                <p class="yt-text">my goat creates thumbnails faster than my wifi .</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="social-icons-grid">
