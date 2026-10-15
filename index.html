@@ -605,7 +605,7 @@
             margin: 0 auto;
         }
 
-        /* Smooth Clean Shine Hover Effect for Showcase Cards */
+        /* Smooth Clean Shine Hover Effect for Showcase and Review Cards */
         .shine-effect {
             position: relative;
             overflow: hidden;
@@ -639,7 +639,7 @@
             100% { left: 200%; }
         }
 
-        /* --- How I Work & Pricing Card Styling --- */
+        /* --- How Do I Work & Payment Methods Card Styling --- */
         .info-card {
             background: rgba(255, 255, 255, 0.85);
             border: 1px solid rgba(255, 255, 255, 0.95);
@@ -660,12 +660,6 @@
             gap: 8px;
         }
 
-        .info-card h3 img {
-            height: 18px;
-            vertical-align: middle;
-            display: inline-block;
-        }
-
         .info-card p {
             font-size: 13.5px;
             line-height: 1.6;
@@ -674,42 +668,49 @@
             margin-bottom: 16px;
         }
 
-        .pricing-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
+        /* 3-Column Payment Methods Grid */
+        .payment-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 14px;
         }
 
-        .pricing-item {
+        .payment-column {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 12px 14px;
+            padding: 12px 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .pricing-item:hover {
+        .payment-column:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.04);
             border-color: #cbd5e1;
         }
 
-        .pricing-title {
-            font-size: 13px;
-            font-weight: 700;
+        .payment-icon {
+            font-size: 18px;
             color: var(--text-primary);
-            margin-bottom: 3px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
-        .pricing-desc {
+        .payment-title {
             font-size: 12px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .payment-desc {
+            font-size: 11px;
             color: var(--text-secondary);
             font-weight: 500;
+            line-height: 1.4;
         }
 
         /* --- YouTube Comment Review Style --- */
@@ -775,7 +776,7 @@
         }
 
         .yt-stars {
-            color: #f59e0b;
+            color: var(--text-primary);
             font-size: 11px;
             display: flex;
             gap: 2px;
@@ -811,9 +812,9 @@
             overflow: hidden;
         }
 
-        .social-btn.youtube { color: #FF0000; }
-        .social-btn.discord { color: #5865F2; }
-        .social-btn.twitch { color: #9146FF; }
+        .social-btn.youtube { color: #000000; }
+        .social-btn.discord { color: #000000; }
+        .social-btn.twitch { color: #000000; }
 
         .social-btn::before {
             content: '';
@@ -885,6 +886,7 @@
             font-size: 18px;
             width: 20px;
             text-align: center;
+            color: #0f172a;
         }
 
         /* --- Image Lightbox / Zoom Viewer --- */
@@ -1335,40 +1337,37 @@
                     </div>
                 </div>
 
-                <!-- How I Work & Pricing Section -->
+                <!-- How Do I Work? Section -->
                 <div class="info-card">
                     <h3>
-                        <i class="fa-solid fa-circle-info" style="color: #0969da;"></i> 
-                        How I Work & Pricing <img src="https://fonts.gstatic.com/s/e/notoemoji/15.0/1f4bb/32.png" alt="Google">
+                        <i class="fa-solid fa-circle-info" style="color: #0f172a;"></i> 
+                        How Do I Work?
                     </h3>
                     <p>
                         I work on based quality type of thumbnail that you are expecting for your YouTube videos. Every design is crafted meticulously to ensure maximum click-through rate (CTR) and visual appeal.
                     </p>
 
                     <div class="section-title" style="margin: 14px 0 8px 0; font-size: 13px;">
-                        <i class="fa-solid fa-tags"></i> Prices
+                        <i class="fa-solid fa-credit-card"></i> Payment Methods
                     </div>
 
-                    <ul class="pricing-list">
-                        <li class="pricing-item">
-                            <div class="pricing-title">
-                                <i class="fa-solid fa-bolt" style="color: #eab308;"></i> 1. Cash (5$ - 10$)
-                            </div>
-                            <div class="pricing-desc">474 Rupees - 949 Rupees (Depending on thumbnail quality)</div>
-                        </li>
-                        <li class="pricing-item">
-                            <div class="pricing-title">
-                                <i class="fa-brands fa-discord" style="color: #5865F2;"></i> 2. Discord Nitro
-                            </div>
-                            <div class="pricing-desc">I can also do commissions for payment of Discord Nitro or Basic Nitro.</div>
-                        </li>
-                        <li class="pricing-item">
-                            <div class="pricing-title">
-                                <i class="fa-solid fa-bullhorn" style="color: #22c55e;"></i> 3. Promoting
-                            </div>
-                            <div class="pricing-desc">I can also do commissions in exchange for promoting my YouTube or Discord.</div>
-                        </li>
-                    </ul>
+                    <div class="payment-methods-grid">
+                        <div class="payment-column">
+                            <i class="fa-solid fa-money-bill-wave payment-icon"></i>
+                            <div class="payment-title">Cash</div>
+                            <div class="payment-desc">5$ - 10$ (474 - 949 Rs)</div>
+                        </div>
+                        <div class="payment-column">
+                            <i class="fa-brands fa-discord payment-icon"></i>
+                            <div class="payment-title">Nitro</div>
+                            <div class="payment-desc">Pay with Discord Nitro or Basic</div>
+                        </div>
+                        <div class="payment-column">
+                            <i class="fa-solid fa-bullhorn payment-icon"></i>
+                            <div class="payment-title">Promo</div>
+                            <div class="payment-desc">Promo in video or channel/discord</div>
+                        </div>
+                    </div>
 
                     <!-- Reviews / YouTube Comment Section -->
                     <div class="reviews-wrapper">
@@ -1377,7 +1376,7 @@
                         </div>
 
                         <!-- Review 1: Omenvalot -->
-                        <div class="yt-comment-card">
+                        <div class="yt-comment-card shine-effect">
                             <img class="yt-avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/GLAL4RHh9F9pELBj0qk1SsR88Md9oSZ3RDZ5PVUbBcWR5n5sExIrEJSSSvrcH-pnYztrIjut=s900-c-k-c0x00ffffff-no-rj.webp?raw=true" alt="Omenvalot">
                             <div class="yt-comment-content">
                                 <div class="yt-comment-header">
@@ -1395,7 +1394,7 @@
                         </div>
 
                         <!-- Review 2: Bon_esprit -->
-                        <div class="yt-comment-card">
+                        <div class="yt-comment-card shine-effect">
                             <img class="yt-avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/D5mlV0vWSlvu8I6vZsadwj3aBxCr5j2b2qyDMAhGZvwEe2nRqBLWeSPASshGNv8i9NbiEe71=s900-c-k-c0x00ffffff-no-rj.webp?raw=true" alt="Bon_esprit">
                             <div class="yt-comment-content">
                                 <div class="yt-comment-header">
@@ -1460,7 +1459,7 @@
             
             <div class="contact-item">
                 <div class="contact-info">
-                    <i class="fa-brands fa-discord" style="color: #5865F2;"></i>
+                    <i class="fa-brands fa-discord" style="color: #0f172a;"></i>
                     <div class="contact-details">
                         <span class="contact-label">Discord</span>
                         <span class="contact-value" id="discordVal">krushnaxd133</span>
