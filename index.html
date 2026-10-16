@@ -19,7 +19,7 @@
             --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 20px rgba(0,0,0,0.03);
             --radius-main: 24px;
             --radius-pill: 999px;
-            --cloud-color: rgba(255, 255, 255, 0.75);
+            --cloud-color: rgba(255, 255, 255, 0.85);
             --nav-bg: rgba(255, 255, 255, 0.85);
             --nav-border: rgba(255, 255, 255, 0.9);
         }
@@ -31,7 +31,7 @@
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0,0,0,0.2);
-            --cloud-color: rgba(30, 41, 59, 0.4);
+            --cloud-color: rgba(30, 41, 59, 0.5);
             --nav-bg: rgba(15, 23, 42, 0.85);
             --nav-border: rgba(30, 41, 59, 0.9);
         }
@@ -43,7 +43,7 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-font-smoothing: antialiased;
             user-select: none;
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
         }
 
         body {
@@ -58,7 +58,7 @@
             overflow-x: hidden;
         }
 
-        /* --- Ko-Fi Style Loading Screen --- */
+        /* --- Ko-Fi Liquid Style Loading Screen --- */
         #loading-screen {
             position: fixed;
             top: 0;
@@ -71,7 +71,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1), visibility 0.6s;
         }
 
         .loading-container {
@@ -80,29 +80,37 @@
             align-items: center;
             gap: 16px;
             background: #ffffff;
-            padding: 32px 40px;
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            padding: 36px 44px;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
             border: 1px solid #e2e8f0;
+            text-align: center;
         }
 
-        .loading-title {
+        .loading-header-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 16px;
             font-weight: 800;
             color: #0f172a;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        }
+
+        .loading-kofi-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
         }
 
         .coffee-bar-outer {
-            width: 220px;
-            height: 16px;
+            width: 240px;
+            height: 22px;
             background: #f1f5f9;
             border-radius: var(--radius-pill);
             overflow: hidden;
             position: relative;
             border: 1px solid #e2e8f0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
         }
 
         .coffee-bar-inner {
@@ -111,9 +119,33 @@
             left: 0;
             height: 100%;
             width: 0%;
-            background: #78350f;
+            background: linear-gradient(90deg, #78350f, #92400e, #b45309);
             border-radius: var(--radius-pill);
             transition: width 0.1s linear;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Liquid Wave Effect inside Bar */
+        .coffee-bar-inner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.3) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            animation: liquidWave 1.2s infinite linear;
+        }
+
+        @keyframes liquidWave {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .loading-percentage {
@@ -122,7 +154,7 @@
             color: #64748b;
         }
 
-        /* --- Dynamic Animated Background Clouds (Moving Left) --- */
+        /* --- Realistic Styled Animated Clouds (Moving Left) --- */
         .cloud-bg {
             position: fixed;
             top: 0;
@@ -131,44 +163,94 @@
             height: 100vh;
             z-index: -1;
             overflow: hidden;
+            pointer-events: none;
         }
 
-        .bg-cloud {
+        .realistic-cloud {
             position: absolute;
             background: var(--cloud-color);
-            border-radius: 200px;
-            filter: blur(35px);
+            border-radius: 100px;
+            filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.03);
+            animation: floatCloudsLeft 35s linear infinite;
         }
 
-        .cloud-1 {
-            width: 520px;
-            height: 200px;
-            top: 10%;
+        .realistic-cloud::before,
+        .realistic-cloud::after {
+            content: '';
+            position: absolute;
+            background: var(--cloud-color);
+            border-radius: 50%;
+        }
+
+        /* Cloud shape 1 */
+        .cloud-el-1 {
+            width: 280px;
+            height: 90px;
+            top: 12%;
+            right: -35%;
+            animation-duration: 38s;
+        }
+        .cloud-el-1::before {
+            width: 120px;
+            height: 120px;
+            top: -60px;
+            left: 40px;
+        }
+        .cloud-el-1::after {
+            width: 90px;
+            height: 90px;
+            top: -40px;
+            left: 130px;
+        }
+
+        /* Cloud shape 2 */
+        .cloud-el-2 {
+            width: 340px;
+            height: 110px;
+            top: 48%;
+            right: -45%;
+            animation-duration: 45s;
+            animation-delay: -10s;
+        }
+        .cloud-el-2::before {
+            width: 150px;
+            height: 150px;
+            top: -75px;
+            left: 60px;
+        }
+        .cloud-el-2::after {
+            width: 110px;
+            height: 110px;
+            top: -55px;
+            left: 170px;
+        }
+
+        /* Cloud shape 3 */
+        .cloud-el-3 {
+            width: 220px;
+            height: 75px;
+            bottom: 10%;
             right: -30%;
-            animation: floatLeft 25s linear infinite;
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+        .cloud-el-3::before {
+            width: 90px;
+            height: 90px;
+            top: -45px;
+            left: 30px;
+        }
+        .cloud-el-3::after {
+            width: 75px;
+            height: 75px;
+            top: -35px;
+            left: 100px;
         }
 
-        .cloud-2 {
-            width: 600px;
-            height: 240px;
-            top: 50%;
-            right: -40%;
-            animation: floatLeft 32s linear infinite;
-            animation-delay: -8s;
-        }
-
-        .cloud-3 {
-            width: 480px;
-            height: 180px;
-            bottom: 5%;
-            right: -25%;
-            animation: floatLeft 28s linear infinite;
-            animation-delay: -15s;
-        }
-
-        @keyframes floatLeft {
+        @keyframes floatCloudsLeft {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-150vw); }
+            100% { transform: translateX(-160vw); }
         }
 
         /* --- Top Navigation --- */
@@ -203,23 +285,49 @@
             white-space: nowrap;
         }
 
-        .theme-toggle-btn {
-            background: transparent;
-            border: none;
-            width: 32px;
+        /* --- Apple Phone Style Swipe Theme Switcher --- */
+        .theme-switch-track {
+            position: relative;
+            width: 64px;
             height: 32px;
-            border-radius: 50%;
+            background: rgba(100, 116, 139, 0.2);
+            border-radius: var(--radius-pill);
             cursor: pointer;
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: var(--text-primary);
-            font-size: 14px;
-            transition: background 0.2s ease;
+            padding: 3px;
+            border: 1px solid var(--card-border);
+            transition: background-color 0.3s ease;
         }
 
-        .theme-toggle-btn:hover {
-            background: rgba(100, 116, 139, 0.15);
+        .theme-switch-thumb {
+            position: absolute;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: var(--text-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-cloudy);
+            font-size: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55), background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode .theme-switch-thumb {
+            transform: translateX(32px);
+        }
+
+        .switch-icons-bg {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            pointer-events: none;
         }
 
         /* --- Middle Canvas Layout Container (Single Centered Card) --- */
@@ -805,8 +913,10 @@
             transform: scale(1.03);
         }
 
-        .kofi-btn i {
-            color: var(--bg-cloudy);
+        .kofi-btn img.kofi-inline-emoji {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
         }
 
         /* Party / Confetti Effects Inside Ko-Fi Box */
@@ -1144,11 +1254,12 @@
 </head>
 <body>
 
-    <!-- Ko-Fi Style Loading Screen -->
+    <!-- Ko-Fi Liquid Loading Screen -->
     <div id="loading-screen">
         <div class="loading-container">
-            <div class="loading-title">
-                ☕ Brewing Portfolio...
+            <div class="loading-header-row">
+                <img src="https://cdn3.emoji.gg/emojis/24562-kofi.png" alt="Ko-fi" class="loading-kofi-icon">
+                Brewing Portfolio...
             </div>
             <div class="coffee-bar-outer">
                 <div class="coffee-bar-inner" id="coffeeBar"></div>
@@ -1157,19 +1268,27 @@
         </div>
     </div>
 
+    <!-- Realistic Animated Clouds Background (Moving Left) -->
     <div class="cloud-bg">
-        <div class="bg-cloud cloud-1"></div>
-        <div class="bg-cloud cloud-2"></div>
-        <div class="bg-cloud cloud-3"></div>
+        <div class="realistic-cloud cloud-el-1"></div>
+        <div class="realistic-cloud cloud-el-2"></div>
+        <div class="realistic-cloud cloud-el-3"></div>
     </div>
 
     <nav class="figma-nav">
         <div class="figma-badge">
             <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas
         </div>
-        <button class="theme-toggle-btn" id="themeToggle" title="Toggle Light/Dark Mode">
-            <i class="fa-solid fa-sun" id="themeIcon"></i>
-        </button>
+        <!-- Apple Phone Style Swipe Theme Switcher -->
+        <div class="theme-switch-track" id="themeSwitchTrack" title="Toggle Light/Dark Mode">
+            <div class="switch-icons-bg">
+                <i class="fa-solid fa-sun"></i>
+                <i class="fa-solid fa-moon"></i>
+            </div>
+            <div class="theme-switch-thumb" id="themeSwitchThumb">
+                <i class="fa-solid fa-sun" id="themeThumbIcon"></i>
+            </div>
+        </div>
     </nav>
 
     <div class="canvas-layout">
@@ -1362,11 +1481,11 @@
                             <i class="fa-regular fa-envelope"></i>
                             <span>Contact Me</span>
                         </div>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #94a3b8;"></i>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: var(--text-secondary);"></i>
                     </div>
                 </div>
 
-                <!-- Ko-Fi Support Dialog Box with Party Effects -->
+                <!-- Ko-Fi Support Dialog Box with Party Effects & Emoji -->
                 <div class="kofi-dialog-card shine-effect">
                     <div class="party-confetti">
                         <div class="confetti-piece" style="left: 15%;"></div>
@@ -1376,11 +1495,11 @@
                         <div class="confetti-piece" style="left: 88%;"></div>
                     </div>
                     <div class="kofi-header">
-                        <i class="fa-solid fa-mug-hot"></i> Support Me At
+                        <img src="https://cdn3.emoji.gg/emojis/24562-kofi.png" alt="Ko-fi" style="width: 18px; height: 18px; object-fit: contain;"> Support Me At
                     </div>
                     <p class="kofi-subtitle">Enjoying my artwork or designs? Consider buying me a coffee!</p>
                     <a href="https://ko-fi.com/krushnaxd133" target="_blank" class="kofi-btn">
-                        <i class="fa-solid fa-heart"></i> Support on Ko-fi
+                        <img src="https://cdn3.emoji.gg/emojis/24562-kofi.png" alt="Ko-fi" class="kofi-inline-emoji"> Support on Ko-fi
                     </a>
                 </div>
 
@@ -1448,7 +1567,7 @@
     </div>
 
     <script>
-        // Ko-Fi Loading Simulation
+        // Ko-Fi Liquid Loading Simulation with Liquid Bouncing
         window.addEventListener('load', () => {
             const loadingScreen = document.getElementById('loading-screen');
             const coffeeBar = document.getElementById('coffeeBar');
@@ -1456,31 +1575,31 @@
             
             let progress = 0;
             const interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 15) + 5;
+                progress += Math.floor(Math.random() * 12) + 4;
                 if (progress >= 100) {
                     progress = 100;
                     clearInterval(interval);
                     setTimeout(() => {
                         loadingScreen.style.opacity = '0';
                         loadingScreen.style.visibility = 'hidden';
-                    }, 300);
+                    }, 400);
                 }
                 coffeeBar.style.width = progress + '%';
                 loadingPercent.innerText = progress + '%';
-            }, 60);
+            }, 50);
         });
 
-        // Theme Toggle Functionality (Sun / Moon)
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
+        // Swipe Theme Switcher Functionality
+        const themeSwitchTrack = document.getElementById('themeSwitchTrack');
+        const themeThumbIcon = document.getElementById('themeThumbIcon');
         const bodyEl = document.body;
 
-        themeToggle.addEventListener('click', () => {
+        themeSwitchTrack.addEventListener('click', () => {
             bodyEl.classList.toggle('dark-mode');
             if (bodyEl.classList.contains('dark-mode')) {
-                themeIcon.className = 'fa-solid fa-moon';
+                themeThumbIcon.className = 'fa-solid fa-moon';
             } else {
-                themeIcon.className = 'fa-solid fa-sun';
+                themeThumbIcon.className = 'fa-solid fa-sun';
             }
         });
 
