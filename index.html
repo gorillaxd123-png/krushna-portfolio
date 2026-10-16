@@ -344,8 +344,70 @@
             padding: 0 24px 24px 24px;
         }
 
-        .user-info {
-            margin-top: 24px;
+        .avatar-wrapper {
+            position: relative;
+            margin-top: -46px;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .avatar {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            border: 4px solid var(--card-bg);
+            object-fit: cover;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            background: #fff;
+        }
+
+        .online-status {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 15px;
+            height: 15px;
+            background-color: #22c55e;
+            border: 3px solid var(--card-bg);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .status-tooltip {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .status-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: #0f172a transparent transparent transparent;
+        }
+
+        .avatar-wrapper:hover .status-tooltip,
+        .online-status:hover + .status-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
 
         .user-info h1 {
@@ -515,6 +577,14 @@
             height: auto;
             display: block;
             object-fit: cover;
+        }
+
+        .showcase-card.pfp-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 16px;
+            display: block;
+            margin: 0 auto;
         }
 
         /* Smooth Clean Shine Hover Effect */
@@ -1135,6 +1205,13 @@
             .banner {
                 height: 130px;
             }
+            .avatar {
+                width: 76px;
+                height: 76px;
+            }
+            .avatar-wrapper {
+                margin-top: -38px;
+            }
         }
     </style>
 </head>
@@ -1185,6 +1262,12 @@
             </div>
 
             <div class="profile-content">
+                <div class="avatar-wrapper">
+                    <img class="avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Pfp%201.png?raw=true" alt="Krushna Avatar">
+                    <div class="online-status"></div>
+                    <div class="status-tooltip">Online</div>
+                </div>
+
                 <div class="user-info">
                     <h1>Krushna <i class="fa-solid fa-circle-check verified-badge" title="Verified Creator"></i></h1>
                     <div class="username"><i class="fa-brands fa-discord"></i> krushnaxd133</div>
@@ -1201,7 +1284,7 @@
                     <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
                 </div>
 
-                <!-- Ko-Fi Button Styled Quote Banner with Party Effects -->
+                <!-- Ko-fi Button Styled Quote Banner with Party Effects -->
                 <div class="scroll-quote shine-effect">
                     <div class="quote-confetti">
                         <div class="quote-confetti-piece" style="left: 15%;"></div>
@@ -1259,16 +1342,16 @@
                 <!-- Profile Pictures Section -->
                 <h2 class="section-title"><i class="fa-solid fa-user-circle"></i> Profile Pictures</h2>
                 <div class="showcase-grid">
-                    <div class="showcase-card shine-effect">
+                    <div class="showcase-card pfp-card shine-effect">
                         <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/1.png?raw=true" alt="Profile Picture 1">
                     </div>
-                    <div class="showcase-card shine-effect">
+                    <div class="showcase-card pfp-card shine-effect">
                         <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/2.png?raw=true" alt="Profile Picture 2">
                     </div>
-                    <div class="showcase-card shine-effect">
+                    <div class="showcase-card pfp-card shine-effect">
                         <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/3.png?raw=true" alt="Profile Picture 3">
                     </div>
-                    <div class="showcase-card shine-effect">
+                    <div class="showcase-card pfp-card shine-effect">
                         <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/4.png?raw=true" alt="Profile Picture 4">
                     </div>
                 </div>
@@ -1305,7 +1388,7 @@
                         </div>
                     </div>
 
-                    <!-- Reviews / YouTube Comment Section (Avatars removed) -->
+                    <!-- Reviews / YouTube Comment Section -->
                     <div class="reviews-wrapper">
                         <div class="reviews-title">
                             <i class="fa-regular fa-comment-dots"></i> Reviews
