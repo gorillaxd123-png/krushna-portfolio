@@ -255,7 +255,7 @@
             white-space: nowrap;
         }
 
-        /* --- Apple Phone Style Swipe Theme Switcher (Black & White Emojis) --- */
+        /* --- Apple Phone Style Swipe Theme Switcher --- */
         .theme-switch-track {
             position: relative;
             width: 60px;
@@ -296,12 +296,8 @@
             justify-content: space-between;
             padding: 0 5px;
             font-size: 10px;
-            filter: grayscale(100%);
+            color: var(--text-secondary);
             pointer-events: none;
-        }
-
-        #themeThumbEmoji {
-            filter: grayscale(100%);
         }
 
         /* --- Middle Canvas Layout Container (Fully Responsive) --- */
@@ -463,28 +459,19 @@
             gap: 5px;
         }
 
-        /* --- Ko-fi Button Styled Quote Banner --- */
+        /* Quote / Scroll Banner Styling */
         .scroll-quote {
-            position: relative;
-            overflow: hidden;
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-secondary);
             text-align: center;
-            margin: 24px 0 14px 0;
-            padding: 14px 18px;
-            background: linear-gradient(135deg, var(--card-bg), var(--card-border));
+            margin: 20px 0 12px 0;
+            padding: 10px 14px;
+            background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 18px;
-            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
             line-height: 1.5;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .scroll-quote:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
         }
 
         .scroll-quote .highlight-discover {
@@ -494,41 +481,10 @@
 
         .scroll-quote .quote-author {
             display: block;
-            font-size: 11px;
+            font-size: 10.5px;
             color: var(--text-secondary);
             font-weight: 500;
-            margin-top: 4px;
-        }
-
-        /* Quote Confetti / Party Effects */
-        .quote-confetti {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .quote-confetti-piece {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            background: var(--text-secondary);
-            opacity: 0.15;
-            animation: quoteConfettiFall 4s infinite linear;
-        }
-
-        .quote-confetti-piece:nth-child(1) { left: 15%; top: -10px; animation-duration: 3.4s; animation-delay: 0s; border-radius: 50%; }
-        .quote-confetti-piece:nth-child(2) { left: 40%; top: -10px; animation-duration: 4.2s; animation-delay: 1s; }
-        .quote-confetti-piece:nth-child(3) { left: 65%; top: -10px; animation-duration: 3.6s; animation-delay: 0.4s; border-radius: 50%; }
-        .quote-confetti-piece:nth-child(4) { left: 85%; top: -10px; animation-duration: 4.0s; animation-delay: 1.8s; }
-
-        @keyframes quoteConfettiFall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
-            100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
+            margin-top: 2px;
         }
 
         /* Section Title Styling */
@@ -1164,3 +1120,572 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .copy-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 5px 10px;
+            border-radius: var(--radius-pill);
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .copy-btn:hover {
+            background: var(--text-primary);
+            color: var(--bg-cloudy);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: auto;
+            padding-top: 14px;
+            font-size: 11.5px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* Responsive Breakpoints for Tablet & Mobile */
+        @media (max-width: 768px) {
+            body {
+                padding: 80px 12px 30px 12px;
+            }
+            .canvas-layout {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-content {
+                padding: 0 16px 20px 16px;
+            }
+            .banner {
+                height: 130px;
+            }
+            .avatar {
+                width: 76px;
+                height: 76px;
+            }
+            .avatar-wrapper {
+                margin-top: -38px;
+            }
+            .user-info h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ko-Fi Liquid Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-container">
+            <div class="loading-header-row">
+                <img src="https://cdn3.emoji.gg/emojis/24562-kofi.png" alt="Ko-fi" class="loading-kofi-icon">
+                Brewing Portfolio...
+            </div>
+            <div class="coffee-bar-outer">
+                <div class="coffee-bar-inner" id="coffeeBar"></div>
+            </div>
+            <div class="loading-percentage" id="loadingPercent">0%</div>
+        </div>
+    </div>
+
+    <!-- Realistic Animated Clouds Background (Moving Left) -->
+    <div class="cloud-bg">
+        <div class="realistic-cloud cloud-el-1"></div>
+        <div class="realistic-cloud cloud-el-2"></div>
+        <div class="realistic-cloud cloud-el-3"></div>
+    </div>
+
+    <nav class="figma-nav">
+        <div class="figma-badge">
+            <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas
+        </div>
+        <!-- Apple Phone Style Swipe Theme Switcher with Custom Emojis -->
+        <div class="theme-switch-track" id="themeSwitchTrack" title="Toggle Light/Dark Mode">
+            <div class="switch-icons-bg">
+                <span>🌞</span>
+                <span>🌙</span>
+            </div>
+            <div class="theme-switch-thumb" id="themeSwitchThumb">
+                <span id="themeThumbEmoji" style="font-size: 11px; line-height: 1;">🌞</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="canvas-layout">
+
+        <div class="category-canvas">
+            <div class="banner">
+                <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Banner%201.png?raw=true" alt="Banner">
+            </div>
+
+            <div class="profile-content">
+                <div class="avatar-wrapper">
+                    <img class="avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Pfp%201.png?raw=true" alt="Krushna Avatar">
+                    <div class="online-status"></div>
+                    <div class="status-tooltip">Online</div>
+                </div>
+
+                <div class="user-info">
+                    <h1>Krushna <i class="fa-solid fa-circle-check verified-badge" title="Verified Creator"></i></h1>
+                    <div class="username"><i class="fa-brands fa-discord"></i> krushnaxd133</div>
+                    <p class="bio">
+                        Professional Thumbnail Artist & Visual Designer creating high-CTR graphics, custom artwork, animations, and clean digital designs.
+                    </p>
+                </div>
+
+                <div class="tags">
+                    <span class="tag"><i class="fa-solid fa-palette"></i> Artist</span>
+                    <span class="tag"><i class="fa-solid fa-wand-magic-sparkles"></i> Designer</span>
+                    <span class="tag"><i class="fa-solid fa-film"></i> Animator</span>
+                    <span class="tag"><i class="fa-solid fa-scissors"></i> Editor</span>
+                    <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
+                </div>
+
+                <!-- Scroll Quote Title -->
+                <div class="scroll-quote">
+                    "The More You Scroll , The More You <span class="highlight-discover">Discover</span>"
+                    <span class="quote-author">~krushna</span>
+                </div>
+
+                <!-- Thumbnails Section -->
+                <h2 class="section-title"><i class="fa-solid fa-image"></i> Thumbnails</h2>
+                <div class="showcase-grid">
+                    <div class="showcase-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/watermarked1.png?raw=true" alt="Watermarked 1">
+                    </div>
+                    <div class="showcase-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/omen%20ragebaiting%20ug.png?raw=true" alt="Omen Ragebaiting UG">
+                    </div>
+                    <div class="showcase-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/The%20Strongest%20Minecraft%20Player.png?raw=true" alt="The Strongest Minecraft Player">
+                    </div>
+                    <div class="showcase-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/How%20To%20Make%20Beautiful%20Looking%20Pfps.png?raw=true" alt="How To Make Beautiful Looking Pfps">
+                    </div>
+                    <div class="showcase-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/How%20I%20Dominated%20Stay%20Smp.png?raw=true" alt="How I Dominated Stay Smp">
+                    </div>
+                    <div class="showcase-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/Watermarked%201.png?raw=true" alt="Watermarked 1 Alt">
+                    </div>
+                    <div class="showcase-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/How%20To%20Shade%20watermarked.png?raw=true" alt="How To Shade Watermarked">
+                    </div>
+                    <div class="showcase-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/The%20Strongest%20Player.png?raw=true" alt="The Strongest Player">
+                    </div>
+                    <div class="showcase-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Omen%20Does%20Dares.png?raw=true" alt="Omen Does Dares">
+                    </div>
+                </div>
+
+                <!-- SidebySide Category Section -->
+                <h2 class="section-title"><i class="fa-solid fa-columns"></i> SidebySide</h2>
+                <div class="showcase-grid">
+                    <div class="showcase-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/The%20Strongest%20Minecraft%20Playersidebyside.png?raw=true" alt="The Strongest Minecraft Player Side by Side">
+                    </div>
+                    <div class="showcase-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/i%20doniated%20stya%20smp.png?raw=true" alt="I Dominated Stay SMP Side by Side">
+                    </div>
+                </div>
+
+                <!-- Profile Pictures Section -->
+                <h2 class="section-title"><i class="fa-solid fa-user-circle"></i> Profile Pictures</h2>
+                <div class="showcase-grid">
+                    <div class="showcase-card pfp-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/1.png?raw=true" alt="Profile Picture 1">
+                    </div>
+                    <div class="showcase-card pfp-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/2.png?raw=true" alt="Profile Picture 2">
+                    </div>
+                    <div class="showcase-card pfp-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/3.png?raw=true" alt="Profile Picture 3">
+                    </div>
+                    <div class="showcase-card pfp-card shine-effect">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/4.png?raw=true" alt="Profile Picture 4">
+                    </div>
+                </div>
+
+                <!-- How Do I Work? Section -->
+                <div class="info-card">
+                    <h3>
+                        <i class="fa-solid fa-circle-info"></i> 
+                        How Do I Work?
+                    </h3>
+                    <p>
+                        I work on based quality type of thumbnail that you are expecting for your YouTube videos. Every design is crafted meticulously to ensure maximum click-through rate (CTR) and visual appeal.
+                    </p>
+
+                    <div class="section-title" style="margin: 14px 0 8px 0; font-size: 13px;">
+                        <i class="fa-solid fa-credit-card"></i> Payment Methods
+                    </div>
+
+                    <div class="payment-methods-grid">
+                        <div class="payment-column" onclick="openPaymentModal('cash')">
+                            <i class="fa-solid fa-money-bill-wave payment-icon"></i>
+                            <div class="payment-title">Cash</div>
+                            <div class="payment-desc">5$ - 10$ (474 - 949 Rs)</div>
+                        </div>
+                        <div class="payment-column" onclick="openPaymentModal('nitro')">
+                            <i class="fa-brands fa-discord payment-icon"></i>
+                            <div class="payment-title">Nitro</div>
+                            <div class="payment-desc">Pay with Discord Nitro or Basic</div>
+                        </div>
+                        <div class="payment-column" onclick="openPaymentModal('promo')">
+                            <i class="fa-solid fa-bullhorn payment-icon"></i>
+                            <div class="payment-title">Promo</div>
+                            <div class="payment-desc">Promo in video or channel/discord</div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews / YouTube Comment Section -->
+                    <div class="reviews-wrapper">
+                        <div class="reviews-title">
+                            <i class="fa-regular fa-comment-dots"></i> Reviews
+                        </div>
+
+                        <!-- Review 1: Omenvalot -->
+                        <div class="yt-comment-card shine-effect">
+                            <img class="yt-avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/GLAL4RHh9F9pELBj0qk1SsR88Md9oSZ3RDZ5PVUbBcWR5n5sExIrEJSSSvrcH-pnYztrIjut=s900-c-k-c0x00ffffff-no-rj.webp?raw=true" alt="Omenvalot">
+                            <div class="yt-comment-content">
+                                <div class="yt-comment-header">
+                                    <span class="yt-username">Omenvalot</span>
+                                    <div class="yt-stars">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                                <p class="yt-text">"My Goat Creates Thumbnails Faster Than My Wifi"</p>
+                            </div>
+                        </div>
+
+                        <!-- Review 2: Bon_esprit -->
+                        <div class="yt-comment-card shine-effect">
+                            <img class="yt-avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/D5mlV0vWSlvu8I6vZsadwj3aBxCr5j2b2qyDMAhGZvwEe2nRqBLWeSPASshGNv8i9NbiEe71=s900-c-k-c0x00ffffff-no-rj.webp?raw=true" alt="Bon_esprit">
+                            <div class="yt-comment-content">
+                                <div class="yt-comment-header">
+                                    <span class="yt-username">Bon_esprit</span>
+                                    <div class="yt-stars">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                                <p class="yt-text">"Thumbnails Are Cool , Smooth And High Quality ! , It Helped Me A Lot"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="social-icons-grid">
+                    <a href="https://www.youtube.com/@krushnaxd133" target="_blank" class="social-btn youtube" title="YouTube Channel">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                    <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="social-btn discord" title="Join Discord Server">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="https://www.twitch.tv/krushnaxd123" target="_blank" class="social-btn twitch" title="Twitch Stream">
+                        <i class="fa-brands fa-twitch"></i>
+                    </a>
+                </div>
+
+                <div class="links-grid">
+                    <div class="link-card" id="contactBtn">
+                        <div class="link-left">
+                            <i class="fa-regular fa-envelope"></i>
+                            <span>Contact Me</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: var(--text-secondary);"></i>
+                    </div>
+                </div>
+
+                <!-- Ko-Fi Support Dialog Box with Party Effects (Updated Title & Text) -->
+                <div class="kofi-dialog-card shine-effect">
+                    <div class="party-confetti">
+                        <div class="confetti-piece" style="left: 15%;"></div>
+                        <div class="confetti-piece" style="left: 35%;"></div>
+                        <div class="confetti-piece" style="left: 55%;"></div>
+                        <div class="confetti-piece" style="left: 75%;"></div>
+                        <div class="confetti-piece" style="left: 88%;"></div>
+                    </div>
+                    <div class="kofi-header">
+                        Support Me
+                    </div>
+                    <p class="kofi-subtitle">Enjoying my artwork or designs? Consider buying me a coffee!</p>
+                    <a href="https://ko-fi.com/krushnaxd133" target="_blank" class="kofi-btn">
+                        <img src="https://cdn3.emoji.gg/emojis/24562-kofi.png" alt="Ko-fi" class="kofi-inline-emoji"> Support on Ko-fi
+                    </a>
+                </div>
+
+                <div class="footer">
+                    Designed by <a href="#">Krushna</a> &bull; Powered by <a href="#">Vercel</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox-overlay" id="lightboxOverlay">
+        <button class="lightbox-close" id="lightboxClose" title="Close"><i class="fa-solid fa-xmark"></i></button>
+        <div class="lightbox-viewport" id="lightboxViewport">
+            <img class="lightbox-img" id="lightboxTarget" src="" alt="Thumbnail Full View">
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-card">
+            <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h3 style="font-size:17px; font-weight:800; color:var(--text-primary);">Contact Info</h3>
+                <button class="close-btn" id="closeModal" style="background:var(--card-bg); border:1px solid var(--card-border); width:30px; height:30px; border-radius:50%; cursor:pointer; color:var(--text-secondary); font-size:14px; display:flex; align-items:center; justify-content:center;">&times;</button>
+            </div>
+            
+            <div class="contact-item">
+                <div class="contact-info">
+                    <i class="fa-brands fa-discord"></i>
+                    <div class="contact-details">
+                        <span class="contact-label">Discord</span>
+                        <span class="contact-value" id="discordVal">krushnaxd133</span>
+                    </div>
+                </div>
+                <button class="copy-btn" onclick="copyText('discordVal', this)">Copy</button>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-info">
+                    <i class="fa-regular fa-envelope"></i>
+                    <div class="contact-details">
+                        <span class="contact-label">Email</span>
+                        <span class="contact-value" id="emailVal">krushnabusiness1234@gmail.com</span>
+                    </div>
+                </div>
+                <button class="copy-btn" onclick="copyText('emailVal', this)">Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Information Dialog Modal -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal-card">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: -10px;">
+                <button class="close-btn" onclick="closePaymentModal()" style="background:var(--card-bg); border:1px solid var(--card-border); width:26px; height:26px; border-radius:50%; cursor:pointer; color:var(--text-secondary); font-size:13px; display:flex; align-items:center; justify-content:center;">&times;</button>
+            </div>
+            <div class="modal-icon-header" id="paymentModalIcon">
+                <i class="fa-solid fa-money-bill-wave"></i>
+            </div>
+            <div class="modal-header-title" id="paymentModalTitle">Cash Payment</div>
+            <p class="modal-body-text" id="paymentModalDesc">The prices depend on quality of thumbnail and the time giving for it , it may cost more as the video topic is</p>
+            <button class="modal-action-btn" onclick="closePaymentModal()">Got It</button>
+        </div>
+    </div>
+
+    <script>
+        // Ko-Fi Liquid Loading Simulation
+        window.addEventListener('load', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            const coffeeBar = document.getElementById('coffeeBar');
+            const loadingPercent = document.getElementById('loadingPercent');
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 12) + 4;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        loadingScreen.style.visibility = 'hidden';
+                    }, 400);
+                }
+                coffeeBar.style.width = progress + '%';
+                loadingPercent.innerText = progress + '%';
+            }, 50);
+        });
+
+        // Swipe Theme Switcher Functionality with Custom Emojis
+        const themeSwitchTrack = document.getElementById('themeSwitchTrack');
+        const themeThumbEmoji = document.getElementById('themeThumbEmoji');
+        const bodyEl = document.body;
+
+        themeSwitchTrack.addEventListener('click', () => {
+            bodyEl.classList.toggle('dark-mode');
+            if (bodyEl.classList.contains('dark-mode')) {
+                themeThumbEmoji.innerText = '🌙';
+            } else {
+                themeThumbEmoji.innerText = '🌞';
+            }
+        });
+
+        // Payment Modal Handlers
+        const paymentModal = document.getElementById('paymentModal');
+        const paymentModalTitle = document.getElementById('paymentModalTitle');
+        const paymentModalDesc = document.getElementById('paymentModalDesc');
+        const paymentModalIcon = document.getElementById('paymentModalIcon');
+
+        function openPaymentModal(type) {
+            if (type === 'cash') {
+                paymentModalIcon.innerHTML = '<i class="fa-solid fa-money-bill-wave"></i>';
+                paymentModalTitle.innerText = 'Cash Payment';
+                paymentModalDesc.innerText = 'The prices depend on quality of thumbnail and the time giving for it , it may cost more as the video topic is';
+            } else if (type === 'nitro') {
+                paymentModalIcon.innerHTML = '<i class="fa-brands fa-discord"></i>';
+                paymentModalTitle.innerText = 'Discord Nitro Payment';
+                paymentModalDesc.innerText = 'If payment cant be done in cash , we also allow nitro payment by purchasing us nitro ( not the best option ) but works fine !';
+            } else if (type === 'promo') {
+                paymentModalIcon.innerHTML = '<i class="fa-solid fa-bullhorn"></i>';
+                paymentModalTitle.innerText = 'Promotion Payment';
+                paymentModalDesc.innerText = 'By promoting our channel or discord in your video or description will allow you payment to be fulfilled by that ( best option ) this can be done if you cant pay the payment';
+            }
+            paymentModal.classList.add('active');
+        }
+
+        function closePaymentModal() {
+            paymentModal.classList.remove('active');
+        }
+
+        paymentModal.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                closePaymentModal();
+            }
+        });
+
+        // Contact Modal Pop-up Handlers
+        const contactBtn = document.getElementById('contactBtn');
+        const contactModal = document.getElementById('contactModal');
+        const closeModal = document.getElementById('closeModal');
+
+        contactBtn.addEventListener('click', () => {
+            contactModal.classList.add('active');
+        });
+
+        closeModal.addEventListener('click', () => {
+            contactModal.classList.remove('active');
+        });
+
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.classList.remove('active');
+            }
+        });
+
+        // Copy to Clipboard Functionality
+        function copyText(elementId, btnElement) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = 'Copied!';
+                btnElement.style.background = '#22c55e';
+                btnElement.style.color = '#ffffff';
+                btnElement.style.borderColor = '#22c55e';
+
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.style.background = '';
+                    btnElement.style.color = '';
+                    btnElement.style.borderColor = '';
+                }, 1800);
+            });
+        }
+
+        /* --- Showcase Lightbox --- */
+        const lightboxOverlay = document.getElementById('lightboxOverlay');
+        const lightboxViewport = document.getElementById('lightboxViewport');
+        const lightboxTarget = document.getElementById('lightboxTarget');
+        const lightboxClose = document.getElementById('lightboxClose');
+
+        let zoomScale = 1;
+        let zoomTranslateX = 0;
+        let zoomTranslateY = 0;
+
+        function updateLightboxTransform() {
+            lightboxTarget.style.transform = `translate(${zoomTranslateX}px, ${zoomTranslateY}px) scale(${zoomScale})`;
+        }
+
+        function resetLightboxZoom() {
+            zoomScale = 1;
+            zoomTranslateX = 0;
+            zoomTranslateY = 0;
+            updateLightboxTransform();
+        }
+
+        function openLightbox(src) {
+            lightboxTarget.src = src;
+            lightboxOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            resetLightboxZoom();
+        }
+
+        function closeLightbox() {
+            lightboxOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            resetLightboxZoom();
+        }
+
+        lightboxOverlay.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const zoomSensitivity = 0.0015;
+            const minScale = 1;
+            const maxScale = 5;
+
+            const rect = lightboxTarget.getBoundingClientRect();
+            const cursorX = e.clientX - rect.left;
+            const cursorY = e.clientY - rect.top;
+
+            const oldScale = zoomScale;
+            let newScale = oldScale - e.deltaY * zoomSensitivity * oldScale;
+            newScale = Math.min(Math.max(minScale, newScale), maxScale);
+
+            if (newScale === minScale) {
+                zoomTranslateX = 0;
+                zoomTranslateY = 0;
+            } else {
+                const scaleRatio = newScale / oldScale;
+                zoomTranslateX = cursorX - scaleRatio * (cursorX - zoomTranslateX);
+                zoomTranslateY = cursorY - scaleRatio * (cursorY - zoomTranslateY);
+            }
+
+            zoomScale = newScale;
+            updateLightboxTransform();
+        }, { passive: false });
+
+        document.querySelectorAll('.showcase-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const img = card.querySelector('.showcase-img');
+                if (img) openLightbox(img.src);
+            });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+
+        lightboxOverlay.addEventListener('click', (e) => {
+            if (e.target === lightboxOverlay || e.target === lightboxViewport) {
+                closeLightbox();
+            }
+        });
+
+        // Escape Key to Close
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+</html>
