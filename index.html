@@ -255,7 +255,7 @@
             white-space: nowrap;
         }
 
-        /* --- Apple Phone Style Swipe Theme Switcher --- */
+        /* --- Apple Phone Style Swipe Theme Switcher (Black & White Emojis) --- */
         .theme-switch-track {
             position: relative;
             width: 60px;
@@ -296,8 +296,12 @@
             justify-content: space-between;
             padding: 0 5px;
             font-size: 10px;
-            color: var(--text-secondary);
+            filter: grayscale(100%);
             pointer-events: none;
+        }
+
+        #themeThumbEmoji {
+            filter: grayscale(100%);
         }
 
         /* --- Middle Canvas Layout Container (Fully Responsive) --- */
@@ -340,70 +344,8 @@
             padding: 0 24px 24px 24px;
         }
 
-        .avatar-wrapper {
-            position: relative;
-            margin-top: -46px;
-            margin-bottom: 12px;
-            display: inline-block;
-        }
-
-        .avatar {
-            width: 88px;
-            height: 88px;
-            border-radius: 50%;
-            border: 4px solid var(--card-bg);
-            object-fit: cover;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            background: #fff;
-        }
-
-        .online-status {
-            position: absolute;
-            bottom: 4px;
-            right: 4px;
-            width: 15px;
-            height: 15px;
-            background-color: #22c55e;
-            border: 3px solid var(--card-bg);
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .status-tooltip {
-            position: absolute;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(5px);
-            background: #0f172a;
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 8px;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .status-tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 5px;
-            border-style: solid;
-            border-color: #0f172a transparent transparent transparent;
-        }
-
-        .avatar-wrapper:hover .status-tooltip,
-        .online-status:hover + .status-tooltip {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
+        .user-info {
+            margin-top: 24px;
         }
 
         .user-info h1 {
@@ -459,19 +401,28 @@
             gap: 5px;
         }
 
-        /* Quote / Scroll Banner Styling */
+        /* --- Ko-fi Button Styled Quote Banner --- */
         .scroll-quote {
-            font-size: 12px;
+            position: relative;
+            overflow: hidden;
+            font-size: 12.5px;
             font-weight: 600;
             color: var(--text-secondary);
             text-align: center;
-            margin: 20px 0 12px 0;
-            padding: 10px 14px;
-            background: var(--card-bg);
+            margin: 24px 0 14px 0;
+            padding: 14px 18px;
+            background: linear-gradient(135deg, var(--card-bg), var(--card-border));
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            backdrop-filter: blur(8px);
+            border-radius: 18px;
+            backdrop-filter: blur(10px);
             line-height: 1.5;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .scroll-quote:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
         }
 
         .scroll-quote .highlight-discover {
@@ -481,10 +432,41 @@
 
         .scroll-quote .quote-author {
             display: block;
-            font-size: 10.5px;
+            font-size: 11px;
             color: var(--text-secondary);
             font-weight: 500;
-            margin-top: 2px;
+            margin-top: 4px;
+        }
+
+        /* Quote Confetti / Party Effects */
+        .quote-confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .quote-confetti-piece {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: var(--text-secondary);
+            opacity: 0.15;
+            animation: quoteConfettiFall 4s infinite linear;
+        }
+
+        .quote-confetti-piece:nth-child(1) { left: 15%; top: -10px; animation-duration: 3.4s; animation-delay: 0s; border-radius: 50%; }
+        .quote-confetti-piece:nth-child(2) { left: 40%; top: -10px; animation-duration: 4.2s; animation-delay: 1s; }
+        .quote-confetti-piece:nth-child(3) { left: 65%; top: -10px; animation-duration: 3.6s; animation-delay: 0.4s; border-radius: 50%; }
+        .quote-confetti-piece:nth-child(4) { left: 85%; top: -10px; animation-duration: 4.0s; animation-delay: 1.8s; }
+
+        @keyframes quoteConfettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
+            100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
         }
 
         /* Section Title Styling */
@@ -533,14 +515,6 @@
             height: auto;
             display: block;
             object-fit: cover;
-        }
-
-        .showcase-card.pfp-card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 16px;
-            display: block;
-            margin: 0 auto;
         }
 
         /* Smooth Clean Shine Hover Effect */
@@ -682,16 +656,6 @@
             display: flex;
             gap: 10px;
             align-items: flex-start;
-        }
-
-        .yt-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            object-fit: cover;
-            flex-shrink: 0;
-            border: 2px solid var(--card-bg);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
         }
 
         .yt-comment-content {
@@ -1171,16 +1135,6 @@
             .banner {
                 height: 130px;
             }
-            .avatar {
-                width: 76px;
-                height: 76px;
-            }
-            .avatar-wrapper {
-                margin-top: -38px;
-            }
-            .user-info h1 {
-                font-size: 20px;
-            }
         }
     </style>
 </head>
@@ -1211,14 +1165,14 @@
         <div class="figma-badge">
             <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas
         </div>
-        <!-- Apple Phone Style Swipe Theme Switcher with Custom Emojis -->
+        <!-- Apple Phone Style Swipe Theme Switcher with Black & White Emojis -->
         <div class="theme-switch-track" id="themeSwitchTrack" title="Toggle Light/Dark Mode">
             <div class="switch-icons-bg">
-                <span>🌞</span>
+                <span>☀️</span>
                 <span>🌙</span>
             </div>
             <div class="theme-switch-thumb" id="themeSwitchThumb">
-                <span id="themeThumbEmoji" style="font-size: 11px; line-height: 1;">🌞</span>
+                <span id="themeThumbEmoji" style="font-size: 11px; line-height: 1;">☀️</span>
             </div>
         </div>
     </nav>
@@ -1231,12 +1185,6 @@
             </div>
 
             <div class="profile-content">
-                <div class="avatar-wrapper">
-                    <img class="avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Pfp%201.png?raw=true" alt="Krushna Avatar">
-                    <div class="online-status"></div>
-                    <div class="status-tooltip">Online</div>
-                </div>
-
                 <div class="user-info">
                     <h1>Krushna <i class="fa-solid fa-circle-check verified-badge" title="Verified Creator"></i></h1>
                     <div class="username"><i class="fa-brands fa-discord"></i> krushnaxd133</div>
@@ -1253,8 +1201,14 @@
                     <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
                 </div>
 
-                <!-- Scroll Quote Title -->
-                <div class="scroll-quote">
+                <!-- Ko-Fi Button Styled Quote Banner with Party Effects -->
+                <div class="scroll-quote shine-effect">
+                    <div class="quote-confetti">
+                        <div class="quote-confetti-piece" style="left: 15%;"></div>
+                        <div class="quote-confetti-piece" style="left: 40%;"></div>
+                        <div class="quote-confetti-piece" style="left: 65%;"></div>
+                        <div class="quote-confetti-piece" style="left: 85%;"></div>
+                    </div>
                     "The More You Scroll , The More You <span class="highlight-discover">Discover</span>"
                     <span class="quote-author">~krushna</span>
                 </div>
@@ -1305,16 +1259,16 @@
                 <!-- Profile Pictures Section -->
                 <h2 class="section-title"><i class="fa-solid fa-user-circle"></i> Profile Pictures</h2>
                 <div class="showcase-grid">
-                    <div class="showcase-card pfp-card shine-effect">
+                    <div class="showcase-card shine-effect">
                         <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/1.png?raw=true" alt="Profile Picture 1">
                     </div>
-                    <div class="showcase-card pfp-card shine-effect">
+                    <div class="showcase-card shine-effect">
                         <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/2.png?raw=true" alt="Profile Picture 2">
                     </div>
-                    <div class="showcase-card pfp-card shine-effect">
+                    <div class="showcase-card shine-effect">
                         <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/3.png?raw=true" alt="Profile Picture 3">
                     </div>
-                    <div class="showcase-card pfp-card shine-effect">
+                    <div class="showcase-card shine-effect">
                         <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/4.png?raw=true" alt="Profile Picture 4">
                     </div>
                 </div>
@@ -1351,7 +1305,7 @@
                         </div>
                     </div>
 
-                    <!-- Reviews / YouTube Comment Section -->
+                    <!-- Reviews / YouTube Comment Section (Avatars removed) -->
                     <div class="reviews-wrapper">
                         <div class="reviews-title">
                             <i class="fa-regular fa-comment-dots"></i> Reviews
@@ -1359,7 +1313,6 @@
 
                         <!-- Review 1: Omenvalot -->
                         <div class="yt-comment-card shine-effect">
-                            <img class="yt-avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/GLAL4RHh9F9pELBj0qk1SsR88Md9oSZ3RDZ5PVUbBcWR5n5sExIrEJSSSvrcH-pnYztrIjut=s900-c-k-c0x00ffffff-no-rj.webp?raw=true" alt="Omenvalot">
                             <div class="yt-comment-content">
                                 <div class="yt-comment-header">
                                     <span class="yt-username">Omenvalot</span>
@@ -1377,7 +1330,6 @@
 
                         <!-- Review 2: Bon_esprit -->
                         <div class="yt-comment-card shine-effect">
-                            <img class="yt-avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/D5mlV0vWSlvu8I6vZsadwj3aBxCr5j2b2qyDMAhGZvwEe2nRqBLWeSPASshGNv8i9NbiEe71=s900-c-k-c0x00ffffff-no-rj.webp?raw=true" alt="Bon_esprit">
                             <div class="yt-comment-content">
                                 <div class="yt-comment-header">
                                     <span class="yt-username">Bon_esprit</span>
@@ -1417,7 +1369,7 @@
                     </div>
                 </div>
 
-                <!-- Ko-Fi Support Dialog Box with Party Effects (Updated Title & Text) -->
+                <!-- Ko-Fi Support Dialog Box with Party Effects -->
                 <div class="kofi-dialog-card shine-effect">
                     <div class="party-confetti">
                         <div class="confetti-piece" style="left: 15%;"></div>
@@ -1521,7 +1473,7 @@
             }, 50);
         });
 
-        // Swipe Theme Switcher Functionality with Custom Emojis
+        // Swipe Theme Switcher Functionality with Black & White Emojis
         const themeSwitchTrack = document.getElementById('themeSwitchTrack');
         const themeThumbEmoji = document.getElementById('themeThumbEmoji');
         const bodyEl = document.body;
@@ -1531,7 +1483,7 @@
             if (bodyEl.classList.contains('dark-mode')) {
                 themeThumbEmoji.innerText = '🌙';
             } else {
-                themeThumbEmoji.innerText = '🌞';
+                themeThumbEmoji.innerText = '☀️';
             }
         });
 
