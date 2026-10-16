@@ -11,7 +11,7 @@
 
     <style>
         :root {
-            --bg-cloudy: #f0f4f8;
+            --bg-cloudy: #e0f2fe;
             --card-bg: rgba(255, 255, 255, 0.78);
             --card-border: rgba(255, 255, 255, 0.95);
             --text-primary: #0f172a;
@@ -19,6 +19,21 @@
             --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 20px rgba(0,0,0,0.03);
             --radius-main: 24px;
             --radius-pill: 999px;
+            --cloud-color: rgba(255, 255, 255, 0.75);
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --nav-border: rgba(255, 255, 255, 0.9);
+        }
+
+        body.dark-mode {
+            --bg-cloudy: #090d16;
+            --card-bg: rgba(15, 23, 42, 0.75);
+            --card-border: rgba(30, 41, 59, 0.9);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0,0,0,0.2);
+            --cloud-color: rgba(30, 41, 59, 0.4);
+            --nav-bg: rgba(15, 23, 42, 0.85);
+            --nav-border: rgba(30, 41, 59, 0.9);
         }
 
         * {
@@ -28,6 +43,7 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-font-smoothing: antialiased;
             user-select: none;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
 
         body {
@@ -42,119 +58,71 @@
             overflow-x: hidden;
         }
 
-        /* --- Click Anywhere Overlay --- */
-        #entry-overlay {
+        /* --- Ko-Fi Style Loading Screen --- */
+        #loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: linear-gradient(135deg, #e0e8f0 0%, #f5f8fc 100%);
+            background: #f8fafc;
             z-index: 9999;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
             transition: opacity 0.5s ease, visibility 0.5s ease;
-            overflow: hidden;
-            padding: 20px;
-            text-align: center;
         }
 
-        .overlay-cloud-icon {
-            font-size: 64px;
-            color: #94a3b8;
-            margin-bottom: 16px;
-            animation: floatCloud 3s infinite ease-in-out;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.08));
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            background: #ffffff;
+            padding: 32px 40px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
         }
 
-        .overlay-text {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: 1.2px;
-            animation: pulseText 2s infinite ease-in-out;
+        .loading-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #0f172a;
             display: flex;
             align-items: center;
-            gap: 12px;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 12px 24px;
+            gap: 8px;
+        }
+
+        .coffee-bar-outer {
+            width: 220px;
+            height: 16px;
+            background: #f1f5f9;
             border-radius: var(--radius-pill);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #e2e8f0;
         }
 
-        @keyframes floatCloud {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-12px) scale(1.05); }
-        }
-
-        @keyframes pulseText {
-            0%, 100% { opacity: 0.6; transform: scale(0.98); }
-            50% { opacity: 1; transform: scale(1); }
-        }
-
-        /* --- Right-to-Left Cloud Transition Curtain --- */
-        .cloud-curtain {
-            position: fixed;
-            top: 0;
-            right: -120vw;
-            width: 120vw;
-            height: 100vh;
-            z-index: 10000;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .cloud-curtain-layer {
+        .coffee-bar-inner {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
             height: 100%;
-            background: #ffffff;
-            box-shadow: -20px 0 60px rgba(0,0,0,0.08);
-            border-top-left-radius: 50% 100%;
-            border-bottom-left-radius: 50% 100%;
+            width: 0%;
+            background: #78350f;
+            border-radius: var(--radius-pill);
+            transition: width 0.1s linear;
         }
 
-        .cloud-curtain-puff1 {
-            position: absolute;
-            top: 10%;
-            left: -150px;
-            width: 300px;
-            height: 300px;
-            background: #ffffff;
-            border-radius: 50%;
-            filter: blur(10px);
+        .loading-percentage {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
         }
 
-        .cloud-curtain-puff2 {
-            position: absolute;
-            bottom: 10%;
-            left: -200px;
-            width: 400px;
-            height: 400px;
-            background: #ffffff;
-            border-radius: 50%;
-            filter: blur(10px);
-        }
-
-        .sweep-right-to-left {
-            animation: cloudSweepR2L 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-        }
-
-        @keyframes cloudSweepR2L {
-            0% { right: -120vw; }
-            45%, 55% { right: -10vw; }
-            100% { right: 120vw; }
-        }
-
-        /* --- Dynamic Animated Background Clouds --- */
+        /* --- Dynamic Animated Background Clouds (Moving Left) --- */
         .cloud-bg {
             position: fixed;
             top: 0;
@@ -163,50 +131,44 @@
             height: 100vh;
             z-index: -1;
             overflow: hidden;
-            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
         }
 
         .bg-cloud {
             position: absolute;
-            background: rgba(255, 255, 255, 0.85);
+            background: var(--cloud-color);
             border-radius: 200px;
             filter: blur(35px);
-            box-shadow: 0 0 60px rgba(255,255,255,0.9);
         }
 
         .cloud-1 {
             width: 520px;
             height: 200px;
-            top: 8%;
-            right: -25%;
-            animation: floatR2L 32s linear infinite;
+            top: 10%;
+            right: -30%;
+            animation: floatLeft 25s linear infinite;
         }
 
         .cloud-2 {
             width: 600px;
             height: 240px;
-            top: 45%;
-            left: -30%;
-            animation: floatL2R 38s linear infinite;
+            top: 50%;
+            right: -40%;
+            animation: floatLeft 32s linear infinite;
+            animation-delay: -8s;
         }
 
         .cloud-3 {
             width: 480px;
             height: 180px;
             bottom: 5%;
-            right: -20%;
-            animation: floatR2L 44s linear infinite;
-            animation-delay: -12s;
+            right: -25%;
+            animation: floatLeft 28s linear infinite;
+            animation-delay: -15s;
         }
 
-        @keyframes floatR2L {
+        @keyframes floatLeft {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-180vw); }
-        }
-
-        @keyframes floatL2R {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(180vw); }
+            100% { transform: translateX(-150vw); }
         }
 
         /* --- Top Navigation --- */
@@ -215,9 +177,9 @@
             top: 24px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.85);
+            background: var(--nav-bg);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--nav-border);
             padding: 8px 14px;
             border-radius: var(--radius-pill);
             display: flex;
@@ -235,10 +197,29 @@
             font-size: 12px;
             font-weight: 700;
             padding: 6px 14px;
-            background: #000;
-            color: #fff;
+            background: var(--text-primary);
+            color: var(--bg-cloudy);
             border-radius: var(--radius-pill);
             white-space: nowrap;
+        }
+
+        .theme-toggle-btn {
+            background: transparent;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: background 0.2s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            background: rgba(100, 116, 139, 0.15);
         }
 
         /* --- Middle Canvas Layout Container (Single Centered Card) --- */
@@ -292,7 +273,7 @@
             width: 92px;
             height: 92px;
             border-radius: 50%;
-            border: 4px solid #ffffff;
+            border: 4px solid var(--card-bg);
             object-fit: cover;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             background: #fff;
@@ -305,7 +286,7 @@
             width: 16px;
             height: 16px;
             background-color: #22c55e;
-            border: 3px solid #ffffff;
+            border: 3px solid var(--card-bg);
             border-radius: 50%;
             cursor: pointer;
         }
@@ -354,6 +335,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            color: var(--text-primary);
         }
 
         .verified-badge {
@@ -374,7 +356,7 @@
         .bio {
             font-size: 14px;
             line-height: 1.6;
-            color: #334155;
+            color: var(--text-secondary);
             font-weight: 500;
             margin-bottom: 18px;
         }
@@ -387,13 +369,13 @@
         }
 
         .tag {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid #e2e8f0;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             padding: 5px 12px;
             border-radius: var(--radius-pill);
             font-size: 12px;
             font-weight: 600;
-            color: #475569;
+            color: var(--text-secondary);
             display: flex;
             align-items: center;
             gap: 6px;
@@ -407,15 +389,15 @@
             text-align: center;
             margin: 24px 0 14px 0;
             padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid #e2e8f0;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 12px;
             backdrop-filter: blur(8px);
             line-height: 1.5;
         }
 
         .scroll-quote .highlight-discover {
-            color: #0f172a;
+            color: var(--text-primary);
             font-weight: 800;
         }
 
@@ -454,8 +436,8 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            background: #ffffff;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
             transition: transform 0.25s ease, box-shadow 0.25s ease;
             cursor: pointer;
             display: flex;
@@ -499,7 +481,7 @@
             background: linear-gradient(
                 90deg,
                 transparent,
-                rgba(255, 255, 255, 0.4),
+                rgba(255, 255, 255, 0.3),
                 transparent
             );
             transform: skewX(-25deg);
@@ -519,8 +501,8 @@
 
         /* --- How Do I Work & Payment Methods Card Styling --- */
         .info-card {
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.95);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
@@ -541,7 +523,7 @@
         .info-card p {
             font-size: 13.5px;
             line-height: 1.6;
-            color: #334155;
+            color: var(--text-secondary);
             font-weight: 500;
             margin-bottom: 16px;
         }
@@ -555,8 +537,8 @@
         }
 
         .payment-column {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 12px;
             padding: 12px 10px;
             text-align: center;
@@ -572,12 +554,11 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.06);
             border-color: #cbd5e1;
-            background: #ffffff;
         }
 
         .payment-icon {
             font-size: 18px;
-            color: #000000;
+            color: var(--text-primary);
         }
 
         .payment-title {
@@ -596,7 +577,7 @@
         /* --- YouTube Comment Review Style --- */
         .reviews-wrapper {
             margin-top: 18px;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid var(--card-border);
             padding-top: 16px;
             display: flex;
             flex-direction: column;
@@ -616,8 +597,8 @@
         }
 
         .yt-comment-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 14px;
             padding: 14px;
             display: flex;
@@ -631,7 +612,7 @@
             border-radius: 50%;
             object-fit: cover;
             flex-shrink: 0;
-            border: 2px solid #ffffff;
+            border: 2px solid var(--card-bg);
             box-shadow: 0 2px 6px rgba(0,0,0,0.08);
         }
 
@@ -664,7 +645,7 @@
 
         .yt-text {
             font-size: 12.5px;
-            color: #334155;
+            color: var(--text-secondary);
             font-weight: 500;
             line-height: 1.5;
         }
@@ -678,8 +659,8 @@
         .social-btn {
             flex: 1;
             height: 48px;
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.9);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 16px;
             display: flex;
             align-items: center;
@@ -690,11 +671,8 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.02);
             position: relative;
             overflow: hidden;
+            color: var(--text-primary);
         }
-
-        .social-btn.youtube { color: #000000; }
-        .social-btn.discord { color: #000000; }
-        .social-btn.twitch { color: #000000; }
 
         .social-btn::before {
             content: '';
@@ -706,7 +684,7 @@
             background: linear-gradient(
                 90deg,
                 transparent,
-                rgba(255, 255, 255, 0.7),
+                rgba(255, 255, 255, 0.4),
                 transparent
             );
             transform: skewX(-25deg);
@@ -722,7 +700,6 @@
         }
 
         .social-btn:hover {
-            background: #ffffff;
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
@@ -735,8 +712,8 @@
         }
 
         .link-card {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.9);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             padding: 14px 18px;
             border-radius: 16px;
             display: flex;
@@ -751,7 +728,6 @@
         }
 
         .link-card:hover {
-            background: #ffffff;
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
             border-color: #cbd5e1;
@@ -767,13 +743,13 @@
             font-size: 18px;
             width: 20px;
             text-align: center;
-            color: #0f172a;
+            color: var(--text-primary);
         }
 
         /* --- Ko-Fi Beauty Support Dialog Box --- */
         .kofi-dialog-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.95));
-            border: 1px solid rgba(255, 255, 255, 0.95);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 20px;
             padding: 20px;
             text-align: center;
@@ -812,27 +788,25 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background: #0f172a;
-            color: #ffffff;
+            background: var(--text-primary);
+            color: var(--bg-cloudy);
             padding: 12px 24px;
             border-radius: var(--radius-pill);
             text-decoration: none;
             font-weight: 700;
             font-size: 13.5px;
-            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.15);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             transition: all 0.2s ease;
             position: relative;
             z-index: 2;
         }
 
         .kofi-btn:hover {
-            background: #000000;
             transform: scale(1.03);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
         }
 
         .kofi-btn i {
-            color: #ffffff;
+            color: var(--bg-cloudy);
         }
 
         /* Party / Confetti Effects Inside Ko-Fi Box */
@@ -851,7 +825,7 @@
             position: absolute;
             width: 6px;
             height: 6px;
-            background: #0f172a;
+            background: var(--text-secondary);
             opacity: 0.15;
             animation: confettiFall 4s infinite linear;
         }
@@ -961,13 +935,14 @@
         }
 
         .modal-card {
-            background: #ffffff;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
             width: 100%;
             max-width: 380px;
             border-radius: 24px;
             padding: 24px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--card-border);
             transform: scale(0.9);
             transition: transform 0.3s ease;
             text-align: center;
@@ -979,7 +954,7 @@
 
         .modal-icon-header {
             font-size: 32px;
-            color: #0f172a;
+            color: var(--text-primary);
             margin-bottom: 12px;
         }
 
@@ -992,15 +967,15 @@
 
         .modal-body-text {
             font-size: 13.5px;
-            color: #334155;
+            color: var(--text-secondary);
             line-height: 1.6;
             font-weight: 500;
             margin-bottom: 20px;
         }
 
         .modal-action-btn {
-            background: #0f172a;
-            color: #ffffff;
+            background: var(--text-primary);
+            color: var(--bg-cloudy);
             border: none;
             width: 100%;
             padding: 12px;
@@ -1008,11 +983,10 @@
             font-size: 13.5px;
             font-weight: 700;
             cursor: pointer;
-            transition: background 0.2s ease, transform 0.15s ease;
+            transition: transform 0.15s ease;
         }
 
         .modal-action-btn:hover {
-            background: #000000;
             transform: scale(1.02);
         }
 
@@ -1020,8 +994,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             padding: 12px 16px;
             border-radius: 14px;
             margin-bottom: 10px;
@@ -1038,7 +1012,7 @@
 
         .contact-info i {
             font-size: 18px;
-            color: #0f172a;
+            color: var(--text-primary);
             flex-shrink: 0;
         }
 
@@ -1065,8 +1039,8 @@
         }
 
         .copy-btn {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             padding: 6px 12px;
             border-radius: var(--radius-pill);
             font-size: 12px;
@@ -1078,9 +1052,8 @@
         }
 
         .copy-btn:hover {
-            background: #0f172a;
-            color: #ffffff;
-            border-color: #0f172a;
+            background: var(--text-primary);
+            color: var(--bg-cloudy);
         }
 
         .footer {
@@ -1155,15 +1128,6 @@
                 font-size: 13px;
             }
 
-            .overlay-text {
-                font-size: 16px;
-                padding: 10px 18px;
-            }
-
-            .overlay-cloud-icon {
-                font-size: 48px;
-            }
-
             .modal-card {
                 padding: 18px;
             }
@@ -1180,17 +1144,16 @@
 </head>
 <body>
 
-    <div id="entry-overlay">
-        <i class="fa-solid fa-cloud overlay-cloud-icon"></i>
-        <div class="overlay-text">
-            click anywhere to open
-        </div>
-    </div>
-
-    <div class="cloud-curtain" id="cloudCurtain">
-        <div class="cloud-curtain-layer">
-            <div class="cloud-curtain-puff1"></div>
-            <div class="cloud-curtain-puff2"></div>
+    <!-- Ko-Fi Style Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-container">
+            <div class="loading-title">
+                ☕ Brewing Portfolio...
+            </div>
+            <div class="coffee-bar-outer">
+                <div class="coffee-bar-inner" id="coffeeBar"></div>
+            </div>
+            <div class="loading-percentage" id="loadingPercent">0%</div>
         </div>
     </div>
 
@@ -1204,6 +1167,9 @@
         <div class="figma-badge">
             <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas
         </div>
+        <button class="theme-toggle-btn" id="themeToggle" title="Toggle Light/Dark Mode">
+            <i class="fa-solid fa-sun" id="themeIcon"></i>
+        </button>
     </nav>
 
     <div class="canvas-layout">
@@ -1305,7 +1271,7 @@
                 <!-- How Do I Work? Section -->
                 <div class="info-card">
                     <h3>
-                        <i class="fa-solid fa-circle-info" style="color: #0f172a;"></i> 
+                        <i class="fa-solid fa-circle-info"></i> 
                         How Do I Work?
                     </h3>
                     <p>
@@ -1403,14 +1369,14 @@
                 <!-- Ko-Fi Support Dialog Box with Party Effects -->
                 <div class="kofi-dialog-card shine-effect">
                     <div class="party-confetti">
-                        <div class="confetti-piece" style="background: #0f172a; left: 15%;"></div>
-                        <div class="confetti-piece" style="background: #64748b; left: 35%;"></div>
-                        <div class="confetti-piece" style="background: #0f172a; left: 55%;"></div>
-                        <div class="confetti-piece" style="background: #334155; left: 75%;"></div>
-                        <div class="confetti-piece" style="background: #94a3b8; left: 88%;"></div>
+                        <div class="confetti-piece" style="left: 15%;"></div>
+                        <div class="confetti-piece" style="left: 35%;"></div>
+                        <div class="confetti-piece" style="left: 55%;"></div>
+                        <div class="confetti-piece" style="left: 75%;"></div>
+                        <div class="confetti-piece" style="left: 88%;"></div>
                     </div>
                     <div class="kofi-header">
-                        <i class="fa-solid fa-mug-hot" style="color: #0f172a;"></i> Support Me At
+                        <i class="fa-solid fa-mug-hot"></i> Support Me At
                     </div>
                     <p class="kofi-subtitle">Enjoying my artwork or designs? Consider buying me a coffee!</p>
                     <a href="https://ko-fi.com/krushnaxd133" target="_blank" class="kofi-btn">
@@ -1439,7 +1405,7 @@
         <div class="modal-card">
             <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
                 <h3 style="font-size:18px; font-weight:800; color:var(--text-primary);">Contact Info</h3>
-                <button class="close-btn" id="closeModal" style="background:#f1f5f9; border:none; width:32px; height:32px; border-radius:50%; cursor:pointer; color:var(--text-secondary); font-size:14px; display:flex; align-items:center; justify-content:center;">&times;</button>
+                <button class="close-btn" id="closeModal" style="background:var(--card-bg); border:1px solid var(--card-border); width:32px; height:32px; border-radius:50%; cursor:pointer; color:var(--text-secondary); font-size:14px; display:flex; align-items:center; justify-content:center;">&times;</button>
             </div>
             
             <div class="contact-item">
@@ -1470,27 +1436,52 @@
     <div class="modal-overlay" id="paymentModal">
         <div class="modal-card">
             <div style="display: flex; justify-content: flex-end; margin-bottom: -10px;">
-                <button class="close-btn" onclick="closePaymentModal()" style="background:#f1f5f9; border:none; width:28px; height:28px; border-radius:50%; cursor:pointer; color:var(--text-secondary); font-size:14px; display:flex; align-items:center; justify-content:center;">&times;</button>
+                <button class="close-btn" onclick="closePaymentModal()" style="background:var(--card-bg); border:1px solid var(--card-border); width:28px; height:28px; border-radius:50%; cursor:pointer; color:var(--text-secondary); font-size:14px; display:flex; align-items:center; justify-content:center;">&times;</button>
             </div>
             <div class="modal-icon-header" id="paymentModalIcon">
                 <i class="fa-solid fa-money-bill-wave"></i>
             </div>
             <div class="modal-header-title" id="paymentModalTitle">Cash Payment</div>
-            <p class="modal-body-text" id="paymentModalDesc">The prizes depend on quality of thumbnail and the time giving for it , it may cost more as the video topic is</p>
+            <p class="modal-body-text" id="paymentModalDesc">The prices depend on quality of thumbnail and the time giving for it , it may cost more as the video topic is</p>
             <button class="modal-action-btn" onclick="closePaymentModal()">Got It</button>
         </div>
     </div>
 
     <script>
-        const entryOverlay = document.getElementById('entry-overlay');
-        const cloudCurtain = document.getElementById('cloudCurtain');
+        // Ko-Fi Loading Simulation
+        window.addEventListener('load', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            const coffeeBar = document.getElementById('coffeeBar');
+            const loadingPercent = document.getElementById('loadingPercent');
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 15) + 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        loadingScreen.style.visibility = 'hidden';
+                    }, 300);
+                }
+                coffeeBar.style.width = progress + '%';
+                loadingPercent.innerText = progress + '%';
+            }, 60);
+        });
 
-        // Click Anywhere Entry Transition Trigger
-        entryOverlay.addEventListener('click', () => {
-            cloudCurtain.classList.add('sweep-right-to-left');
+        // Theme Toggle Functionality (Sun / Moon)
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const bodyEl = document.body;
 
-            entryOverlay.style.opacity = '0';
-            entryOverlay.style.visibility = 'hidden';
+        themeToggle.addEventListener('click', () => {
+            bodyEl.classList.toggle('dark-mode');
+            if (bodyEl.classList.contains('dark-mode')) {
+                themeIcon.className = 'fa-solid fa-moon';
+            } else {
+                themeIcon.className = 'fa-solid fa-sun';
+            }
         });
 
         // Payment Modal Handlers
@@ -1557,9 +1548,9 @@
 
                 setTimeout(() => {
                     btnElement.innerText = originalText;
-                    btnElement.style.background = '#ffffff';
-                    btnElement.style.color = '#0f172a';
-                    btnElement.style.borderColor = '#cbd5e1';
+                    btnElement.style.background = '';
+                    btnElement.style.color = '';
+                    btnElement.style.borderColor = '';
                 }, 1800);
             });
         }
