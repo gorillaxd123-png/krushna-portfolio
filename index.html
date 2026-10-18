@@ -11,29 +11,29 @@
 
     <style>
         :root {
-            --bg-cloudy: #0b0b0b;
-            --card-bg: rgba(18, 18, 18, 0.82);
-            --card-border: rgba(38, 38, 38, 0.9);
-            --text-primary: #f5f5f5;
-            --text-secondary: #a3a3a3;
-            --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0,0,0,0.4);
-            --radius-main: 24px;
-            --radius-pill: 999px;
-            --cloud-color: rgba(40, 40, 40, 0.45);
-            --nav-bg: rgba(18, 18, 18, 0.85);
-            --nav-border: rgba(38, 38, 38, 0.9);
-        }
-
-        body.light-mode {
             --bg-cloudy: #e0f2fe;
             --card-bg: rgba(255, 255, 255, 0.78);
             --card-border: rgba(255, 255, 255, 0.95);
             --text-primary: #0f172a;
             --text-secondary: #64748b;
             --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 20px rgba(0,0,0,0.03);
+            --radius-main: 24px;
+            --radius-pill: 999px;
             --cloud-color: rgba(255, 255, 255, 0.85);
             --nav-bg: rgba(255, 255, 255, 0.85);
             --nav-border: rgba(255, 255, 255, 0.9);
+        }
+
+        body.dark-mode {
+            --bg-cloudy: #0b0b0b;
+            --card-bg: rgba(18, 18, 18, 0.82);
+            --card-border: rgba(38, 38, 38, 0.9);
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0,0,0,0.4);
+            --cloud-color: rgba(40, 40, 40, 0.45);
+            --nav-bg: rgba(18, 18, 18, 0.85);
+            --nav-border: rgba(38, 38, 38, 0.9);
         }
 
         * {
@@ -65,7 +65,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #0f172a;
+            background: #f8fafc;
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -79,11 +79,11 @@
             flex-direction: column;
             align-items: center;
             gap: 16px;
-            background: #1e293b;
+            background: #ffffff;
             padding: 36px 44px;
             border-radius: 28px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            border: 1px solid #334155;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            border: 1px solid #e2e8f0;
             text-align: center;
             width: 90%;
             max-width: 360px;
@@ -95,7 +95,7 @@
             gap: 10px;
             font-size: 16px;
             font-weight: 800;
-            color: #f8fafc;
+            color: #0f172a;
         }
 
         .loading-kofi-icon {
@@ -108,12 +108,12 @@
             width: 100%;
             max-width: 240px;
             height: 22px;
-            background: #0f172a;
+            background: #f1f5f9;
             border-radius: var(--radius-pill);
             overflow: hidden;
             position: relative;
-            border: 1px solid #334155;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
         }
 
         .coffee-bar-inner {
@@ -153,7 +153,7 @@
         .loading-percentage {
             font-size: 12px;
             font-weight: 700;
-            color: #94a3b8;
+            color: #64748b;
         }
 
         /* --- Realistic Styled Animated Clouds (Moving Left) --- */
@@ -286,12 +286,7 @@
             transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55), background-color 0.3s, color 0.3s;
         }
 
-        /* Since default is dark-mode, thumb is at left for moon, swipe right for sun */
-        body:not(.light-mode) .theme-switch-thumb {
-            transform: translateX(0px);
-        }
-
-        body.light-mode .theme-switch-thumb {
+        body.dark-mode .theme-switch-thumb {
             transform: translateX(30px);
         }
 
@@ -1189,7 +1184,7 @@
         }
     </style>
 </head>
-<body class="dark-mode">
+<body>
 
     <!-- Ko-Fi Liquid Loading Screen -->
     <div id="loading-screen">
@@ -1223,7 +1218,7 @@
                 <span><i class="fa-solid fa-moon"></i></span>
             </div>
             <div class="theme-switch-thumb" id="themeSwitchThumb">
-                <span id="themeThumbIcon"><i class="fa-solid fa-moon" style="font-size: 10px;"></i></span>
+                <span id="themeThumbIcon"><i class="fa-solid fa-sun" style="font-size: 10px;"></i></span>
             </div>
         </div>
     </nav>
@@ -1342,7 +1337,7 @@
                         <div class="payment-column" onclick="openPaymentModal('cash')">
                             <i class="fa-solid fa-money-bill-wave payment-icon"></i>
                             <div class="payment-title">Cash</div>
-                            <div class="payment-desc">4$ - 6$<br>We accept PayPal, Ko-Fi</div>
+                            <div class="payment-desc">4$ - 6$ (379 - 569 Rs)</div>
                         </div>
                         <div class="payment-column" onclick="openPaymentModal('nitro')">
                             <i class="fa-brands fa-discord payment-icon"></i>
@@ -1498,7 +1493,7 @@
                 <i class="fa-solid fa-money-bill-wave"></i>
             </div>
             <div class="modal-header-title" id="paymentModalTitle">Cash Payment</div>
-            <p class="modal-body-text" id="paymentModalDesc">Pricing ranges between 4$ - 6$ depending on the complexity, quality, and delivery timeframe required for your video thumbnail. We accept PayPal, Ko-Fi.</p>
+            <p class="modal-body-text" id="paymentModalDesc">The prices depend on quality of thumbnail and the time giving for it , it may cost more as the video topic is</p>
             <button class="modal-action-btn" onclick="closePaymentModal()">Got It</button>
         </div>
     </div>
@@ -1526,17 +1521,17 @@
             }, 50);
         });
 
-        // Swipe Theme Switcher Functionality with FontAwesome Icons (Dark mode by default)
+        // Swipe Theme Switcher Functionality with FontAwesome Icons
         const themeSwitchTrack = document.getElementById('themeSwitchTrack');
         const themeThumbIcon = document.getElementById('themeThumbIcon');
         const bodyEl = document.body;
 
         themeSwitchTrack.addEventListener('click', () => {
-            bodyEl.classList.toggle('light-mode');
-            if (bodyEl.classList.contains('light-mode')) {
-                themeThumbIcon.innerHTML = '<i class="fa-solid fa-sun" style="font-size: 10px;"></i>';
-            } else {
+            bodyEl.classList.toggle('dark-mode');
+            if (bodyEl.classList.contains('dark-mode')) {
                 themeThumbIcon.innerHTML = '<i class="fa-solid fa-moon" style="font-size: 10px;"></i>';
+            } else {
+                themeThumbIcon.innerHTML = '<i class="fa-solid fa-sun" style="font-size: 10px;"></i>';
             }
         });
 
@@ -1550,7 +1545,7 @@
             if (type === 'cash') {
                 paymentModalIcon.innerHTML = '<i class="fa-solid fa-money-bill-wave"></i>';
                 paymentModalTitle.innerText = 'Cash Payment';
-                paymentModalDesc.innerText = 'Pricing ranges between 4$ - 6$ depending on the complexity, quality, and delivery timeframe required for your video thumbnail.\n\nWe accept PayPal, Ko-Fi.';
+                paymentModalDesc.innerText = 'Pricing ranges between 4$ - 6$ depending on the complexity, quality, and delivery timeframe required for your video thumbnail.';
             } else if (type === 'nitro') {
                 paymentModalIcon.innerHTML = '<i class="fa-brands fa-discord"></i>';
                 paymentModalTitle.innerText = 'Discord Nitro Payment';
