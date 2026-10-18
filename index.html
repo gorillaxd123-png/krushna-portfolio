@@ -295,8 +295,8 @@
             display: flex;
             justify-content: space-between;
             padding: 0 5px;
-            font-size: 10px;
-            color: #000000;
+            font-size: 11px;
+            color: var(--text-primary);
             pointer-events: none;
         }
 
@@ -1211,14 +1211,14 @@
         <div class="figma-badge">
             <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas
         </div>
-        <!-- Apple Phone Style Swipe Theme Switcher with Custom Emojis -->
+        <!-- Apple Phone Style Swipe Theme Switcher with FontAwesome Sun/Moon Icons -->
         <div class="theme-switch-track" id="themeSwitchTrack" title="Toggle Light/Dark Mode">
-            <div class="switch-icons-bg" style="color: #000000 !important;">
-                <span style="color: #000000 !important;">☀️</span>
-                <span style="color: #000000 !important;">🌙</span>
+            <div class="switch-icons-bg">
+                <span><i class="fa-solid fa-sun"></i></span>
+                <span><i class="fa-solid fa-moon"></i></span>
             </div>
             <div class="theme-switch-thumb" id="themeSwitchThumb">
-                <span id="themeThumbEmoji" style="font-size: 11px; line-height: 1; color: #000000 !important;">☀️</span>
+                <span id="themeThumbIcon"><i class="fa-solid fa-sun" style="font-size: 10px;"></i></span>
             </div>
         </div>
     </nav>
@@ -1337,17 +1337,17 @@
                         <div class="payment-column" onclick="openPaymentModal('cash')">
                             <i class="fa-solid fa-money-bill-wave payment-icon"></i>
                             <div class="payment-title">Cash</div>
-                            <div class="payment-desc">5$ - 10$ (474 - 949 Rs)</div>
+                            <div class="payment-desc">4$ - 6$ (379 - 569 Rs)</div>
                         </div>
                         <div class="payment-column" onclick="openPaymentModal('nitro')">
                             <i class="fa-brands fa-discord payment-icon"></i>
                             <div class="payment-title">Nitro</div>
-                            <div class="payment-desc">Pay with Discord Nitro or Basic</div>
+                            <div class="payment-desc">Nitro Basic : 1 Thumbnail<br>Nitro : 3 Thumbnails</div>
                         </div>
                         <div class="payment-column" onclick="openPaymentModal('promo')">
                             <i class="fa-solid fa-bullhorn payment-icon"></i>
                             <div class="payment-title">Promo</div>
-                            <div class="payment-desc">Promo in video or channel/discord</div>
+                            <div class="payment-desc">1.5k+ Subs, 3k Avg Views, No AI History</div>
                         </div>
                     </div>
 
@@ -1417,7 +1417,7 @@
                     </div>
                 </div>
 
-                <!-- Ko-Fi Support Dialog Box with Party Effects (Updated Title & Text) -->
+                <!-- Ko-Fi Support Dialog Box with Party Effects -->
                 <div class="kofi-dialog-card shine-effect">
                     <div class="party-confetti">
                         <div class="confetti-piece" style="left: 15%;"></div>
@@ -1521,19 +1521,17 @@
             }, 50);
         });
 
-        // Swipe Theme Switcher Functionality with Custom Emojis
+        // Swipe Theme Switcher Functionality with FontAwesome Icons
         const themeSwitchTrack = document.getElementById('themeSwitchTrack');
-        const themeThumbEmoji = document.getElementById('themeThumbEmoji');
+        const themeThumbIcon = document.getElementById('themeThumbIcon');
         const bodyEl = document.body;
 
         themeSwitchTrack.addEventListener('click', () => {
             bodyEl.classList.toggle('dark-mode');
             if (bodyEl.classList.contains('dark-mode')) {
-                themeThumbEmoji.innerText = '🌙';
-                themeThumbEmoji.style.color = '#000000';
+                themeThumbIcon.innerHTML = '<i class="fa-solid fa-moon" style="font-size: 10px;"></i>';
             } else {
-                themeThumbEmoji.innerText = '☀️';
-                themeThumbEmoji.style.color = '#000000';
+                themeThumbIcon.innerHTML = '<i class="fa-solid fa-sun" style="font-size: 10px;"></i>';
             }
         });
 
@@ -1547,15 +1545,15 @@
             if (type === 'cash') {
                 paymentModalIcon.innerHTML = '<i class="fa-solid fa-money-bill-wave"></i>';
                 paymentModalTitle.innerText = 'Cash Payment';
-                paymentModalDesc.innerText = 'The prices depend on quality of thumbnail and the time giving for it , it may cost more as the video topic is';
+                paymentModalDesc.innerText = 'Pricing ranges between 4$ - 6$ depending on the complexity, quality, and delivery timeframe required for your video thumbnail.';
             } else if (type === 'nitro') {
                 paymentModalIcon.innerHTML = '<i class="fa-brands fa-discord"></i>';
                 paymentModalTitle.innerText = 'Discord Nitro Payment';
-                paymentModalDesc.innerText = 'If payment cant be done in cash , we also allow nitro payment by purchasing us nitro ( not the best option ) but works fine !';
+                paymentModalDesc.innerText = 'Nitro Basic provides 1 custom thumbnail, while full Discord Nitro provides 3 custom high-CTR thumbnails!';
             } else if (type === 'promo') {
                 paymentModalIcon.innerHTML = '<i class="fa-solid fa-bullhorn"></i>';
-                paymentModalTitle.innerText = 'Promotion Payment';
-                paymentModalDesc.innerText = 'By promoting our channel or discord in your video or description will allow you payment to be fulfilled by that ( best option ) this can be done if you cant pay the payment';
+                paymentModalTitle.innerText = 'Promotion Conditions';
+                paymentModalDesc.innerText = 'To qualify for promotion payment, your channel must meet: 1. 1.5k+ Subscribers, 2. Average Views of 3k+, 3. No AI-related video history on the channel.';
             }
             paymentModal.classList.add('active');
         }
