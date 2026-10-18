@@ -296,7 +296,7 @@
             justify-content: space-between;
             padding: 0 5px;
             font-size: 10px;
-            color: var(--text-secondary);
+            color: #000000;
             pointer-events: none;
         }
 
@@ -1213,12 +1213,12 @@
         </div>
         <!-- Apple Phone Style Swipe Theme Switcher with Custom Emojis -->
         <div class="theme-switch-track" id="themeSwitchTrack" title="Toggle Light/Dark Mode">
-            <div class="switch-icons-bg">
-                <span>🌞</span>
-                <span>🌙</span>
+            <div class="switch-icons-bg" style="color: #000000 !important;">
+                <span style="color: #000000 !important;">☀️</span>
+                <span style="color: #000000 !important;">🌙</span>
             </div>
             <div class="theme-switch-thumb" id="themeSwitchThumb">
-                <span id="themeThumbEmoji" style="font-size: 11px; line-height: 1;">🌞</span>
+                <span id="themeThumbEmoji" style="font-size: 11px; line-height: 1; color: #000000 !important;">☀️</span>
             </div>
         </div>
     </nav>
@@ -1530,8 +1530,10 @@
             bodyEl.classList.toggle('dark-mode');
             if (bodyEl.classList.contains('dark-mode')) {
                 themeThumbEmoji.innerText = '🌙';
+                themeThumbEmoji.style.color = '#000000';
             } else {
-                themeThumbEmoji.innerText = '🌞';
+                themeThumbEmoji.innerText = '☀️';
+                themeThumbEmoji.style.color = '#000000';
             }
         });
 
