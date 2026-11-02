@@ -1,1693 +1,805 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krushna — Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        :root {
-            --bg-cloudy: #e0f2fe;
-            --card-bg: rgba(255, 255, 255, 0.78);
-            --card-border: rgba(255, 255, 255, 0.95);
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 20px rgba(0,0,0,0.03);
-            --radius-main: 24px;
-            --radius-pill: 999px;
-            --cloud-color: rgba(255, 255, 255, 0.85);
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --nav-border: rgba(255, 255, 255, 0.9);
-        }
-
-        body.dark-mode {
-            --bg-cloudy: #0b0b0b;
-            --card-bg: rgba(18, 18, 18, 0.82);
-            --card-border: rgba(38, 38, 38, 0.9);
-            --text-primary: #f5f5f5;
-            --text-secondary: #a3a3a3;
-            --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0,0,0,0.4);
-            --cloud-color: rgba(40, 40, 40, 0.45);
-            --nav-bg: rgba(18, 18, 18, 0.85);
-            --nav-border: rgba(38, 38, 38, 0.9);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
-        }
-
-        body {
-            background-color: var(--bg-cloudy);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 100px 16px 40px 16px;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* --- Ko-Fi Liquid Style Loading Screen --- */
-        #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #f8fafc;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1), visibility 0.6s;
-        }
-
-        .loading-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            background: #ffffff;
-            padding: 36px 44px;
-            border-radius: 28px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
-            border: 1px solid #e2e8f0;
-            text-align: center;
-            width: 90%;
-            max-width: 360px;
-        }
-
-        .loading-header-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-            font-weight: 800;
-            color: #0f172a;
-        }
-
-        .loading-kofi-icon {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
-        }
-
-        .coffee-bar-outer {
-            width: 100%;
-            max-width: 240px;
-            height: 22px;
-            background: #f1f5f9;
-            border-radius: var(--radius-pill);
-            overflow: hidden;
-            position: relative;
-            border: 1px solid #e2e8f0;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
-        }
-
-        .coffee-bar-inner {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #78350f, #92400e, #b45309);
-            border-radius: var(--radius-pill);
-            transition: width 0.1s linear;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .coffee-bar-inner::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                90deg,
-                rgba(255,255,255,0) 0%,
-                rgba(255,255,255,0.3) 50%,
-                rgba(255,255,255,0) 100%
-            );
-            animation: liquidWave 1.2s infinite linear;
-        }
-
-        @keyframes liquidWave {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .loading-percentage {
-            font-size: 12px;
-            font-weight: 700;
-            color: #64748b;
-        }
-
-        /* --- Realistic Styled Animated Clouds (Moving Left) --- */
-        .cloud-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .realistic-cloud {
-            position: absolute;
-            background: var(--cloud-color);
-            border-radius: 100px;
-            filter: blur(12px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.03);
-            animation: floatCloudsLeft 35s linear infinite;
-        }
-
-        .realistic-cloud::before,
-        .realistic-cloud::after {
-            content: '';
-            position: absolute;
-            background: var(--cloud-color);
-            border-radius: 50%;
-        }
-
-        .cloud-el-1 {
-            width: 280px;
-            height: 90px;
-            top: 12%;
-            right: -35%;
-            animation-duration: 38s;
-        }
-        .cloud-el-1::before { width: 120px; height: 120px; top: -60px; left: 40px; }
-        .cloud-el-1::after { width: 90px; height: 90px; top: -40px; left: 130px; }
-
-        .cloud-el-2 {
-            width: 340px;
-            height: 110px;
-            top: 48%;
-            right: -45%;
-            animation-duration: 45s;
-            animation-delay: -10s;
-        }
-        .cloud-el-2::before { width: 150px; height: 150px; top: -75px; left: 60px; }
-        .cloud-el-2::after { width: 110px; height: 110px; top: -55px; left: 170px; }
-
-        .cloud-el-3 {
-            width: 220px;
-            height: 75px;
-            bottom: 10%;
-            right: -30%;
-            animation-duration: 30s;
-            animation-delay: -5s;
-        }
-        .cloud-el-3::before { width: 90px; height: 90px; top: -45px; left: 30px; }
-        .cloud-el-3::after { width: 75px; height: 75px; top: -35px; left: 100px; }
-
-        @keyframes floatCloudsLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-160vw); }
-        }
-
-        /* --- Top Navigation --- */
-        .figma-nav {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--nav-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--nav-border);
-            padding: 6px 12px;
-            border-radius: var(--radius-pill);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            z-index: 100;
-            max-width: 92vw;
-        }
-
-        .figma-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 6px 14px;
-            background: var(--text-primary);
-            color: var(--bg-cloudy);
-            border-radius: var(--radius-pill);
-            white-space: nowrap;
-        }
-
-        /* --- Apple Phone Style Swipe Theme Switcher --- */
-        .theme-switch-track {
-            position: relative;
-            width: 60px;
-            height: 30px;
-            background: rgba(100, 116, 139, 0.2);
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            padding: 3px;
-            border: 1px solid var(--card-border);
-            transition: background-color 0.3s ease;
-        }
-
-        .theme-switch-thumb {
-            position: absolute;
-            left: 3px;
-            width: 22px;
-            height: 22px;
-            background: var(--text-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--bg-cloudy);
-            font-size: 11px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55), background-color 0.3s, color 0.3s;
-        }
-
-        body.dark-mode .theme-switch-thumb {
-            transform: translateX(30px);
-        }
-
-        .switch-icons-bg {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 5px;
-            font-size: 10px;
-            color: #000000;
-            pointer-events: none;
-        }
-
-        /* --- Middle Canvas Layout Container (Fully Responsive) --- */
-        .canvas-layout {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            max-width: 520px;
-            z-index: 10;
-        }
-
-        /* Canvas Info Card */
-        .category-canvas {
-            width: 100%;
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-main);
-            box-shadow: var(--shadow-figma);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .banner {
-            width: 100%;
-            height: 160px;
-            background-color: #cbd5e1;
-            overflow: hidden;
-        }
-
-        .banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-content {
-            padding: 0 24px 24px 24px;
-        }
-
-        .avatar-wrapper {
-            position: relative;
-            margin-top: -46px;
-            margin-bottom: 12px;
-            display: inline-block;
-        }
-
-        .avatar {
-            width: 88px;
-            height: 88px;
-            border-radius: 50%;
-            border: 4px solid var(--card-bg);
-            object-fit: cover;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            background: #fff;
-        }
-
-        .online-status {
-            position: absolute;
-            bottom: 4px;
-            right: 4px;
-            width: 15px;
-            height: 15px;
-            background-color: #22c55e;
-            border: 3px solid var(--card-bg);
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .status-tooltip {
-            position: absolute;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(5px);
-            background: #0f172a;
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 8px;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .status-tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 5px;
-            border-style: solid;
-            border-color: #0f172a transparent transparent transparent;
-        }
-
-        .avatar-wrapper:hover .status-tooltip,
-        .online-status:hover + .status-tooltip {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .user-info h1 {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-primary);
-        }
-
-        .verified-badge {
-            color: #0969da;
-            font-size: 16px;
-        }
-
-        .username {
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .bio {
-            font-size: 13.5px;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-bottom: 16px;
-        }
-
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 18px;
-        }
-
-        .tag {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 4px 10px;
-            border-radius: var(--radius-pill);
-            font-size: 11.5px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* Quote / Scroll Banner Styling */
-        .scroll-quote {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-align: center;
-            margin: 20px 0 12px 0;
-            padding: 10px 14px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            backdrop-filter: blur(8px);
-            line-height: 1.5;
-        }
-
-        .scroll-quote .highlight-discover {
-            color: var(--text-primary);
-            font-weight: 800;
-        }
-
-        .scroll-quote .quote-author {
-            display: block;
-            font-size: 10.5px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-top: 2px;
-        }
-
-        /* Section Title Styling */
-        .section-title {
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin: 18px 0 10px 0;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Showcase Grid and Interactive Lightbox Trigger */
-        .showcase-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-
-        .showcase-card {
-            position: relative;
-            width: 100%;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--card-border);
-            background: var(--card-bg);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .showcase-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-
-        .showcase-card img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-        }
-
-        .showcase-card.pfp-card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 16px;
-            display: block;
-            margin: 0 auto;
-        }
-
-        /* Smooth Clean Shine Hover Effect */
-        .shine-effect {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .shine-effect::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.25),
-                transparent
-            );
-            transform: skewX(-25deg);
-            transition: none;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .shine-effect:hover::before {
-            animation: smoothHoverShine 0.8s ease-out forwards;
-        }
-
-        @keyframes smoothHoverShine {
-            0% { left: -100%; }
-            100% { left: 200%; }
-        }
-
-        /* --- How Do I Work & Payment Methods Card Styling --- */
-        .info-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 18px;
-            margin-bottom: 18px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-            backdrop-filter: blur(10px);
-        }
-
-        .info-card h3 {
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .info-card p {
-            font-size: 13px;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-bottom: 14px;
-        }
-
-        /* 3-Column Payment Methods Grid */
-        .payment-methods-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .payment-column {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 10px 6px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-        }
-
-        .payment-column:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            border-color: #cbd5e1;
-        }
-
-        .payment-icon {
-            font-size: 16px;
-            color: var(--text-primary);
-        }
-
-        .payment-title {
-            font-size: 11.5px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .payment-desc {
-            font-size: 10px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            line-height: 1.3;
-        }
-
-        /* --- YouTube Comment Review Style --- */
-        .reviews-wrapper {
-            margin-top: 16px;
-            border-top: 1px solid var(--card-border);
-            padding-top: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .reviews-title {
-            font-size: 12.5px;
-            font-weight: 800;
-            color: var(--text-primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 2px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .yt-comment-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 12px;
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
-        }
-
-        .yt-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            object-fit: cover;
-            flex-shrink: 0;
-            border: 2px solid var(--card-bg);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-        }
-
-        .yt-comment-content {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .yt-comment-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .yt-username {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .yt-stars {
-            color: var(--text-primary);
-            font-size: 10px;
-            display: flex;
-            gap: 2px;
-        }
-
-        .yt-text {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            line-height: 1.4;
-        }
-
-        .social-icons-grid {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        .social-btn {
-            flex: 1;
-            height: 44px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            text-decoration: none;
-            transition: all 0.25s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-            position: relative;
-            overflow: hidden;
-            color: var(--text-primary);
-        }
-
-        .social-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.3),
-                transparent
-            );
-            transform: skewX(-25deg);
-            animation: continuousShine 3.5s infinite;
-        }
-
-        .social-btn.discord { animation-delay: 1.2s; }
-        .social-btn.twitch { animation-delay: 2.4s; }
-
-        @keyframes continuousShine {
-            0% { left: -100%; }
-            20%, 100% { left: 200%; }
-        }
-
-        .social-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        }
-
-        .links-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 18px;
-        }
-
-        .link-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 12px 16px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 13.5px;
-            transition: all 0.25s ease;
-            cursor: pointer;
-        }
-
-        .link-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-            border-color: #cbd5e1;
-        }
-
-        .link-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .link-left i {
-            font-size: 16px;
-            width: 20px;
-            text-align: center;
-            color: var(--text-primary);
-        }
-
-        /* --- Ko-Fi Beauty Support Dialog Box --- */
-        .kofi-dialog-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 18px;
-            padding: 18px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 18px;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .kofi-dialog-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-        }
-
-        .kofi-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 14.5px;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 6px;
-        }
-
-        .kofi-subtitle {
-            font-size: 11.5px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-bottom: 14px;
-        }
-
-        .kofi-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: var(--text-primary);
-            color: var(--bg-cloudy);
-            padding: 11px 22px;
-            border-radius: var(--radius-pill);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 13px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            transition: all 0.2s ease;
-            position: relative;
-            z-index: 2;
-        }
-
-        .kofi-btn:hover {
-            transform: scale(1.03);
-        }
-
-        .kofi-btn img.kofi-inline-emoji {
-            width: 16px;
-            height: 16px;
-            object-fit: contain;
-        }
-
-        /* Party / Confetti Effects Inside Ko-Fi Box */
-        .party-confetti {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .confetti-piece {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            background: var(--text-secondary);
-            opacity: 0.15;
-            animation: confettiFall 4s infinite linear;
-        }
-
-        .confetti-piece:nth-child(1) { left: 10%; top: -10px; animation-duration: 3.2s; animation-delay: 0s; border-radius: 50%; }
-        .confetti-piece:nth-child(2) { left: 30%; top: -10px; animation-duration: 4.5s; animation-delay: 1.2s; }
-        .confetti-piece:nth-child(3) { left: 50%; top: -10px; animation-duration: 3.8s; animation-delay: 0.5s; border-radius: 50%; }
-        .confetti-piece:nth-child(4) { left: 70%; top: -10px; animation-duration: 4.1s; animation-delay: 2.1s; }
-        .confetti-piece:nth-child(5) { left: 90%; top: -10px; animation-duration: 3.5s; animation-delay: 0.8s; }
-
-        @keyframes confettiFall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
-            100% { transform: translateY(120px) rotate(360deg); opacity: 0; }
-        }
-
-        /* --- Image Lightbox / Zoom Viewer --- */
-        .lightbox-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(11, 11, 11, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 10005;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            overflow: hidden;
-        }
-
-        .lightbox-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .lightbox-viewport {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        .lightbox-img {
-            max-width: 92vw;
-            max-height: 85vh;
-            object-fit: contain;
-            user-select: none;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
-            border-radius: 8px;
-            transform-origin: 0 0;
-            will-change: transform;
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 50%;
-            color: #ffffff;
-            font-size: 18px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            z-index: 10006;
-            backdrop-filter: blur(8px);
-        }
-
-        .lightbox-close:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-
-        /* --- Modal Popups --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            z-index: 10001;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            padding: 16px;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            width: 100%;
-            max-width: 360px;
-            border-radius: 22px;
-            padding: 22px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--card-border);
-            transform: scale(0.92);
-            transition: transform 0.3s ease;
-            text-align: center;
-        }
-
-        .modal-overlay.active .modal-card {
-            transform: scale(1);
-        }
-
-        .modal-icon-header {
-            font-size: 28px;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-        }
-
-        .modal-header-title {
-            font-size: 17px;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-
-        .modal-body-text {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            font-weight: 500;
-            margin-bottom: 18px;
-        }
-
-        .modal-action-btn {
-            background: var(--text-primary);
-            color: var(--bg-cloudy);
-            border: none;
-            width: 100%;
-            padding: 11px;
-            border-radius: var(--radius-pill);
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.15s ease;
-        }
-
-        .modal-action-btn:hover {
-            transform: scale(1.02);
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 10px 14px;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            gap: 8px;
-            text-align: left;
-        }
-
-        .contact-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            overflow: hidden;
-        }
-
-        .contact-info i {
-            font-size: 16px;
-            color: var(--text-primary);
-            flex-shrink: 0;
-        }
-
-        .contact-details {
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .contact-label {
-            font-size: 10.5px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .contact-value {
-            font-size: 12.5px;
-            font-weight: 700;
-            color: var(--text-primary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .copy-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 5px 10px;
-            border-radius: var(--radius-pill);
-            font-size: 11.5px;
-            font-weight: 600;
-            cursor: pointer;
-            color: var(--text-primary);
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .copy-btn:hover {
-            background: var(--text-primary);
-            color: var(--bg-cloudy);
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: auto;
-            padding-top: 14px;
-            font-size: 11.5px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .footer a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 700;
-        }
-
-        /* Responsive Breakpoints for Tablet & Mobile */
-        @media (max-width: 768px) {
-            body {
-                padding: 80px 12px 30px 12px;
-            }
-            .canvas-layout {
-                max-width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .profile-content {
-                padding: 0 16px 20px 16px;
-            }
-            .banner {
-                height: 130px;
-            }
-            .avatar {
-                width: 76px;
-                height: 76px;
-            }
-            .avatar-wrapper {
-                margin-top: -38px;
-            }
-            .user-info h1 {
-                font-size: 20px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krushna | Portfolio & Links</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Pixel Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome for UI icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            pixel: ['"Press Start 2P"', 'monospace'],
+            mono: ['"VT323"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'VT323', monospace;
+      background-color: #f7f9fc;
+      color: #0f172a;
+      overflow-x: hidden;
+      image-rendering: pixelated;
+    }
+
+    /* Subtle pixel background grid */
+    .bg-pixel-grid {
+      background-size: 24px 24px;
+      background-image: 
+        linear-gradient(to right, rgba(0, 0, 0, 0.04) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 2px, transparent 2px);
+    }
+
+    /* Pixel Art Shadow & Border styling */
+    .pixel-card {
+      border: 3px solid #0f172a;
+      box-shadow: 4px 4px 0px 0px #0f172a;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    }
+    
+    .pixel-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px 0px #0f172a;
+    }
+
+    .pixel-card:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px 0px #0f172a;
+    }
+
+    .pixel-badge {
+      border: 2px solid #0f172a;
+      box-shadow: 2px 2px 0px 0px #0f172a;
+    }
+
+    /* Toast Notification */
+    #toast {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      border: 3px solid #0f172a;
+      box-shadow: 4px 4px 0px 0px #0f172a;
+    }
+
+    /* Canvas styling */
+    #waterCanvas {
+      display: block;
+      width: 100%;
+      height: 180px;
+      pointer-events: auto;
+    }
+
+    #doodleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Keyframes for Wobbling Pixelated Loader */
+    @keyframes pixel-wobble {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      20% { transform: translate(-3px, 2px) rotate(-1.5deg); }
+      40% { transform: translate(3px, -2px) rotate(1.5deg); }
+      60% { transform: translate(-2px, -3px) rotate(-1deg); }
+      80% { transform: translate(2px, 3px) rotate(1deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    .animate-wobble {
+      animation: pixel-wobble 0.35s infinite ease-in-out;
+    }
+
+    /* Pixelated progress bar styling */
+    .pixel-progress-border {
+      border: 4px solid #0f172a;
+      box-shadow: 4px 4px 0px 0px #0f172a;
+    }
+  </style>
 </head>
-<body>
+<body class="bg-pixel-grid min-h-screen flex flex-col justify-between text-slate-900 antialiased selection:bg-slate-900 selection:text-white">
 
-    <!-- Ko-Fi Liquid Loading Screen -->
-    <div id="loading-screen">
-        <div class="loading-container">
-            <div class="loading-header-row">
-                <img src="https://cdn3.emoji.gg/emojis/24562-kofi.png" alt="Ko-fi" class="loading-kofi-icon">
-                Brewing Portfolio...
-            </div>
-            <div class="coffee-bar-outer">
-                <div class="coffee-bar-inner" id="coffeeBar"></div>
-            </div>
-            <div class="loading-percentage" id="loadingPercent">0%</div>
+  <!-- Interactive Background Interactive Doodles Canvas -->
+  <canvas id="doodleCanvas"></canvas>
+
+  <!-- Wobbling Pixelated Entry Loading Overlay -->
+  <div id="loadingOverlay" class="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center p-6 border-8 border-slate-900 transition-all duration-700">
+    <div class="flex flex-col items-center max-w-sm w-full text-center">
+      
+      <!-- Wobbling Profile Preview Box -->
+      <div class="relative mb-6 animate-wobble">
+        <div class="w-24 h-24 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)]">
+          <img 
+            src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
+            alt="Krushna PFP Loader"
+            class="w-full h-full object-cover rounded-none bg-slate-100"
+            onerror="this.onerror=null; this.src='https://placehold.co/96x96/ffffff/0f172a?text=K';"
+          />
         </div>
-    </div>
+      </div>
 
-    <!-- Realistic Animated Clouds Background (Moving Left) -->
-    <div class="cloud-bg">
-        <div class="realistic-cloud cloud-el-1"></div>
-        <div class="realistic-cloud cloud-el-2"></div>
-        <div class="realistic-cloud cloud-el-3"></div>
-    </div>
+      <!-- Wobbling Title -->
+      <h2 class="font-pixel text-xl text-slate-900 mb-2 uppercase animate-wobble tracking-widest">
+        KRUSHNA
+      </h2>
+      <p id="loaderStatusText" class="font-mono text-lg text-slate-600 mb-6 tracking-wide">
+        INITIALIZING PIXEL SPACE...
+      </p>
 
-    <nav class="figma-nav">
-        <div class="figma-badge">
-            <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas
-        </div>
-        <!-- Apple Phone Style Swipe Theme Switcher with Custom Emojis -->
-        <div class="theme-switch-track" id="themeSwitchTrack" title="Toggle Light/Dark Mode">
-            <div class="switch-icons-bg" style="color: #000000 !important;">
-                <span style="color: #000000 !important;">☀️</span>
-                <span style="color: #000000 !important;">🌙</span>
-            </div>
-            <div class="theme-switch-thumb" id="themeSwitchThumb">
-                <span id="themeThumbEmoji" style="font-size: 11px; line-height: 1; color: #000000 !important;">☀️</span>
-            </div>
-        </div>
-    </nav>
+      <!-- Pixelated Wobbling Progress Bar -->
+      <div class="w-full bg-white p-1.5 mb-6 pixel-progress-border">
+        <div id="progressBar" class="h-5 bg-slate-900 transition-all duration-200 w-0"></div>
+      </div>
 
-    <div class="canvas-layout">
-
-        <div class="category-canvas">
-            <div class="banner">
-                <img src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Banner%201.png?raw=true" alt="Banner">
-            </div>
-
-            <div class="profile-content">
-                <div class="avatar-wrapper">
-                    <img class="avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Pfp%201.png?raw=true" alt="Krushna Avatar">
-                    <div class="online-status"></div>
-                    <div class="status-tooltip">Online</div>
-                </div>
-
-                <div class="user-info">
-                    <h1>Krushna <i class="fa-solid fa-circle-check verified-badge" title="Verified Creator"></i></h1>
-                    <div class="username"><i class="fa-brands fa-discord"></i> krushnaxd133</div>
-                    <p class="bio">
-                        Professional Thumbnail Artist & Visual Designer creating high-CTR graphics, custom artwork, animations, and clean digital designs.
-                    </p>
-                </div>
-
-                <div class="tags">
-                    <span class="tag"><i class="fa-solid fa-palette"></i> Artist</span>
-                    <span class="tag"><i class="fa-solid fa-wand-magic-sparkles"></i> Designer</span>
-                    <span class="tag"><i class="fa-solid fa-film"></i> Animator</span>
-                    <span class="tag"><i class="fa-solid fa-scissors"></i> Editor</span>
-                    <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
-                </div>
-
-                <!-- Scroll Quote Title -->
-                <div class="scroll-quote">
-                    "The More You Scroll , The More You <span class="highlight-discover">Discover</span>"
-                    <span class="quote-author">~krushna</span>
-                </div>
-
-                <!-- Thumbnails Section -->
-                <h2 class="section-title"><i class="fa-solid fa-image"></i> Thumbnails</h2>
-                <div class="showcase-grid">
-                    <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/watermarked1.png?raw=true" alt="Watermarked 1">
-                    </div>
-                    <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/omen%20ragebaiting%20ug.png?raw=true" alt="Omen Ragebaiting UG">
-                    </div>
-                    <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/The%20Strongest%20Minecraft%20Player.png?raw=true" alt="The Strongest Minecraft Player">
-                    </div>
-                    <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/How%20To%20Make%20Beautiful%20Looking%20Pfps.png?raw=true" alt="How To Make Beautiful Looking Pfps">
-                    </div>
-                    <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/How%20I%20Dominated%20Stay%20Smp.png?raw=true" alt="How I Dominated Stay Smp">
-                    </div>
-                    <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/Watermarked%201.png?raw=true" alt="Watermarked 1 Alt">
-                    </div>
-                    <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/How%20To%20Shade%20watermarked.png?raw=true" alt="How To Shade Watermarked">
-                    </div>
-                    <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/The%20Strongest%20Player.png?raw=true" alt="The Strongest Player">
-                    </div>
-                    <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Omen%20Does%20Dares.png?raw=true" alt="Omen Does Dares">
-                    </div>
-                </div>
-
-                <!-- SidebySide Category Section -->
-                <h2 class="section-title"><i class="fa-solid fa-columns"></i> SidebySide</h2>
-                <div class="showcase-grid">
-                    <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/The%20Strongest%20Minecraft%20Playersidebyside.png?raw=true" alt="The Strongest Minecraft Player Side by Side">
-                    </div>
-                    <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/CherryPractice/blob/main/i%20doniated%20stya%20smp.png?raw=true" alt="I Dominated Stay SMP Side by Side">
-                    </div>
-                </div>
-
-                <!-- Profile Pictures Section -->
-                <h2 class="section-title"><i class="fa-solid fa-user-circle"></i> Profile Pictures</h2>
-                <div class="showcase-grid">
-                    <div class="showcase-card pfp-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/1.png?raw=true" alt="Profile Picture 1">
-                    </div>
-                    <div class="showcase-card pfp-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/2.png?raw=true" alt="Profile Picture 2">
-                    </div>
-                    <div class="showcase-card pfp-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/3.png?raw=true" alt="Profile Picture 3">
-                    </div>
-                    <div class="showcase-card pfp-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/4.png?raw=true" alt="Profile Picture 4">
-                    </div>
-                </div>
-
-                <!-- How Do I Work? Section -->
-                <div class="info-card">
-                    <h3>
-                        <i class="fa-solid fa-circle-info"></i> 
-                        How Do I Work?
-                    </h3>
-                    <p>
-                        I work on based quality type of thumbnail that you are expecting for your YouTube videos. Every design is crafted meticulously to ensure maximum click-through rate (CTR) and visual appeal.
-                    </p>
-
-                    <div class="section-title" style="margin: 14px 0 8px 0; font-size: 13px;">
-                        <i class="fa-solid fa-credit-card"></i> Payment Methods
-                    </div>
-
-                    <div class="payment-methods-grid">
-                        <div class="payment-column" onclick="openPaymentModal('cash')">
-                            <i class="fa-solid fa-money-bill-wave payment-icon"></i>
-                            <div class="payment-title">Cash</div>
-                            <div class="payment-desc">5$ - 10$ (474 - 949 Rs)</div>
-                        </div>
-                        <div class="payment-column" onclick="openPaymentModal('nitro')">
-                            <i class="fa-brands fa-discord payment-icon"></i>
-                            <div class="payment-title">Nitro</div>
-                            <div class="payment-desc">Pay with Discord Nitro or Basic</div>
-                        </div>
-                        <div class="payment-column" onclick="openPaymentModal('promo')">
-                            <i class="fa-solid fa-bullhorn payment-icon"></i>
-                            <div class="payment-title">Promo</div>
-                            <div class="payment-desc">Promo in video or channel/discord</div>
-                        </div>
-                    </div>
-
-                    <!-- Reviews / YouTube Comment Section -->
-                    <div class="reviews-wrapper">
-                        <div class="reviews-title">
-                            <i class="fa-regular fa-comment-dots"></i> Reviews
-                        </div>
-
-                        <!-- Review 1: Omenvalot -->
-                        <div class="yt-comment-card shine-effect">
-                            <img class="yt-avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/GLAL4RHh9F9pELBj0qk1SsR88Md9oSZ3RDZ5PVUbBcWR5n5sExIrEJSSSvrcH-pnYztrIjut=s900-c-k-c0x00ffffff-no-rj.webp?raw=true" alt="Omenvalot">
-                            <div class="yt-comment-content">
-                                <div class="yt-comment-header">
-                                    <span class="yt-username">Omenvalot</span>
-                                    <div class="yt-stars">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
-                                <p class="yt-text">"My Goat Creates Thumbnails Faster Than My Wifi"</p>
-                            </div>
-                        </div>
-
-                        <!-- Review 2: Bon_esprit -->
-                        <div class="yt-comment-card shine-effect">
-                            <img class="yt-avatar" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/D5mlV0vWSlvu8I6vZsadwj3aBxCr5j2b2qyDMAhGZvwEe2nRqBLWeSPASshGNv8i9NbiEe71=s900-c-k-c0x00ffffff-no-rj.webp?raw=true" alt="Bon_esprit">
-                            <div class="yt-comment-content">
-                                <div class="yt-comment-header">
-                                    <span class="yt-username">Bon_esprit</span>
-                                    <div class="yt-stars">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
-                                <p class="yt-text">"Thumbnails Are Cool , Smooth And High Quality ! , It Helped Me A Lot"</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="social-icons-grid">
-                    <a href="https://www.youtube.com/@krushnaxd133" target="_blank" class="social-btn youtube" title="YouTube Channel">
-                        <i class="fa-brands fa-youtube"></i>
-                    </a>
-                    <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="social-btn discord" title="Join Discord Server">
-                        <i class="fa-brands fa-discord"></i>
-                    </a>
-                    <a href="https://www.twitch.tv/krushnaxd123" target="_blank" class="social-btn twitch" title="Twitch Stream">
-                        <i class="fa-brands fa-twitch"></i>
-                    </a>
-                </div>
-
-                <div class="links-grid">
-                    <div class="link-card" id="contactBtn">
-                        <div class="link-left">
-                            <i class="fa-regular fa-envelope"></i>
-                            <span>Contact Me</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: var(--text-secondary);"></i>
-                    </div>
-                </div>
-
-                <!-- Ko-Fi Support Dialog Box with Party Effects (Updated Title & Text) -->
-                <div class="kofi-dialog-card shine-effect">
-                    <div class="party-confetti">
-                        <div class="confetti-piece" style="left: 15%;"></div>
-                        <div class="confetti-piece" style="left: 35%;"></div>
-                        <div class="confetti-piece" style="left: 55%;"></div>
-                        <div class="confetti-piece" style="left: 75%;"></div>
-                        <div class="confetti-piece" style="left: 88%;"></div>
-                    </div>
-                    <div class="kofi-header">
-                        Support Me
-                    </div>
-                    <p class="kofi-subtitle">Enjoying my artwork or designs? Consider buying me a coffee!</p>
-                    <a href="https://ko-fi.com/krushnaxd133" target="_blank" class="kofi-btn">
-                        <img src="https://cdn3.emoji.gg/emojis/24562-kofi.png" alt="Ko-fi" class="kofi-inline-emoji"> Support on Ko-fi
-                    </a>
-                </div>
-
-                <div class="footer">
-                    Designed by <a href="#">Krushna</a> &bull; Powered by <a href="#">Vercel</a>
-                </div>
-            </div>
-        </div>
+      <!-- Enter Button (Appears when loaded) -->
+      <button 
+        id="enterBtn" 
+        onclick="dismissLoader()"
+        class="hidden font-pixel text-xs px-6 py-3 bg-slate-900 text-white border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,0.4)] hover:bg-slate-800 hover:scale-105 active:scale-95 transition-all cursor-pointer animate-wobble"
+      >
+        [ PRESS TO ENTER ]
+      </button>
 
     </div>
+  </div>
 
-    <!-- Lightbox Modal -->
-    <div class="lightbox-overlay" id="lightboxOverlay">
-        <button class="lightbox-close" id="lightboxClose" title="Close"><i class="fa-solid fa-xmark"></i></button>
-        <div class="lightbox-viewport" id="lightboxViewport">
-            <img class="lightbox-img" id="lightboxTarget" src="" alt="Thumbnail Full View">
+  <!-- Toast Notification for Copy Actions -->
+  <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transform -translate-y-12 opacity-0 pointer-events-none bg-white text-slate-900 px-5 py-3 rounded-none flex items-center gap-3">
+    <i class="fa-solid fa-square-check text-emerald-600 text-lg"></i>
+    <span id="toast-message" class="font-pixel text-xs tracking-wide">Copied!</span>
+  </div>
+
+  <!-- Main Portfolio Container -->
+  <main class="w-full max-w-xl mx-auto flex-1 flex flex-col items-center justify-center p-4 sm:p-6 pt-10 pb-6 z-10 relative">
+    
+    <!-- Profile Header Section -->
+    <header class="text-center w-full mb-8 flex flex-col items-center">
+      
+      <!-- Pixel Avatar Frame -->
+      <div class="relative group mb-6">
+        <div class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform group-hover:scale-105">
+          <img 
+            src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
+            alt="Krushna Profile Picture"
+            class="w-full h-full object-cover rounded-none bg-slate-100"
+            onerror="this.onerror=null; this.src='https://placehold.co/128x128/ffffff/0f172a?text=Krushna';"
+          />
         </div>
-    </div>
+      </div>
 
-    <!-- Contact Modal -->
-    <div class="modal-overlay" id="contactModal">
-        <div class="modal-card">
-            <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-                <h3 style="font-size:17px; font-weight:800; color:var(--text-primary);">Contact Info</h3>
-                <button class="close-btn" id="closeModal" style="background:var(--card-bg); border:1px solid var(--card-border); width:30px; height:30px; border-radius:50%; cursor:pointer; color:var(--text-secondary); font-size:14px; display:flex; align-items:center; justify-content:center;">&times;</button>
-            </div>
-            
-            <div class="contact-item">
-                <div class="contact-info">
-                    <i class="fa-brands fa-discord"></i>
-                    <div class="contact-details">
-                        <span class="contact-label">Discord</span>
-                        <span class="contact-value" id="discordVal">krushnaxd133</span>
-                    </div>
-                </div>
-                <button class="copy-btn" onclick="copyText('discordVal', this)">Copy</button>
-            </div>
+      <!-- Pixel Username -->
+      <h1 class="font-pixel text-2xl sm:text-3xl tracking-wider text-slate-900 mb-4 uppercase">
+        Krushna
+      </h1>
 
-            <div class="contact-item">
-                <div class="contact-info">
-                    <i class="fa-regular fa-envelope"></i>
-                    <div class="contact-details">
-                        <span class="contact-label">Email</span>
-                        <span class="contact-value" id="emailVal">krushnabusiness1234@gmail.com</span>
-                    </div>
-                </div>
-                <button class="copy-btn" onclick="copyText('emailVal', this)">Copy</button>
-            </div>
+      <!-- Roles Pixel Badges -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-4 font-mono text-base font-bold">
+        <span class="pixel-badge px-3 py-1 bg-white text-slate-800 flex items-center gap-1.5">
+          <span>🎨</span> ARTIST
+        </span>
+        <span class="pixel-badge px-3 py-1 bg-white text-slate-800 flex items-center gap-1.5">
+          <span>🖼️</span> THUMBNAIL DESIGNER
+        </span>
+        <span class="pixel-badge px-3 py-1 bg-white text-slate-800 flex items-center gap-1.5">
+          <span>✂️</span> EDITOR
+        </span>
+      </div>
+
+      <!-- Bio / Intro Subtitle -->
+      <p class="font-mono text-xl text-slate-600 max-w-md">
+        Welcome to my pixel space. My links, socials & creations!
+      </p>
+    </header>
+
+    <!-- Links / Cards Container -->
+    <section class="w-full flex flex-col gap-4">
+
+      <!-- YouTube Card -->
+      <a 
+        href="https://www.youtube.com/@krushnaxd133" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="pixel-card bg-white p-3.5 flex items-center justify-between group cursor-pointer"
+      >
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-900 bg-red-50 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/youtube_icon_bg.png?raw=true" 
+              alt="YouTube Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/ff0000/ffffff?text=YT';"
+            />
+          </div>
+          <div class="text-left">
+            <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-red-600 transition-colors">YOUTUBE</h2>
+            <p class="font-mono text-lg text-slate-500">@krushnaxd133</p>
+          </div>
         </div>
-    </div>
-
-    <!-- Payment Information Dialog Modal -->
-    <div class="modal-overlay" id="paymentModal">
-        <div class="modal-card">
-            <div style="display: flex; justify-content: flex-end; margin-bottom: -10px;">
-                <button class="close-btn" onclick="closePaymentModal()" style="background:var(--card-bg); border:1px solid var(--card-border); width:26px; height:26px; border-radius:50%; cursor:pointer; color:var(--text-secondary); font-size:13px; display:flex; align-items:center; justify-content:center;">&times;</button>
-            </div>
-            <div class="modal-icon-header" id="paymentModalIcon">
-                <i class="fa-solid fa-money-bill-wave"></i>
-            </div>
-            <div class="modal-header-title" id="paymentModalTitle">Cash Payment</div>
-            <p class="modal-body-text" id="paymentModalDesc">The prices depend on quality of thumbnail and the time giving for it , it may cost more as the video topic is</p>
-            <button class="modal-action-btn" onclick="closePaymentModal()">Got It</button>
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-900 group-hover:bg-red-500 group-hover:text-white transition-colors shrink-0">
+          <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
         </div>
-    </div>
+      </a>
 
-    <script>
-        // Ko-Fi Liquid Loading Simulation
-        window.addEventListener('load', () => {
-            const loadingScreen = document.getElementById('loading-screen');
-            const coffeeBar = document.getElementById('coffeeBar');
-            const loadingPercent = document.getElementById('loadingPercent');
-            
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 12) + 4;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        loadingScreen.style.opacity = '0';
-                        loadingScreen.style.visibility = 'hidden';
-                    }, 400);
-                }
-                coffeeBar.style.width = progress + '%';
-                loadingPercent.innerText = progress + '%';
-            }, 50);
+      <!-- Twitch Card -->
+      <a 
+        href="https://www.twitch.tv/krushnaxd123" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="pixel-card bg-white p-3.5 flex items-center justify-between group cursor-pointer"
+      >
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-900 bg-purple-50 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/twitch_icon_bg.png?raw=true" 
+              alt="Twitch Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/9146ff/ffffff?text=TW';"
+            />
+          </div>
+          <div class="text-left">
+            <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-purple-600 transition-colors">TWITCH</h2>
+            <p class="font-mono text-lg text-slate-500">krushnaxd123</p>
+          </div>
+        </div>
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-900 group-hover:bg-purple-600 group-hover:text-white transition-colors shrink-0">
+          <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+        </div>
+      </a>
+
+      <!-- Instagram Card -->
+      <a 
+        href="https://www.instagram.com/krushna_xd123/?__pwa=1" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="pixel-card bg-white p-3.5 flex items-center justify-between group cursor-pointer"
+      >
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-900 bg-pink-50 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/instagram_icon_bg.png?raw=true" 
+              alt="Instagram Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/e1306c/ffffff?text=IG';"
+            />
+          </div>
+          <div class="text-left">
+            <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-pink-600 transition-colors">INSTAGRAM</h2>
+            <p class="font-mono text-lg text-slate-500">@krushna_xd123</p>
+          </div>
+        </div>
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-900 group-hover:bg-pink-500 group-hover:text-white transition-colors shrink-0">
+          <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+        </div>
+      </a>
+
+      <!-- Ko-fi Card -->
+      <a 
+        href="https://ko-fi.com/krushnaxd133" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="pixel-card bg-white p-3.5 flex items-center justify-between group cursor-pointer"
+      >
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-900 bg-sky-50 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/kofi_icon_bg.png?raw=true" 
+              alt="Ko-fi Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/29abe2/ffffff?text=KF';"
+            />
+          </div>
+          <div class="text-left">
+            <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-sky-500 transition-colors">KO-FI</h2>
+            <p class="font-mono text-lg text-slate-500">Support my creative work</p>
+          </div>
+        </div>
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-900 group-hover:bg-sky-500 group-hover:text-white transition-colors shrink-0">
+          <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+        </div>
+      </a>
+
+      <!-- Discord Card (Copy to Clipboard) -->
+      <div 
+        onclick="copyText('krushnaxd133', 'Discord tag copied!')"
+        class="pixel-card bg-white p-3.5 flex items-center justify-between cursor-pointer group"
+      >
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-900 bg-indigo-50 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/discord_icon_bg.png?raw=true" 
+              alt="Discord Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/5865f2/ffffff?text=DC';"
+            />
+          </div>
+          <div class="text-left">
+            <div class="flex items-center gap-2">
+              <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-indigo-600 transition-colors">DISCORD</h2>
+              <span class="px-1.5 py-0.5 bg-indigo-100 text-indigo-900 border border-slate-900 font-pixel text-[9px]">COPY</span>
+            </div>
+            <p class="font-mono text-lg text-slate-500">krushnaxd133</p>
+          </div>
+        </div>
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-900 group-hover:bg-indigo-600 group-hover:text-white transition-colors shrink-0">
+          <i class="fa-regular fa-copy text-sm"></i>
+        </div>
+      </div>
+
+      <!-- Minecraft Card (Copy to Clipboard) -->
+      <div 
+        onclick="copyText('krushnaxd133', 'Minecraft IGN copied!')"
+        class="pixel-card bg-white p-3.5 flex items-center justify-between cursor-pointer group"
+      >
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-900 bg-emerald-50 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/minecraft_icon_bg.png?raw=true" 
+              alt="Minecraft Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/55ff55/000000?text=MC';"
+            />
+          </div>
+          <div class="text-left">
+            <div class="flex items-center gap-2">
+              <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-emerald-600 transition-colors">MINECRAFT</h2>
+              <span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-900 border border-slate-900 font-pixel text-[9px]">COPY</span>
+            </div>
+            <p class="font-mono text-lg text-slate-500">krushnaxd133</p>
+          </div>
+        </div>
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-900 group-hover:bg-emerald-600 group-hover:text-white transition-colors shrink-0">
+          <i class="fa-regular fa-copy text-sm"></i>
+        </div>
+      </div>
+
+      <!-- Modrinth Card (Coming Soon) -->
+      <div 
+        class="border-3 border-slate-400 bg-slate-100 p-3.5 flex items-center justify-between opacity-70 cursor-not-allowed"
+        style="border: 2px dashed #64748b;"
+      >
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-400 grayscale bg-slate-200 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/modrinth_icon_bg.png?raw=true" 
+              alt="Modrinth Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/1bd96a/ffffff?text=MR';"
+            />
+          </div>
+          <div class="text-left">
+            <div class="flex items-center gap-2">
+              <h2 class="font-pixel text-xs sm:text-sm text-slate-600">MODRINTH</h2>
+              <span class="px-1.5 py-0.5 bg-amber-100 text-amber-900 border border-slate-500 font-pixel text-[9px]">SOON</span>
+            </div>
+            <p class="font-mono text-lg text-slate-500">Projects under construction</p>
+          </div>
+        </div>
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-200 text-slate-400 border border-slate-400 shrink-0">
+          <i class="fa-solid fa-clock text-xs"></i>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Footer Text -->
+    <footer class="mt-8 text-center font-pixel text-[10px] text-slate-500 tracking-wider uppercase">
+      <p>© <span id="year"></span> KRUSHNA • ALL RIGHTS RESERVED</p>
+      <p class="font-mono text-sm text-slate-400 mt-1">Click doodles to push them aside ~</p>
+    </footer>
+
+  </main>
+
+  <!-- Interactive Water Canvas Container at Bottom -->
+  <div class="w-full relative overflow-hidden bg-slate-900 border-t-4 border-slate-900 mt-4 z-10">
+    <canvas id="waterCanvas"></canvas>
+  </div>
+
+  <!-- Interactivity Scripts -->
+  <script>
+    // Set current year dynamically
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 1. Wobbling Loader Script
+    (function runLoader() {
+      const progressBar = document.getElementById('progressBar');
+      const statusText = document.getElementById('loaderStatusText');
+      const enterBtn = document.getElementById('enterBtn');
+      let progress = 0;
+
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 18) + 12;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          statusText.textContent = 'READY! CLICK TO ENTER';
+          enterBtn.classList.remove('hidden');
+        }
+        progressBar.style.width = progress + '%';
+      }, 120);
+    })();
+
+    function dismissLoader() {
+      const loader = document.getElementById('loadingOverlay');
+      loader.style.opacity = '0';
+      loader.style.transform = 'scale(1.05)';
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 700);
+    }
+
+    // 2. Clipboard Copy Handler
+    function copyText(text, message) {
+      const el = document.createElement('textarea');
+      el.value = text;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      
+      try {
+        document.execCommand('copy');
+        showToast(message);
+      } catch (err) {
+        showToast('Failed to copy');
+      }
+      
+      document.body.removeChild(el);
+    }
+
+    // Toast Notification logic
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      
+      toastMessage.textContent = message;
+      clearTimeout(toastTimeout);
+      
+      toast.classList.remove('opacity-0', '-translate-y-12', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', '-translate-y-12', 'pointer-events-none');
+      }, 2200);
+    }
+
+    // 3. Interactive Black Background Doodles Canvas (Push Aside on Interaction)
+    (function initDoodles() {
+      const canvas = document.getElementById('doodleCanvas');
+      const ctx = canvas.getContext('2d');
+      let width, height;
+
+      // Doodle Types
+      const doodleTypes = ['star', 'ghost', 'crown', 'heart', 'skull', 'sword', 'controller', 'diamond', 'bolt', 'planet'];
+      let doodles = [];
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        createDoodles();
+      }
+
+      function createDoodles() {
+        doodles = [];
+        const count = Math.min(Math.floor((width * height) / 35000), 28);
+        for (let i = 0; i < count; i++) {
+          const originX = Math.random() * (width - 60) + 30;
+          const originY = Math.random() * (height - 60) + 30;
+          doodles.push({
+            x: originX,
+            y: originY,
+            originX: originX,
+            originY: originY,
+            vx: 0,
+            vy: 0,
+            size: Math.floor(Math.random() * 8) + 20,
+            type: doodleTypes[i % doodleTypes.length],
+            angle: (Math.random() - 0.5) * 0.4
+          });
+        }
+      }
+
+      // Track click & movement positions
+      let mouse = { x: -1000, y: -1000, isClicking: false };
+
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+
+      window.addEventListener('mousedown', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        pushDoodlesNear(mouse.x, mouse.y, 180, 22);
+      });
+
+      window.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+          mouse.x = e.touches[0].clientX;
+          mouse.y = e.touches[0].clientY;
+          pushDoodlesNear(mouse.x, mouse.y, 180, 22);
+        }
+      });
+
+      function pushDoodlesNear(px, py, radius, forceMultiplier) {
+        doodles.forEach(d => {
+          const dx = d.x - px;
+          const dy = d.y - py;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < radius && dist > 0) {
+            const force = (radius - dist) / radius * forceMultiplier;
+            d.vx += (dx / dist) * force;
+            d.vy += (dy / dist) * force;
+          }
+        });
+      }
+
+      // Render Individual Pixel SVG Doodles
+      function drawPixelDoodle(ctx, d) {
+        ctx.save();
+        ctx.translate(d.x, d.y);
+        ctx.rotate(d.angle);
+        ctx.fillStyle = '#0f172a';
+        ctx.strokeStyle = '#0f172a';
+        ctx.lineWidth = 2;
+
+        const s = d.size / 16; // scaling pixel grid unit
+
+        switch(d.type) {
+          case 'star':
+            // 4-point pixel star
+            ctx.fillRect(-2*s, -8*s, 4*s, 16*s);
+            ctx.fillRect(-8*s, -2*s, 16*s, 4*s);
+            ctx.fillRect(-4*s, -4*s, 8*s, 8*s);
+            break;
+          case 'heart':
+            ctx.fillRect(-6*s, -6*s, 5*s, 4*s);
+            ctx.fillRect(1*s, -6*s, 5*s, 4*s);
+            ctx.fillRect(-8*s, -3*s, 16*s, 5*s);
+            ctx.fillRect(-6*s, 2*s, 12*s, 4*s);
+            ctx.fillRect(-3*s, 6*s, 6*s, 3*s);
+            ctx.fillRect(-1*s, 9*s, 2*s, 2*s);
+            break;
+          case 'crown':
+            ctx.fillRect(-8*s, -6*s, 3*s, 12*s);
+            ctx.fillRect(5*s, -6*s, 3*s, 12*s);
+            ctx.fillRect(-2*s, -3*s, 4*s, 9*s);
+            ctx.fillRect(-8*s, 3*s, 16*s, 4*s);
+            break;
+          case 'ghost':
+            ctx.fillRect(-6*s, -8*s, 12*s, 14*s);
+            ctx.fillRect(-8*s, -4*s, 16*s, 8*s);
+            // clear eyes
+            ctx.clearRect(-4*s, -4*s, 3*s, 3*s);
+            ctx.clearRect(1*s, -4*s, 3*s, 3*s);
+            break;
+          case 'skull':
+            ctx.fillRect(-6*s, -8*s, 12*s, 10*s);
+            ctx.fillRect(-4*s, 2*s, 8*s, 5*s);
+            ctx.clearRect(-4*s, -4*s, 3*s, 3*s);
+            ctx.clearRect(1*s, -4*s, 3*s, 3*s);
+            break;
+          case 'diamond':
+            ctx.fillRect(-2*s, -8*s, 4*s, 16*s);
+            ctx.fillRect(-6*s, -4*s, 12*s, 8*s);
+            ctx.fillRect(-8*s, -2*s, 16*s, 4*s);
+            break;
+          case 'bolt':
+            ctx.fillRect(-2*s, -8*s, 6*s, 4*s);
+            ctx.fillRect(-4*s, -4*s, 6*s, 4*s);
+            ctx.fillRect(-6*s, 0*s, 12*s, 3*s);
+            ctx.fillRect(-2*s, 3*s, 5*s, 4*s);
+            ctx.fillRect(0*s, 7*s, 3*s, 4*s);
+            break;
+          default:
+            // Cross / Sparkle fallback
+            ctx.fillRect(-1*s, -7*s, 2*s, 14*s);
+            ctx.fillRect(-7*s, -1*s, 14*s, 2*s);
+            break;
+        }
+
+        ctx.restore();
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        doodles.forEach(d => {
+          // Repel from cursor hover smooth pushing
+          const dx = d.x - mouse.x;
+          const dy = d.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const pushRadius = 110;
+
+          if (dist < pushRadius && dist > 0) {
+            const force = (pushRadius - dist) / pushRadius * 1.8;
+            d.vx += (dx / dist) * force;
+            d.vy += (dy / dist) * force;
+          }
+
+          // Spring return to original coordinates
+          const springX = (d.originX - d.x) * 0.035;
+          const springY = (d.originY - d.y) * 0.035;
+
+          d.vx += springX;
+          d.vy += springY;
+
+          // Friction / Damping
+          d.vx *= 0.86;
+          d.vy *= 0.86;
+
+          d.x += d.vx;
+          d.y += d.vy;
+
+          ctx.globalAlpha = 0.18; // Soft subtle doodle opacity
+          drawPixelDoodle(ctx, d);
         });
 
-        // Swipe Theme Switcher Functionality with Custom Emojis
-        const themeSwitchTrack = document.getElementById('themeSwitchTrack');
-        const themeThumbEmoji = document.getElementById('themeThumbEmoji');
-        const bodyEl = document.body;
+        requestAnimationFrame(animate);
+      }
 
-        themeSwitchTrack.addEventListener('click', () => {
-            bodyEl.classList.toggle('dark-mode');
-            if (bodyEl.classList.contains('dark-mode')) {
-                themeThumbEmoji.innerText = '🌙';
-                themeThumbEmoji.style.color = '#000000';
-            } else {
-                themeThumbEmoji.innerText = '☀️';
-                themeThumbEmoji.style.color = '#000000';
+      window.addEventListener('resize', resize);
+      resize();
+      animate();
+    })();
+
+    // 4. Interactive Pixelated Water Sea Canvas Effect
+    window.addEventListener('load', function() {
+      const canvas = document.getElementById('waterCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      let width, height;
+      const cols = 80;
+      let points = [];
+      let mouseX = -100;
+      let mouseY = -100;
+      let isHovered = false;
+
+      function resize() {
+        width = canvas.parentElement.clientWidth;
+        height = 180;
+        canvas.width = width;
+        canvas.height = height;
+
+        initPoints();
+      }
+
+      function initPoints() {
+        points = [];
+        const spacing = width / (cols - 1);
+        for (let i = 0; i < cols; i++) {
+          points.push({
+            x: i * spacing,
+            y: height * 0.45,
+            targetY: height * 0.45,
+            vy: 0
+          });
+        }
+      }
+
+      window.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+
+        if (mouseY >= -50 && mouseY <= height + 50) {
+          isHovered = true;
+          for (let i = 0; i < points.length; i++) {
+            const dist = Math.abs(points[i].x - mouseX);
+            if (dist < 45) {
+              points[i].vy += (45 - dist) * 0.18;
             }
-        });
+          }
+        } else {
+          isHovered = false;
+        }
+      });
 
-        // Payment Modal Handlers
-        const paymentModal = document.getElementById('paymentModal');
-        const paymentModalTitle = document.getElementById('paymentModalTitle');
-        const paymentModalDesc = document.getElementById('paymentModalDesc');
-        const paymentModalIcon = document.getElementById('paymentModalIcon');
+      let time = 0;
 
-        function openPaymentModal(type) {
-            if (type === 'cash') {
-                paymentModalIcon.innerHTML = '<i class="fa-solid fa-money-bill-wave"></i>';
-                paymentModalTitle.innerText = 'Cash Payment';
-                paymentModalDesc.innerText = 'The prices depend on quality of thumbnail and the time giving for it , it may cost more as the video topic is';
-            } else if (type === 'nitro') {
-                paymentModalIcon.innerHTML = '<i class="fa-brands fa-discord"></i>';
-                paymentModalTitle.innerText = 'Discord Nitro Payment';
-                paymentModalDesc.innerText = 'If payment cant be done in cash , we also allow nitro payment by purchasing us nitro ( not the best option ) but works fine !';
-            } else if (type === 'promo') {
-                paymentModalIcon.innerHTML = '<i class="fa-solid fa-bullhorn"></i>';
-                paymentModalTitle.innerText = 'Promotion Payment';
-                paymentModalDesc.innerText = 'By promoting our channel or discord in your video or description will allow you payment to be fulfilled by that ( best option ) this can be done if you cant pay the payment';
+      function animate() {
+        time += 0.04;
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < points.length; i++) {
+          const p = points[i];
+          const ambientWave = Math.sin(time * 2 + i * 0.3) * 3 + Math.cos(time * 1.5 + i * 0.2) * 2;
+          const dy = p.targetY + ambientWave - p.y;
+          p.vy += dy * 0.04;
+          p.vy *= 0.88;
+          p.y += p.vy;
+        }
+
+        for (let iteration = 0; iteration < 2; iteration++) {
+          for (let i = 0; i < points.length; i++) {
+            if (i > 0) {
+              points[i - 1].vy += 0.25 * (points[i].y - points[i - 1].y);
             }
-            paymentModal.classList.add('active');
-        }
-
-        function closePaymentModal() {
-            paymentModal.classList.remove('active');
-        }
-
-        paymentModal.addEventListener('click', (e) => {
-            if (e.target === paymentModal) {
-                closePaymentModal();
+            if (i < points.length - 1) {
+              points[i + 1].vy += 0.25 * (points[i].y - points[i + 1].y);
             }
-        });
-
-        // Contact Modal Pop-up Handlers
-        const contactBtn = document.getElementById('contactBtn');
-        const contactModal = document.getElementById('contactModal');
-        const closeModal = document.getElementById('closeModal');
-
-        contactBtn.addEventListener('click', () => {
-            contactModal.classList.add('active');
-        });
-
-        closeModal.addEventListener('click', () => {
-            contactModal.classList.remove('active');
-        });
-
-        contactModal.addEventListener('click', (e) => {
-            if (e.target === contactModal) {
-                contactModal.classList.remove('active');
-            }
-        });
-
-        // Copy to Clipboard Functionality
-        function copyText(elementId, btnElement) {
-            const textToCopy = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const originalText = btnElement.innerText;
-                btnElement.innerText = 'Copied!';
-                btnElement.style.background = '#22c55e';
-                btnElement.style.color = '#ffffff';
-                btnElement.style.borderColor = '#22c55e';
-
-                setTimeout(() => {
-                    btnElement.innerText = originalText;
-                    btnElement.style.background = '';
-                    btnElement.style.color = '';
-                    btnElement.style.borderColor = '';
-                }, 1800);
-            });
+          }
         }
 
-        /* --- Showcase Lightbox --- */
-        const lightboxOverlay = document.getElementById('lightboxOverlay');
-        const lightboxViewport = document.getElementById('lightboxViewport');
-        const lightboxTarget = document.getElementById('lightboxTarget');
-        const lightboxClose = document.getElementById('lightboxClose');
+        // 1. Base Layer
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(0, 0, width, height);
 
-        let zoomScale = 1;
-        let zoomTranslateX = 0;
-        let zoomTranslateY = 0;
+        // 2. Mid Layer
+        ctx.fillStyle = '#1e3a8a';
+        ctx.beginPath();
+        ctx.moveTo(0, height);
+        for (let i = 0; i < points.length; i++) {
+          const stepX = Math.floor(points[i].x / 4) * 4;
+          const stepY = Math.floor((points[i].y - 12) / 4) * 4;
+          ctx.lineTo(stepX, stepY);
+        }
+        ctx.lineTo(width, height);
+        ctx.closePath();
+        ctx.fill();
 
-        function updateLightboxTransform() {
-            lightboxTarget.style.transform = `translate(${zoomTranslateX}px, ${zoomTranslateY}px) scale(${zoomScale})`;
+        // 3. Main Water Layer
+        ctx.fillStyle = '#0284c7';
+        ctx.beginPath();
+        ctx.moveTo(0, height);
+        for (let i = 0; i < points.length; i++) {
+          const stepX = Math.floor(points[i].x / 4) * 4;
+          const stepY = Math.floor(points[i].y / 4) * 4;
+          ctx.lineTo(stepX, stepY);
+        }
+        ctx.lineTo(width, height);
+        ctx.closePath();
+        ctx.fill();
+
+        // 4. Foam Line
+        ctx.fillStyle = '#e0f2fe';
+        for (let i = 0; i < points.length - 1; i++) {
+          const stepX = Math.floor(points[i].x / 4) * 4;
+          const stepY = Math.floor(points[i].y / 4) * 4;
+          ctx.fillRect(stepX, stepY - 4, 8, 4);
         }
 
-        function resetLightboxZoom() {
-            zoomScale = 1;
-            zoomTranslateX = 0;
-            zoomTranslateY = 0;
-            updateLightboxTransform();
+        // 5. Cursor Splash Foam
+        if (isHovered && mouseX > 0 && mouseX < width) {
+          ctx.fillStyle = '#ffffff';
+          const pixelMouseX = Math.floor(mouseX / 4) * 4;
+          const nearestIndex = Math.min(Math.max(0, Math.floor((mouseX / width) * cols)), cols - 1);
+          const pixelWaterY = Math.floor(points[nearestIndex].y / 4) * 4;
+
+          ctx.fillRect(pixelMouseX - 8, pixelWaterY - 8, 6, 6);
+          ctx.fillRect(pixelMouseX + 6, pixelWaterY - 12, 4, 4);
+          ctx.fillRect(pixelMouseX - 16, pixelWaterY - 4, 4, 4);
         }
 
-        function openLightbox(src) {
-            lightboxTarget.src = src;
-            lightboxOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            resetLightboxZoom();
-        }
+        requestAnimationFrame(animate);
+      }
 
-        function closeLightbox() {
-            lightboxOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-            resetLightboxZoom();
-        }
+      window.addEventListener('resize', resize);
+      resize();
+      animate();
+    });
+  </script>
 
-        lightboxOverlay.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            const zoomSensitivity = 0.0015;
-            const minScale = 1;
-            const maxScale = 5;
-
-            const rect = lightboxTarget.getBoundingClientRect();
-            const cursorX = e.clientX - rect.left;
-            const cursorY = e.clientY - rect.top;
-
-            const oldScale = zoomScale;
-            let newScale = oldScale - e.deltaY * zoomSensitivity * oldScale;
-            newScale = Math.min(Math.max(minScale, newScale), maxScale);
-
-            if (newScale === minScale) {
-                zoomTranslateX = 0;
-                zoomTranslateY = 0;
-            } else {
-                const scaleRatio = newScale / oldScale;
-                zoomTranslateX = cursorX - scaleRatio * (cursorX - zoomTranslateX);
-                zoomTranslateY = cursorY - scaleRatio * (cursorY - zoomTranslateY);
-            }
-
-            zoomScale = newScale;
-            updateLightboxTransform();
-        }, { passive: false });
-
-        document.querySelectorAll('.showcase-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const img = card.querySelector('.showcase-img');
-                if (img) openLightbox(img.src);
-            });
-        });
-
-        lightboxClose.addEventListener('click', closeLightbox);
-
-        lightboxOverlay.addEventListener('click', (e) => {
-            if (e.target === lightboxOverlay || e.target === lightboxViewport) {
-                closeLightbox();
-            }
-        });
-
-        // Escape Key to Close
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeLightbox();
-        });
-    </script>
 </body>
 </html>
