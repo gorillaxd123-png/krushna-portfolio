@@ -255,7 +255,7 @@
             white-space: nowrap;
         }
 
-        /* --- Apple Phone Style Swipe Theme Switcher (Black & White Emojis) --- */
+        /* --- Apple Phone Style Swipe Theme Switcher --- */
         .theme-switch-track {
             position: relative;
             width: 60px;
@@ -295,13 +295,9 @@
             display: flex;
             justify-content: space-between;
             padding: 0 5px;
-            font-size: 10px;
-            filter: grayscale(100%);
+            font-size: 11px;
+            color: var(--text-primary);
             pointer-events: none;
-        }
-
-        #themeThumbEmoji {
-            filter: grayscale(100%);
         }
 
         /* --- Middle Canvas Layout Container (Fully Responsive) --- */
@@ -463,28 +459,19 @@
             gap: 5px;
         }
 
-        /* --- Ko-fi Button Styled Quote Banner --- */
+        /* Quote / Scroll Banner Styling */
         .scroll-quote {
-            position: relative;
-            overflow: hidden;
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-secondary);
             text-align: center;
-            margin: 24px 0 14px 0;
-            padding: 14px 18px;
-            background: linear-gradient(135deg, var(--card-bg), var(--card-border));
+            margin: 20px 0 12px 0;
+            padding: 10px 14px;
+            background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 18px;
-            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
             line-height: 1.5;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .scroll-quote:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
         }
 
         .scroll-quote .highlight-discover {
@@ -494,41 +481,10 @@
 
         .scroll-quote .quote-author {
             display: block;
-            font-size: 11px;
+            font-size: 10.5px;
             color: var(--text-secondary);
             font-weight: 500;
-            margin-top: 4px;
-        }
-
-        /* Quote Confetti / Party Effects */
-        .quote-confetti {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .quote-confetti-piece {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            background: var(--text-secondary);
-            opacity: 0.15;
-            animation: quoteConfettiFall 4s infinite linear;
-        }
-
-        .quote-confetti-piece:nth-child(1) { left: 15%; top: -10px; animation-duration: 3.4s; animation-delay: 0s; border-radius: 50%; }
-        .quote-confetti-piece:nth-child(2) { left: 40%; top: -10px; animation-duration: 4.2s; animation-delay: 1s; }
-        .quote-confetti-piece:nth-child(3) { left: 65%; top: -10px; animation-duration: 3.6s; animation-delay: 0.4s; border-radius: 50%; }
-        .quote-confetti-piece:nth-child(4) { left: 85%; top: -10px; animation-duration: 4.0s; animation-delay: 1.8s; }
-
-        @keyframes quoteConfettiFall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
-            100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
+            margin-top: 2px;
         }
 
         /* Section Title Styling */
@@ -1222,6 +1178,9 @@
             .avatar-wrapper {
                 margin-top: -38px;
             }
+            .user-info h1 {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
@@ -1252,14 +1211,14 @@
         <div class="figma-badge">
             <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas
         </div>
-        <!-- Apple Phone Style Swipe Theme Switcher with Black & White Emojis -->
+        <!-- Apple Phone Style Swipe Theme Switcher with FontAwesome Sun/Moon Icons -->
         <div class="theme-switch-track" id="themeSwitchTrack" title="Toggle Light/Dark Mode">
             <div class="switch-icons-bg">
-                <span>☀️</span>
-                <span>🌙</span>
+                <span><i class="fa-solid fa-sun"></i></span>
+                <span><i class="fa-solid fa-moon"></i></span>
             </div>
             <div class="theme-switch-thumb" id="themeSwitchThumb">
-                <span id="themeThumbEmoji" style="font-size: 11px; line-height: 1;">☀️</span>
+                <span id="themeThumbIcon"><i class="fa-solid fa-sun" style="font-size: 10px;"></i></span>
             </div>
         </div>
     </nav>
@@ -1294,14 +1253,8 @@
                     <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
                 </div>
 
-                <!-- Ko-fi Button Styled Quote Banner with Party Effects -->
-                <div class="scroll-quote shine-effect">
-                    <div class="quote-confetti">
-                        <div class="quote-confetti-piece" style="left: 15%;"></div>
-                        <div class="quote-confetti-piece" style="left: 40%;"></div>
-                        <div class="quote-confetti-piece" style="left: 65%;"></div>
-                        <div class="quote-confetti-piece" style="left: 85%;"></div>
-                    </div>
+                <!-- Scroll Quote Title -->
+                <div class="scroll-quote">
                     "The More You Scroll , The More You <span class="highlight-discover">Discover</span>"
                     <span class="quote-author">~krushna</span>
                 </div>
@@ -1384,17 +1337,17 @@
                         <div class="payment-column" onclick="openPaymentModal('cash')">
                             <i class="fa-solid fa-money-bill-wave payment-icon"></i>
                             <div class="payment-title">Cash</div>
-                            <div class="payment-desc">5$ - 10$ (474 - 949 Rs)</div>
+                            <div class="payment-desc">4$ - 6$ (379 - 569 Rs)</div>
                         </div>
                         <div class="payment-column" onclick="openPaymentModal('nitro')">
                             <i class="fa-brands fa-discord payment-icon"></i>
                             <div class="payment-title">Nitro</div>
-                            <div class="payment-desc">Pay with Discord Nitro or Basic</div>
+                            <div class="payment-desc">Nitro Basic : 1 Thumbnail<br>Nitro : 3 Thumbnails</div>
                         </div>
                         <div class="payment-column" onclick="openPaymentModal('promo')">
                             <i class="fa-solid fa-bullhorn payment-icon"></i>
                             <div class="payment-title">Promo</div>
-                            <div class="payment-desc">Promo in video or channel/discord</div>
+                            <div class="payment-desc">1.5k+ Subs, 3k Avg Views, No AI History</div>
                         </div>
                     </div>
 
@@ -1568,17 +1521,17 @@
             }, 50);
         });
 
-        // Swipe Theme Switcher Functionality with Black & White Emojis
+        // Swipe Theme Switcher Functionality with FontAwesome Icons
         const themeSwitchTrack = document.getElementById('themeSwitchTrack');
-        const themeThumbEmoji = document.getElementById('themeThumbEmoji');
+        const themeThumbIcon = document.getElementById('themeThumbIcon');
         const bodyEl = document.body;
 
         themeSwitchTrack.addEventListener('click', () => {
             bodyEl.classList.toggle('dark-mode');
             if (bodyEl.classList.contains('dark-mode')) {
-                themeThumbEmoji.innerText = '🌙';
+                themeThumbIcon.innerHTML = '<i class="fa-solid fa-moon" style="font-size: 10px;"></i>';
             } else {
-                themeThumbEmoji.innerText = '☀️';
+                themeThumbIcon.innerHTML = '<i class="fa-solid fa-sun" style="font-size: 10px;"></i>';
             }
         });
 
@@ -1592,15 +1545,15 @@
             if (type === 'cash') {
                 paymentModalIcon.innerHTML = '<i class="fa-solid fa-money-bill-wave"></i>';
                 paymentModalTitle.innerText = 'Cash Payment';
-                paymentModalDesc.innerText = 'The prices depend on quality of thumbnail and the time giving for it , it may cost more as the video topic is';
+                paymentModalDesc.innerText = 'Pricing ranges between 4$ - 6$ depending on the complexity, quality, and delivery timeframe required for your video thumbnail.';
             } else if (type === 'nitro') {
                 paymentModalIcon.innerHTML = '<i class="fa-brands fa-discord"></i>';
                 paymentModalTitle.innerText = 'Discord Nitro Payment';
-                paymentModalDesc.innerText = 'If payment cant be done in cash , we also allow nitro payment by purchasing us nitro ( not the best option ) but works fine !';
+                paymentModalDesc.innerText = 'Nitro Basic provides 1 custom thumbnail, while full Discord Nitro provides 3 custom high-CTR thumbnails!';
             } else if (type === 'promo') {
                 paymentModalIcon.innerHTML = '<i class="fa-solid fa-bullhorn"></i>';
-                paymentModalTitle.innerText = 'Promotion Payment';
-                paymentModalDesc.innerText = 'By promoting our channel or discord in your video or description will allow you payment to be fulfilled by that ( best option ) this can be done if you cant pay the payment';
+                paymentModalTitle.innerText = 'Promotion Conditions';
+                paymentModalDesc.innerText = 'To qualify for promotion payment, your channel must meet: 1. 1.5k+ Subscribers, 2. Average Views of 3k+, 3. No AI-related video history on the channel.';
             }
             paymentModal.classList.add('active');
         }
