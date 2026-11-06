@@ -401,19 +401,27 @@
             gap: 5px;
         }
 
-        /* Quote / Scroll Banner Styling */
+        /* Quote / Scroll Banner Styling with Support Me Effects */
         .scroll-quote {
+            position: relative;
+            overflow: hidden;
             font-size: 12px;
             font-weight: 600;
             color: var(--text-secondary);
             text-align: center;
             margin: 20px 0 12px 0;
-            padding: 10px 14px;
+            padding: 14px;
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
+            border-radius: 16px;
             backdrop-filter: blur(8px);
             line-height: 1.5;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .scroll-quote:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
         }
 
         .scroll-quote .highlight-discover {
@@ -831,7 +839,7 @@
             object-fit: contain;
         }
 
-        /* Party / Confetti Effects Inside Ko-Fi Box */
+        /* Party / Confetti Effects Inside Cards */
         .party-confetti {
             position: absolute;
             top: 0;
@@ -1151,7 +1159,7 @@
 
     <nav class="figma-nav">
         <div class="figma-badge">
-            <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas — Light Mode
+            <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas
         </div>
     </nav>
 
@@ -1185,8 +1193,15 @@
                     <span class="tag"><i class="fa-solid fa-code"></i> Developer</span>
                 </div>
 
-                <!-- Scroll Quote Title -->
-                <div class="scroll-quote">
+                <!-- Scroll Quote Title with Support Me Effects -->
+                <div class="scroll-quote shine-effect">
+                    <div class="party-confetti">
+                        <div class="confetti-piece" style="left: 15%;"></div>
+                        <div class="confetti-piece" style="left: 35%;"></div>
+                        <div class="confetti-piece" style="left: 55%;"></div>
+                        <div class="confetti-piece" style="left: 75%;"></div>
+                        <div class="confetti-piece" style="left: 88%;"></div>
+                    </div>
                     "The More You Scroll , The More You <span class="highlight-discover">Discover</span>"
                     <span class="quote-author">~krushna</span>
                 </div>
@@ -1238,7 +1253,7 @@
                         How Do I Work?
                     </h3>
                     <p>
-                        I work on based quality type of thumbnail that you are expecting for your YouTube videos. Every design is crafted meticulously to ensure maximum click-through rate (CTR) and visual appeal.
+                        I work based on given reference and quality that you are expecting.
                     </p>
 
                     <div class="section-title" style="margin: 14px 0 8px 0; font-size: 13px;">
@@ -1307,18 +1322,6 @@
                     </div>
                 </div>
 
-                <div class="social-icons-grid">
-                    <a href="https://www.youtube.com/@krushnaxd133" target="_blank" class="social-btn youtube" title="YouTube Channel">
-                        <i class="fa-brands fa-youtube"></i>
-                    </a>
-                    <a href="https://discord.gg/ASs4e8Ye5x" target="_blank" class="social-btn discord" title="Join Discord Server">
-                        <i class="fa-brands fa-discord"></i>
-                    </a>
-                    <a href="https://www.twitch.tv/krushnaxd123" target="_blank" class="social-btn twitch" title="Twitch Stream">
-                        <i class="fa-brands fa-twitch"></i>
-                    </a>
-                </div>
-
                 <div class="links-grid">
                     <div class="link-card" id="contactBtn">
                         <div class="link-left">
@@ -1327,6 +1330,22 @@
                         </div>
                         <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: var(--text-secondary);"></i>
                     </div>
+                </div>
+
+                <!-- Socials Section under Contact Me -->
+                <div class="reviews-title" style="margin-bottom: 10px;">
+                    <i class="fa-solid fa-share-nodes"></i> Socials
+                </div>
+                <div class="social-icons-grid">
+                    <a href="https://www.youtube.com/@krushnaxd133" target="_blank" class="social-btn youtube" title="YouTube Channel">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                    <a href="https://discord.gg/k3gnNxuHZT" target="_blank" class="social-btn discord" title="Join Discord Server">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="https://www.twitch.tv/krushnaxd123" target="_blank" class="social-btn twitch" title="Twitch Stream">
+                        <i class="fa-brands fa-twitch"></i>
+                    </a>
                 </div>
 
                 <!-- Ko-Fi Support Dialog Box with Party Effects -->
