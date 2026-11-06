@@ -11,26 +11,14 @@
 
     <style>
         :root {
-            --bg-cloudy: #0b0b0b;
-            --card-bg: rgba(18, 18, 18, 0.82);
-            --card-border: rgba(38, 38, 38, 0.9);
-            --text-primary: #f5f5f5;
-            --text-secondary: #a3a3a3;
-            --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0,0,0,0.4);
-            --radius-main: 24px;
-            --radius-pill: 999px;
-            --cloud-color: rgba(40, 40, 40, 0.45);
-            --nav-bg: rgba(18, 18, 18, 0.85);
-            --nav-border: rgba(38, 38, 38, 0.9);
-        }
-
-        body.light-mode {
             --bg-cloudy: #e0f2fe;
             --card-bg: rgba(255, 255, 255, 0.78);
             --card-border: rgba(255, 255, 255, 0.95);
             --text-primary: #0f172a;
             --text-secondary: #64748b;
             --shadow-figma: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 20px rgba(0,0,0,0.03);
+            --radius-main: 24px;
+            --radius-pill: 999px;
             --cloud-color: rgba(255, 255, 255, 0.85);
             --nav-bg: rgba(255, 255, 255, 0.85);
             --nav-border: rgba(255, 255, 255, 0.9);
@@ -43,7 +31,6 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-font-smoothing: antialiased;
             -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
         }
 
         body {
@@ -65,7 +52,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #0f172a;
+            background: #f8fafc;
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -79,11 +66,11 @@
             flex-direction: column;
             align-items: center;
             gap: 16px;
-            background: #1e293b;
+            background: #ffffff;
             padding: 36px 44px;
             border-radius: 28px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            border: 1px solid #334155;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            border: 1px solid #e2e8f0;
             text-align: center;
             width: 90%;
             max-width: 360px;
@@ -95,7 +82,7 @@
             gap: 10px;
             font-size: 16px;
             font-weight: 800;
-            color: #f8fafc;
+            color: #0f172a;
         }
 
         .loading-kofi-icon {
@@ -108,12 +95,12 @@
             width: 100%;
             max-width: 240px;
             height: 22px;
-            background: #0f172a;
+            background: #f1f5f9;
             border-radius: var(--radius-pill);
             overflow: hidden;
             position: relative;
-            border: 1px solid #334155;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
         }
 
         .coffee-bar-inner {
@@ -153,7 +140,7 @@
         .loading-percentage {
             font-size: 12px;
             font-weight: 700;
-            color: #94a3b8;
+            color: #64748b;
         }
 
         /* --- Realistic Styled Animated Clouds (Moving Left) --- */
@@ -232,7 +219,7 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--nav-border);
-            padding: 6px 12px;
+            padding: 6px 16px;
             border-radius: var(--radius-pill);
             display: flex;
             align-items: center;
@@ -253,55 +240,6 @@
             color: var(--bg-cloudy);
             border-radius: var(--radius-pill);
             white-space: nowrap;
-        }
-
-        /* --- Apple Phone Style Swipe Theme Switcher --- */
-        .theme-switch-track {
-            position: relative;
-            width: 60px;
-            height: 30px;
-            background: rgba(100, 116, 139, 0.2);
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            padding: 3px;
-            border: 1px solid var(--card-border);
-            transition: background-color 0.3s ease;
-        }
-
-        .theme-switch-thumb {
-            position: absolute;
-            left: 3px;
-            width: 22px;
-            height: 22px;
-            background: var(--text-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--bg-cloudy);
-            font-size: 11px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55), background-color 0.3s, color 0.3s;
-        }
-
-        body:not(.light-mode) .theme-switch-thumb {
-            transform: translateX(0px);
-        }
-
-        body.light-mode .theme-switch-thumb {
-            transform: translateX(30px);
-        }
-
-        .switch-icons-bg {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 5px;
-            font-size: 11px;
-            color: var(--text-primary);
-            pointer-events: none;
         }
 
         /* --- Middle Canvas Layout Container (Fully Responsive) --- */
@@ -925,6 +863,44 @@
             100% { transform: translateY(120px) rotate(360deg); opacity: 0; }
         }
 
+        /* --- Pixelated Water Canvas Section (Bottom of Page) --- */
+        .pixel-water-container {
+            width: 100%;
+            height: 90px;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--card-border);
+            margin-bottom: 18px;
+            background: #0284c7;
+            box-shadow: inset 0 4px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        #pixelWaterCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .pixel-water-label {
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.85);
+            background: rgba(0, 0, 0, 0.25);
+            padding: 2px 8px;
+            border-radius: var(--radius-pill);
+            pointer-events: none;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+        }
+
         /* --- Image Lightbox / Zoom Viewer --- */
         .lightbox-overlay {
             position: fixed;
@@ -1188,7 +1164,7 @@
         }
     </style>
 </head>
-<body class="dark-mode">
+<body>
 
     <!-- Ko-Fi Liquid Loading Screen -->
     <div id="loading-screen">
@@ -1213,17 +1189,7 @@
 
     <nav class="figma-nav">
         <div class="figma-badge">
-            <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas
-        </div>
-        <!-- Apple Phone Style Swipe Theme Switcher with FontAwesome Sun/Moon Icons -->
-        <div class="theme-switch-track" id="themeSwitchTrack" title="Toggle Light/Dark Mode">
-            <div class="switch-icons-bg">
-                <span><i class="fa-solid fa-sun"></i></span>
-                <span><i class="fa-solid fa-moon"></i></span>
-            </div>
-            <div class="theme-switch-thumb" id="themeSwitchThumb">
-                <span id="themeThumbIcon"><i class="fa-solid fa-moon" style="font-size: 10px;"></i></span>
-            </div>
+            <i class="fa-sharp fa-solid fa-layer-group"></i> Canvas — Light Mode
         </div>
     </nav>
 
@@ -1282,13 +1248,13 @@
                         <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/100%20Players%20Vs%20Bon_esprit.png?raw=true" alt="100 Players Vs Bon_esprit">
                     </div>
                     <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Omenvalot%201K%20Texture%20Pack.png?raw=true" alt="Omenvalot 1K Texture Pack">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna/blob/main/Omenvalot%201K%20Texture%20Pack.png?raw=true" alt="Omenvalot 1K Texture Pack">
                     </div>
                     <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Krushna%20Pvp%20Mastering%201.png?raw=true" alt="Krushna Pvp Mastering 1">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Pvp%20Mastering%201.png?raw=true" alt="Krushna Pvp Mastering 1">
                     </div>
                     <div class="showcase-card shine-effect">
-                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/Crepper%20Salad%20XD.png?raw=true" alt="Crepper Salad XD">
+                        <img class="showcase-img" src="https://github.com/gorillaxd123-png/krushna/blob/main/Crepper%20Salad%20XD.png?raw=true" alt="Crepper Salad XD">
                     </div>
                 </div>
 
@@ -1321,7 +1287,7 @@
                         <div class="payment-column" onclick="openPaymentModal('cash')">
                             <i class="fa-solid fa-money-bill-wave payment-icon"></i>
                             <div class="payment-title">Cash</div>
-                            <div class="payment-desc">4$ - 6$ (379 - 569 Rs)</div>
+                            <div class="payment-desc">4$ - 6$<br>We accept PayPal, Ko-Fi</div>
                         </div>
                         <div class="payment-column" onclick="openPaymentModal('nitro')">
                             <i class="fa-brands fa-discord payment-icon"></i>
@@ -1401,6 +1367,12 @@
                     </div>
                 </div>
 
+                <!-- Pixelated Interactive Water Sea Simulation (Bottom of Page) -->
+                <div class="pixel-water-container" id="pixelWaterContainer">
+                    <canvas id="pixelWaterCanvas"></canvas>
+                    <div class="pixel-water-label">Interactive Pixel Sea (Move Mouse Here)</div>
+                </div>
+
                 <!-- Ko-Fi Support Dialog Box with Party Effects -->
                 <div class="kofi-dialog-card shine-effect">
                     <div class="party-confetti">
@@ -1477,7 +1449,7 @@
                 <i class="fa-solid fa-money-bill-wave"></i>
             </div>
             <div class="modal-header-title" id="paymentModalTitle">Cash Payment</div>
-            <p class="modal-body-text" id="paymentModalDesc">The prices depend on quality of thumbnail and the time giving for it , it may cost more as the video topic is</p>
+            <p class="modal-body-text" id="paymentModalDesc">Pricing ranges between 4$ - 6$ depending on the complexity, quality, and delivery timeframe required for your video thumbnail. We accept PayPal, Ko-Fi.</p>
             <button class="modal-action-btn" onclick="closePaymentModal()">Got It</button>
         </div>
     </div>
@@ -1505,19 +1477,92 @@
             }, 50);
         });
 
-        // Swipe Theme Switcher Functionality with FontAwesome Icons
-        const themeSwitchTrack = document.getElementById('themeSwitchTrack');
-        const themeThumbIcon = document.getElementById('themeThumbIcon');
-        const bodyEl = document.body;
+        /* --- Interactive Pixelated Water Sea Simulation Script --- */
+        const waterContainer = document.getElementById('pixelWaterContainer');
+        const waterCanvas = document.getElementById('pixelWaterCanvas');
+        const ctxWater = waterCanvas.getContext('2d');
 
-        themeSwitchTrack.addEventListener('click', () => {
-            bodyEl.classList.toggle('dark-mode');
-            if (bodyEl.classList.contains('dark-mode')) {
-                themeThumbIcon.innerHTML = '<i class="fa-solid fa-moon" style="font-size: 10px;"></i>';
-            } else {
-                themeThumbIcon.innerHTML = '<i class="fa-solid fa-sun" style="font-size: 10px;"></i>';
+        let cols = 64;
+        let rows = 18;
+        let buffer1 = Array(cols).fill(0).map(() => Array(rows).fill(0));
+        let buffer2 = Array(cols).fill(0).map(() => Array(rows).fill(0));
+
+        function resizeWater() {
+            waterCanvas.width = waterContainer.clientWidth;
+            waterCanvas.height = waterContainer.clientHeight;
+        }
+        window.addEventListener('resize', resizeWater);
+        resizeWater();
+
+        waterContainer.addEventListener('mousemove', (e) => {
+            const rect = waterCanvas.getBoundingClientRect();
+            const x = Math.floor(((e.clientX - rect.left) / rect.width) * cols);
+            const y = Math.floor(((e.clientY - rect.top) / rect.height) * rows);
+            
+            if (x > 0 && x < cols - 1 && y > 0 && y < rows - 1) {
+                buffer1[x][y] = 512;
+                buffer1[x + 1][y] = 256;
+                buffer1[x - 1][y] = 256;
+                buffer1[x][y + 1] = 256;
+                buffer1[x][y - 1] = 256;
             }
         });
+
+        waterContainer.addEventListener('click', (e) => {
+            const rect = waterCanvas.getBoundingClientRect();
+            const x = Math.floor(((e.clientX - rect.left) / rect.width) * cols);
+            const y = Math.floor(((e.clientY - rect.top) / rect.height) * rows);
+            
+            if (x > 0 && x < cols - 1 && y > 0 && y < rows - 1) {
+                buffer1[x][y] = 850;
+            }
+        });
+
+        function updateWater() {
+            for (let x = 1; x < cols - 1; x++) {
+                for (let y = 1; y < rows - 1; y++) {
+                    buffer2[x][y] = (
+                        buffer1[x - 1][y] +
+                        buffer1[x + 1][y] +
+                        buffer1[x][y - 1] +
+                        buffer1[x][y + 1]
+                    ) / 2 - buffer2[x][y];
+                    
+                    buffer2[x][y] *= 0.96; // Damping
+                }
+            }
+            
+            // Swap buffers
+            let temp = buffer1;
+            buffer1 = buffer2;
+            buffer2 = temp;
+        }
+
+        function drawWater() {
+            ctxWater.clearRect(0, 0, waterCanvas.width, waterCanvas.height);
+            const cellWidth = waterCanvas.width / cols;
+            const cellHeight = waterCanvas.height / rows;
+
+            for (let x = 0; x < cols; x++) {
+                for (let y = 0; y < rows; y++) {
+                    let val = buffer1[x][y];
+                    // Map wave height to color shades of pixelated water
+                    let r = Math.min(255, Math.max(14, 28 + val * 0.3));
+                    let g = Math.min(255, Math.max(116, 148 + val * 0.5));
+                    let b = Math.min(255, Math.max(200, 225 + val * 0.6));
+                    
+                    ctxWater.fillStyle = `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
+                    ctxWater.fillRect(x * cellWidth, y * cellHeight, cellWidth + 0.6, cellHeight + 0.6);
+                }
+            }
+        }
+
+        function loopWater() {
+            updateWater();
+            drawWater();
+            requestAnimationFrame(loopWater);
+        }
+        loopWater();
 
         // Payment Modal Handlers
         const paymentModal = document.getElementById('paymentModal');
@@ -1529,7 +1574,7 @@
             if (type === 'cash') {
                 paymentModalIcon.innerHTML = '<i class="fa-solid fa-money-bill-wave"></i>';
                 paymentModalTitle.innerText = 'Cash Payment';
-                paymentModalDesc.innerText = 'Pricing ranges between 4$ - 6$ depending on the complexity, quality, and delivery timeframe required for your video thumbnail.';
+                paymentModalDesc.innerText = 'Pricing ranges between 4$ - 6$ depending on the complexity, quality, and delivery timeframe required for your video thumbnail.\n\nWe accept PayPal, Ko-Fi.';
             } else if (type === 'nitro') {
                 paymentModalIcon.innerHTML = '<i class="fa-brands fa-discord"></i>';
                 paymentModalTitle.innerText = 'Discord Nitro Payment';
