@@ -863,44 +863,6 @@
             100% { transform: translateY(120px) rotate(360deg); opacity: 0; }
         }
 
-        /* --- Pixelated Water Canvas Section (Bottom of Page) --- */
-        .pixel-water-container {
-            width: 100%;
-            height: 90px;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid var(--card-border);
-            margin-bottom: 18px;
-            background: #0284c7;
-            box-shadow: inset 0 4px 12px rgba(0,0,0,0.1);
-            cursor: pointer;
-        }
-
-        #pixelWaterCanvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
-        }
-
-        .pixel-water-label {
-            position: absolute;
-            bottom: 6px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 10px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.85);
-            background: rgba(0, 0, 0, 0.25);
-            padding: 2px 8px;
-            border-radius: var(--radius-pill);
-            pointer-events: none;
-            letter-spacing: 0.5px;
-            backdrop-filter: blur(4px);
-        }
-
         /* --- Image Lightbox / Zoom Viewer --- */
         .lightbox-overlay {
             position: fixed;
@@ -1367,12 +1329,6 @@
                     </div>
                 </div>
 
-                <!-- Pixelated Interactive Water Sea Simulation (Bottom of Page) -->
-                <div class="pixel-water-container" id="pixelWaterContainer">
-                    <canvas id="pixelWaterCanvas"></canvas>
-                    <div class="pixel-water-label">Interactive Pixel Sea (Move Mouse Here)</div>
-                </div>
-
                 <!-- Ko-Fi Support Dialog Box with Party Effects -->
                 <div class="kofi-dialog-card shine-effect">
                     <div class="party-confetti">
@@ -1476,93 +1432,6 @@
                 loadingPercent.innerText = progress + '%';
             }, 50);
         });
-
-        /* --- Interactive Pixelated Water Sea Simulation Script --- */
-        const waterContainer = document.getElementById('pixelWaterContainer');
-        const waterCanvas = document.getElementById('pixelWaterCanvas');
-        const ctxWater = waterCanvas.getContext('2d');
-
-        let cols = 64;
-        let rows = 18;
-        let buffer1 = Array(cols).fill(0).map(() => Array(rows).fill(0));
-        let buffer2 = Array(cols).fill(0).map(() => Array(rows).fill(0));
-
-        function resizeWater() {
-            waterCanvas.width = waterContainer.clientWidth;
-            waterCanvas.height = waterContainer.clientHeight;
-        }
-        window.addEventListener('resize', resizeWater);
-        resizeWater();
-
-        waterContainer.addEventListener('mousemove', (e) => {
-            const rect = waterCanvas.getBoundingClientRect();
-            const x = Math.floor(((e.clientX - rect.left) / rect.width) * cols);
-            const y = Math.floor(((e.clientY - rect.top) / rect.height) * rows);
-            
-            if (x > 0 && x < cols - 1 && y > 0 && y < rows - 1) {
-                buffer1[x][y] = 512;
-                buffer1[x + 1][y] = 256;
-                buffer1[x - 1][y] = 256;
-                buffer1[x][y + 1] = 256;
-                buffer1[x][y - 1] = 256;
-            }
-        });
-
-        waterContainer.addEventListener('click', (e) => {
-            const rect = waterCanvas.getBoundingClientRect();
-            const x = Math.floor(((e.clientX - rect.left) / rect.width) * cols);
-            const y = Math.floor(((e.clientY - rect.top) / rect.height) * rows);
-            
-            if (x > 0 && x < cols - 1 && y > 0 && y < rows - 1) {
-                buffer1[x][y] = 850;
-            }
-        });
-
-        function updateWater() {
-            for (let x = 1; x < cols - 1; x++) {
-                for (let y = 1; y < rows - 1; y++) {
-                    buffer2[x][y] = (
-                        buffer1[x - 1][y] +
-                        buffer1[x + 1][y] +
-                        buffer1[x][y - 1] +
-                        buffer1[x][y + 1]
-                    ) / 2 - buffer2[x][y];
-                    
-                    buffer2[x][y] *= 0.96; // Damping
-                }
-            }
-            
-            // Swap buffers
-            let temp = buffer1;
-            buffer1 = buffer2;
-            buffer2 = temp;
-        }
-
-        function drawWater() {
-            ctxWater.clearRect(0, 0, waterCanvas.width, waterCanvas.height);
-            const cellWidth = waterCanvas.width / cols;
-            const cellHeight = waterCanvas.height / rows;
-
-            for (let x = 0; x < cols; x++) {
-                for (let y = 0; y < rows; y++) {
-                    let val = buffer1[x][y];
-                    // Map wave height to color shades of pixelated water
-                    let r = Math.min(255, Math.max(14, 28 + val * 0.3));
-                    let g = Math.min(255, Math.max(116, 148 + val * 0.5));
-                    let b = Math.min(255, Math.max(200, 225 + val * 0.6));
-                    
-                    ctxWater.fillStyle = `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
-                    ctxWater.fillRect(x * cellWidth, y * cellHeight, cellWidth + 0.6, cellHeight + 0.6);
-                }
-            }
-        }
-
-        function loopWater() {
-            updateWater();
-            drawWater();
-            requestAnimationFrame(loopWater);
-        }
-        loopWater();
 
         // Payment Modal Handlers
         const paymentModal = document.getElementById('paymentModal');
