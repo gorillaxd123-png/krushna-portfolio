@@ -719,8 +719,9 @@
             animation: continuousShine 3.5s infinite;
         }
 
-        .social-btn.discord { animation-delay: 1.2s; }
-        .social-btn.twitch { animation-delay: 2.4s; }
+        .social-btn.discord { animation-delay: 1s; }
+        .social-btn.instagram { animation-delay: 1.8s; }
+        .social-btn.twitch { animation-delay: 2.6s; }
 
         @keyframes continuousShine {
             0% { left: -100%; }
@@ -1343,6 +1344,9 @@
                     <a href="https://discord.gg/k3gnNxuHZT" target="_blank" class="social-btn discord" title="Join Discord Server">
                         <i class="fa-brands fa-discord"></i>
                     </a>
+                    <a href="https://www.instagram.com/krushnaxd133" target="_blank" class="social-btn instagram" title="Instagram Profile">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
                     <a href="https://www.twitch.tv/krushnaxd123" target="_blank" class="social-btn twitch" title="Twitch Stream">
                         <i class="fa-brands fa-twitch"></i>
                     </a>
@@ -1591,7 +1595,7 @@
             });
         });
 
-        lightboxClose.addEventListener('click', closeLightbox);
+lightboxClose.addEventListener('click', closeLightbox);
 
         lightboxOverlay.addEventListener('click', (e) => {
             if (e.target === lightboxOverlay || e.target === lightboxViewport) {
