@@ -732,6 +732,24 @@
             line-height: 1.4;
         }
 
+        /* --- Visibility Video Over Contact Me --- */
+        .contact-video-wrapper {
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+            background: var(--card-bg);
+            margin-bottom: 10px;
+        }
+
+        .contact-video-wrapper video {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
         .social-icons-grid {
             display: flex;
             gap: 10px;
@@ -1390,6 +1408,13 @@
                     </div>
                 </div>
 
+                <!-- iPhone Message Dialogue Video Over Contact Me -->
+                <div class="contact-video-wrapper">
+                    <video id="contactDialogueVideo" loop muted playsinline preload="metadata">
+                        <source src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/799a38e5508b9f07c295d535cf1ba4e1e5636e11/simple-fullscreen-iphone-message-dialogue-1080p-freeze.mp4?raw=true" type="video/mp4">
+                    </video>
+                </div>
+
                 <div class="links-grid">
                     <div class="link-card" id="contactBtn">
                         <div class="link-left">
@@ -1562,6 +1587,22 @@
         });
 
         rafId = requestAnimationFrame(syncLoop);
+
+        // Play / Pause iPhone Dialogue Video Based on Viewport Visibility
+        const contactDialogueVideo = document.getElementById('contactDialogueVideo');
+        if (contactDialogueVideo && 'IntersectionObserver' in window) {
+            const visibilityObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
+                        contactDialogueVideo.play().catch(() => {});
+                    } else {
+                        contactDialogueVideo.pause();
+                    }
+                });
+            }, { threshold: [0, 0.35] });
+
+            visibilityObserver.observe(contactDialogueVideo);
+        }
 
         // Payment Modal Handlers
         const paymentModal = document.getElementById('paymentModal');
