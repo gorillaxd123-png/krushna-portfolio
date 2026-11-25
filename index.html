@@ -52,7 +52,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #0f172a;
+            background: #ffffff;
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -79,7 +79,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 23, 42, 0.25);
+            background: rgba(255, 255, 255, 0.12);
             z-index: 1;
             pointer-events: none;
         }
@@ -89,7 +89,7 @@
             bottom: 24px;
             right: 24px;
             z-index: 10;
-            background: rgba(15, 23, 42, 0.72);
+            background: rgba(15, 23, 42, 0.78);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             color: #ffffff;
@@ -102,7 +102,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
             transition: all 0.2s ease;
         }
 
@@ -119,13 +119,13 @@
             flex-direction: column;
             align-items: center;
             gap: 16px;
-            background: rgba(255, 255, 255, 0.88);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             padding: 36px 44px;
             border-radius: 28px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+            border: 1px solid rgba(255, 255, 255, 0.95);
             text-align: center;
             width: 90%;
             max-width: 360px;
@@ -166,8 +166,7 @@
             width: 0%;
             background: linear-gradient(90deg, #78350f, #92400e, #b45309);
             border-radius: var(--radius-pill);
-            transition: width 0.1s linear;
-            position: relative;
+            transition: none;
             overflow: hidden;
         }
 
@@ -1199,7 +1198,7 @@
 
     <!-- Ko-Fi Liquid Loading Screen with Background Video -->
     <div id="loading-screen">
-        <video class="loading-bg-video" id="introVideo" autoplay muted playsinline>
+        <video class="loading-bg-video" id="introVideo" autoplay muted playsinline preload="auto">
             <source src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/3d-multiple-youtube-thumbnail-showcase-1080p-freeze.mp4?raw=true" type="video/mp4">
         </video>
         <div class="loading-video-overlay"></div>
@@ -1499,57 +1498,70 @@
     </div>
 
     <script>
-        // Ko-Fi Liquid Loading Synced to Intro Video End + Skip Button
+        // Ko-Fi Liquid Loading Smoothly Synced to Intro Video + Skip Button
         const loadingScreen = document.getElementById('loading-screen');
         const introVideo = document.getElementById('introVideo');
         const coffeeBar = document.getElementById('coffeeBar');
         const loadingPercent = document.getElementById('loadingPercent');
         const skipIntroBtn = document.getElementById('skipIntroBtn');
         let introDismissed = false;
+        let rafId = null;
+        let fallbackStart = null;
+        const fallbackDuration = 4000;
+
+        function setProgress(pct) {
+            const clamped = Math.max(0, Math.min(100, pct));
+            coffeeBar.style.width = clamped.toFixed(2) + '%';
+            loadingPercent.innerText = Math.round(clamped) + '%';
+        }
 
         function finishIntro() {
             if (introDismissed) return;
             introDismissed = true;
-            coffeeBar.style.width = '100%';
-            loadingPercent.innerText = '100%';
+            if (rafId) cancelAnimationFrame(rafId);
+            setProgress(100);
             setTimeout(() => {
                 loadingScreen.style.opacity = '0';
                 loadingScreen.style.visibility = 'hidden';
                 introVideo.pause();
-            }, 250);
+            }, 220);
+        }
+
+        function syncLoop(timestamp) {
+            if (introDismissed) return;
+
+            if (introVideo.duration && !isNaN(introVideo.duration) && introVideo.duration > 0) {
+                const pct = (introVideo.currentTime / introVideo.duration) * 100;
+                setProgress(pct);
+                if (introVideo.ended || introVideo.currentTime >= introVideo.duration - 0.04) {
+                    finishIntro();
+                    return;
+                }
+            } else {
+                if (!fallbackStart) fallbackStart = timestamp;
+                const elapsed = timestamp - fallbackStart;
+                const pct = (elapsed / fallbackDuration) * 100;
+                setProgress(pct);
+                if (elapsed >= fallbackDuration) {
+                    finishIntro();
+                    return;
+                }
+            }
+
+            rafId = requestAnimationFrame(syncLoop);
         }
 
         skipIntroBtn.addEventListener('click', finishIntro);
-
-        introVideo.addEventListener('timeupdate', () => {
-            if (introDismissed) return;
-            if (introVideo.duration && !isNaN(introVideo.duration)) {
-                const pct = Math.min(100, Math.round((introVideo.currentTime / introVideo.duration) * 100));
-                coffeeBar.style.width = pct + '%';
-                loadingPercent.innerText = pct + '%';
-            }
-        });
-
         introVideo.addEventListener('ended', finishIntro);
-
-        // Fallback timer if video fails to load or autoplay is blocked
-        introVideo.addEventListener('error', () => {
-            let progress = 0;
-            const fallbackInterval = setInterval(() => {
-                if (introDismissed) {
-                    clearInterval(fallbackInterval);
-                    return;
-                }
-                progress += 5;
-                if (progress >= 100) {
-                    clearInterval(fallbackInterval);
-                    finishIntro();
-                } else {
-                    coffeeBar.style.width = progress + '%';
-                    loadingPercent.innerText = progress + '%';
-                }
-            }, 60);
+        introVideo.addEventListener('loadedmetadata', () => {
+            fallbackStart = null;
         });
+
+        introVideo.play().catch(() => {
+            // Autoplay fallback handled smoothly by syncLoop timer
+        });
+
+        rafId = requestAnimationFrame(syncLoop);
 
         // Payment Modal Handlers
         const paymentModal = document.getElementById('paymentModal');
