@@ -45,32 +45,59 @@
             overflow-x: hidden;
         }
 
-        /* --- Ko-Fi Liquid Style Loading Screen --- */
+        /* --- Ko-Fi Liquid Style Loading Screen with Background Video --- */
         #loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #f8fafc;
+            background: #0f172a;
             z-index: 9999;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
             transition: opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1), visibility 0.6s;
         }
 
+        .loading-bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .loading-video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.25);
+            z-index: 1;
+            pointer-events: none;
+        }
+
         .loading-container {
+            position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 16px;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             padding: 36px 44px;
             border-radius: 28px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
-            border: 1px solid #e2e8f0;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            border: 1px solid rgba(255, 255, 255, 0.9);
             text-align: center;
             width: 90%;
             max-width: 360px;
@@ -140,7 +167,7 @@
         .loading-percentage {
             font-size: 12px;
             font-weight: 700;
-            color: #64748b;
+            color: #475569;
         }
 
         /* --- Realistic Styled Animated Clouds (Moving Left) --- */
@@ -1136,8 +1163,13 @@
 </head>
 <body>
 
-    <!-- Ko-Fi Liquid Loading Screen -->
+    <!-- Ko-Fi Liquid Loading Screen with Background Video -->
     <div id="loading-screen">
+        <video class="loading-bg-video" autoplay loop muted playsinline>
+            <source src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/3d-multiple-youtube-thumbnail-showcase-1080p-freeze.mp4?raw=true" type="video/mp4">
+        </video>
+        <div class="loading-video-overlay"></div>
+
         <div class="loading-container">
             <div class="loading-header-row">
                 <img src="https://cdn3.emoji.gg/emojis/24562-kofi.png" alt="Ko-fi" class="loading-kofi-icon">
