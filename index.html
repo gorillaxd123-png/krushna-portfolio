@@ -84,6 +84,34 @@
             pointer-events: none;
         }
 
+        .skip-intro-btn {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            z-index: 10;
+            background: rgba(15, 23, 42, 0.72);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            padding: 10px 18px;
+            border-radius: var(--radius-pill);
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .skip-intro-btn:hover {
+            background: #ffffff;
+            color: #0f172a;
+            transform: translateY(-2px);
+        }
+
         .loading-container {
             position: relative;
             z-index: 2;
@@ -1158,6 +1186,12 @@
             .user-info h1 {
                 font-size: 20px;
             }
+            .skip-intro-btn {
+                bottom: 16px;
+                right: 16px;
+                padding: 8px 14px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -1165,10 +1199,14 @@
 
     <!-- Ko-Fi Liquid Loading Screen with Background Video -->
     <div id="loading-screen">
-        <video class="loading-bg-video" autoplay loop muted playsinline>
+        <video class="loading-bg-video" id="introVideo" autoplay muted playsinline>
             <source src="https://github.com/gorillaxd123-png/krushna-portfolio/blob/main/3d-multiple-youtube-thumbnail-showcase-1080p-freeze.mp4?raw=true" type="video/mp4">
         </video>
         <div class="loading-video-overlay"></div>
+
+        <button class="skip-intro-btn" id="skipIntroBtn">
+            Skip <i class="fa-solid fa-forward-step"></i>
+        </button>
 
         <div class="loading-container">
             <div class="loading-header-row">
@@ -1461,26 +1499,56 @@
     </div>
 
     <script>
-        // Ko-Fi Liquid Loading Simulation
-        window.addEventListener('load', () => {
-            const loadingScreen = document.getElementById('loading-screen');
-            const coffeeBar = document.getElementById('coffeeBar');
-            const loadingPercent = document.getElementById('loadingPercent');
-            
+        // Ko-Fi Liquid Loading Synced to Intro Video End + Skip Button
+        const loadingScreen = document.getElementById('loading-screen');
+        const introVideo = document.getElementById('introVideo');
+        const coffeeBar = document.getElementById('coffeeBar');
+        const loadingPercent = document.getElementById('loadingPercent');
+        const skipIntroBtn = document.getElementById('skipIntroBtn');
+        let introDismissed = false;
+
+        function finishIntro() {
+            if (introDismissed) return;
+            introDismissed = true;
+            coffeeBar.style.width = '100%';
+            loadingPercent.innerText = '100%';
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.visibility = 'hidden';
+                introVideo.pause();
+            }, 250);
+        }
+
+        skipIntroBtn.addEventListener('click', finishIntro);
+
+        introVideo.addEventListener('timeupdate', () => {
+            if (introDismissed) return;
+            if (introVideo.duration && !isNaN(introVideo.duration)) {
+                const pct = Math.min(100, Math.round((introVideo.currentTime / introVideo.duration) * 100));
+                coffeeBar.style.width = pct + '%';
+                loadingPercent.innerText = pct + '%';
+            }
+        });
+
+        introVideo.addEventListener('ended', finishIntro);
+
+        // Fallback timer if video fails to load or autoplay is blocked
+        introVideo.addEventListener('error', () => {
             let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 12) + 4;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        loadingScreen.style.opacity = '0';
-                        loadingScreen.style.visibility = 'hidden';
-                    }, 400);
+            const fallbackInterval = setInterval(() => {
+                if (introDismissed) {
+                    clearInterval(fallbackInterval);
+                    return;
                 }
-                coffeeBar.style.width = progress + '%';
-                loadingPercent.innerText = progress + '%';
-            }, 50);
+                progress += 5;
+                if (progress >= 100) {
+                    clearInterval(fallbackInterval);
+                    finishIntro();
+                } else {
+                    coffeeBar.style.width = progress + '%';
+                    loadingPercent.innerText = progress + '%';
+                }
+            }, 60);
         });
 
         // Payment Modal Handlers
